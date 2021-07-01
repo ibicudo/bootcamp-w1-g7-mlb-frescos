@@ -368,6 +368,18 @@
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+
         <!-- springdoc -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -413,5 +425,19 @@
             <groupId>com.mercadolibre</groupId>
             <artifactId>routing</artifactId>
         </dependency>
+        <!--Added after initial commit for auth feature-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
