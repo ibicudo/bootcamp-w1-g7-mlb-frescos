@@ -2,7 +2,7 @@ package com.mercadolibre.bootcamp_it_test_lucas.controller;
 
 import javax.validation.Valid;
 
-import com.mercadolibre.bootcamp_it_test_lucas.dtos.LoginResponseDTO;
+import com.mercadolibre.bootcamp_it_test_lucas.dtos.reponse.LoginResponseDTO;
 import com.mercadolibre.bootcamp_it_test_lucas.service.SessionService;
 
 import org.springframework.beans.factory.annotation.Autowired;

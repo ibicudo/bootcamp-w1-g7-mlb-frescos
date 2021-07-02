@@ -27,4 +27,6 @@ public class Account {
     // TODO: encrypt that
     private String password;
 
+    private String role;
+
 }

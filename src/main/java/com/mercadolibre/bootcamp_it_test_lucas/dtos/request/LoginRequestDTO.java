@@ -1,4 +1,4 @@
-package com.mercadolibre.bootcamp_it_test_lucas.dtos;
+package com.mercadolibre.bootcamp_it_test_lucas.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter @Getter
-public class LoginResponseDTO {
-    private String username;
-    private String token;
+public class LoginRequestDTO {
+    private String userName;
+    private String password;
 }
