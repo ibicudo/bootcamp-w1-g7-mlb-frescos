@@ -12,12 +12,12 @@ insert into seller (id, name) values ('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'A
 insert into seller (id, name) values ('e4654a5a-e247-4981-af1e-b83dee3329e1', 'Fernando');
 insert into seller (id, name) values ('516298ad-c7d4-4195-ab54-d7471623405f', 'Gustavo');
 
-insert into section (code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
-insert into section (code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');
-insert into section (code, capacity, category, warehouse_code) values ('OSAF003', 10, 'FF', 'OSAF');
-insert into section (code, capacity, category, warehouse_code) values ('CAJF001', 100, 'FS', 'CAJF');
-insert into section (code, capacity, category, warehouse_code) values ('CAJF002', 100, 'RF', 'CAJF');
-insert into section (code, capacity, category, warehouse_code) values ('CAJF003', 100, 'FF', 'CAJF');
+insert into section (section_code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
+insert into section (section_code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');
+insert into section (section_code, capacity, category, warehouse_code) values ('OSAF003', 10, 'FF', 'OSAF');
+insert into section (section_code, capacity, category, warehouse_code) values ('CAJF001', 100, 'FS', 'CAJF');
+insert into section (section_code, capacity, category, warehouse_code) values ('CAJF002', 100, 'RF', 'CAJF');
+insert into section (section_code, capacity, category, warehouse_code) values ('CAJF003', 100, 'FF', 'CAJF');
 
 insert into product (id, name, category, seller_id) values ('51b3b287-0b78-484c-90c3-606c4bae9401', 'Alface', 'FS', '5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa');
 insert into product (id, name, category, seller_id) values ('1b0d82fa-277f-4f13-a9b7-a6c4c4eec204', 'Leite', 'RF', '5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa');

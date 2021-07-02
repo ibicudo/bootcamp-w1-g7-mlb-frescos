@@ -27,6 +27,6 @@ public class Supervisor {
     @Size(min = 2, max = 45)
     private String name;
 
-    @OneToOne
+    @OneToOne()
     private Warehouse warehouse;
 }

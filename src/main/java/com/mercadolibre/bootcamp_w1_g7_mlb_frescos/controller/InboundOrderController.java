@@ -1,6 +1,7 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateInboundOrderDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.InboundOrderDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder.InboundOrderService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,8 @@ public class InboundOrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<BatchStockDTO> createInboundOrder(@RequestBody InboundOrderDTO inboundOrderDTO) {
+    public ResponseEntity<BatchStockDTO> createInboundOrder(@RequestBody CreateInboundOrderDTO createInboundOrderDTO) {
+        InboundOrderDTO inboundOrderDTO = createInboundOrderDTO.getInboundOrder();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inboundOrderService.createInboundOrder(inboundOrderDTO));
     }
