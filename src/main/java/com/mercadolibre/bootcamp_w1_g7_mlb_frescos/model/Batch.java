@@ -22,10 +22,10 @@ public class Batch {
     private Integer batchNumber;
 
     @Column
-    private Float currentTemperature;
+    private Double currentTemperature;
 
     @Column
-    private Float minimumTemperature;
+    private Double minimumTemperature;
 
     @Column
     private Integer initialQuality;
