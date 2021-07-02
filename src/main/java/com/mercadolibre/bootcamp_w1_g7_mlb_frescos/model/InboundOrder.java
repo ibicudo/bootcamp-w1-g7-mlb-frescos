@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,7 +25,11 @@ public class InboundOrder {
     private LocalDate orderDate;
 
     @ManyToOne
+    @JoinColumn(name = "section_code", nullable = false)
     private Section section;
+
+    @OneToMany(mappedBy = "inboundOrder")
+    private Set<Batch> batches;
 
     @ManyToOne
     private Supervisor supervisor;

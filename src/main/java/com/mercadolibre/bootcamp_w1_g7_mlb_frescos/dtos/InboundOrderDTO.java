@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InboundOrderDTO{
+public class InboundOrderDTO implements Serializable {
+
     public Integer orderNumber;
     public LocalDate orderDate;
     public SectionDTO section;
-    public List<BatchStockDTO> batchStock;
+    public List<BatchDTO> batchStock;
 }
