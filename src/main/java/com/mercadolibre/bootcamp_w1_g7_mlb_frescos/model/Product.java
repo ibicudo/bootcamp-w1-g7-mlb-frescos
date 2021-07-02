@@ -26,8 +26,7 @@ public class Product {
     @Size(min = 2, max = 45)
     private String name;
 
-    @Column
-    private String sectionCode;
+    private String category;
 
     @ManyToOne
     private Seller seller;

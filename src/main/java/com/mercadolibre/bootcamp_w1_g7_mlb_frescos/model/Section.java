@@ -5,13 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,11 +17,17 @@ import java.util.UUID;
 public class Section {
 
     @Id
-    @GeneratedValue
     private String code;
 
     @Column
     @NotEmpty
     @Size(min = 2, max = 45)
     private String name;
+
+    private String category;
+
+    private int capacity;
+
+    @ManyToOne
+    private Warehouse warehouse;
 }
