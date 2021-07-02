@@ -28,5 +28,5 @@ public class Supervisor {
     private String name;
 
     @OneToOne
-    private WareHouse wareHouse;
+    private Warehouse warehouse;
 }

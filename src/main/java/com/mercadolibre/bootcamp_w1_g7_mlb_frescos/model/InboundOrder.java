@@ -27,9 +27,6 @@ public class InboundOrder {
     private Section section;
 
     @ManyToOne
-    private WareHouse wareHouse;
-
-    @ManyToOne
     private Supervisor supervisor;
 
 }
