@@ -18,18 +18,13 @@ import java.util.Set;
 public class Section {
 
     @Id
-    private String code;
-
-    @Column
-    @NotEmpty
-    @Size(min = 2, max = 45)
-    private String name;
+    private String sectionCode;
 
     private String category;
 
     private int capacity;
 
-    @ManyToOne
+    @ManyToOne()
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")

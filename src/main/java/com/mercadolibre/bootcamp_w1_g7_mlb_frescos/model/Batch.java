@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -28,21 +29,21 @@ public class Batch {
     private Double minimumTemperature;
 
     @Column
-    private Integer initialQuality;
+    private Integer initialQuantity;
 
     @Column
-    private Integer currentQuality;
+    private Integer currentQuantity;
 
     @Column
     private LocalDateTime manufacturingDateTime;
 
     @Column
-    private Date dueDate;
+    private LocalDate dueDate;
 
-    @ManyToOne
+    @ManyToOne()
     private InboundOrder inboundOrder;
 
-    @OneToOne
+    @OneToOne()
     private Product product;
 
 }

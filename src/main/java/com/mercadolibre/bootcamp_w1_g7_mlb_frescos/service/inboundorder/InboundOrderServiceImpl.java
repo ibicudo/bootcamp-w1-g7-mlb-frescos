@@ -5,6 +5,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.InboundOrderDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Batch;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Section;
@@ -12,10 +13,10 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderReposi
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.ProductRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.SectionRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.SupervisorRepository;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -62,13 +63,23 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
         checkWarehouse(section.getWarehouse().getCode(), inboundOrderDTO.getSection().getWarehouseCode());
         //TODO supervisor check
-        checkSection(section.getCode(), inboundOrderDTO.getSection().getSectionCode());
+        checkSection(section.getSectionCode(), inboundOrderDTO.getSection().getSectionCode());
         List<Product> products = getExistingProducts(inboundOrderDTO.getBatchStock());
         checkProducts(inboundOrderDTO.getBatchStock(), products);
         checkProductsCategory(products, section.getCategory());
         checkSectionCapacity(section, products.size());
 
-        inboundOrderRepository.save(modelMapper.map(inboundOrderDTO, InboundOrder.class));
+        // TODO: Adicionar Supervisor ao InboundOrder
+
+        InboundOrder inboundOrder = modelMapper.map(inboundOrderDTO, InboundOrder.class);
+
+//        InboundOrder inboundOrder = modelMapper
+//                .typeMap(InboundOrderDTO.class, InboundOrder.class)
+//                .addMapping(mapper -> mapper.getSection().getSectionCode(),
+//                        (destination, value) -> destination.getSection().setCode((String) value))
+//                .map(inboundOrderDTO);
+
+        inboundOrderRepository.save(inboundOrder);
 
         return new BatchStockDTO(inboundOrderDTO.getBatchStock());
     }
@@ -86,12 +97,10 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     }
 
     private List<Product> getExistingProducts(List<BatchDTO> batches) {
-        List<String> listProductsId = batches.stream()
+        List<UUID> listProductsId = batches.stream()
                 .map(BatchDTO::getProductId).collect(Collectors.toList());
 
-        List<Product> products = productRepository.findAllById(listProductsId);
-
-        return products;
+        return productRepository.findAllById(listProductsId);
     }
 
     private void checkProducts(List<BatchDTO> batches, List<Product> products) {
@@ -100,11 +109,11 @@ public class InboundOrderServiceImpl implements InboundOrderService {
             return;
         }
 
-        Set<String> productIdsInBatch = batches.stream().map(BatchDTO::getProductId).collect(Collectors.toSet());
-        Set<String> retrievedProductIds = products.stream()
-                .map(Product::getId).map(UUID::toString).collect(Collectors.toSet());
+        Set<UUID> productIdsInBatch = batches.stream().map(BatchDTO::getProductId).collect(Collectors.toSet());
+        Set<UUID> retrievedProductIds = products.stream()
+                .map(Product::getId).collect(Collectors.toSet());
 
-        Set<String> missingProducts = Sets.difference(productIdsInBatch, retrievedProductIds);
+        Set<UUID> missingProducts = Sets.difference(productIdsInBatch, retrievedProductIds);
 
         throw new BadRequestException("Products with ids " + missingProducts + " are missing in the database");
     }
@@ -122,7 +131,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     private void checkSectionCapacity(Section section, int neededSpace)  {
         Integer usedSpace = section.getInboundOrder().stream()
-                .map(InboundOrder::getBatches).map(Set::size).reduce(0, Integer::sum);
+                .map(InboundOrder::getBatchStock).map(List::size).reduce(0, Integer::sum);
 
         if(usedSpace + neededSpace > section.getCapacity()) {
             throw new BadRequestException("The section can not contain this inboundOrder");

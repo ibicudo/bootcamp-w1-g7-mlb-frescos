@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,15 +21,16 @@ public class Product {
 
     @Id
     @GeneratedValue
+    @Type(type = "uuid-char")
     private UUID id;
 
-    @Column
+    @Column(nullable = false, length = 45)
     @NotEmpty
-    @Size(min = 2, max = 45)
     private String name;
 
+    @Column(nullable = false, length = 45)
     private String category;
 
-    @ManyToOne
+    @ManyToOne()
     private Seller seller;
 }
