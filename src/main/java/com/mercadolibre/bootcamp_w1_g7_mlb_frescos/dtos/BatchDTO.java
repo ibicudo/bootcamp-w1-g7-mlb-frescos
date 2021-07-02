@@ -1,30 +1,28 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos;
 
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BatchDTO {
 
-    private Float currentTemperature;
+    public Integer batchNumber;
+    public String productId;
+    public Double currentTemperature;
+    public Double minimumTemperature;
+    public Integer initialQuantity;
+    public Integer currentQuantity;
+    public LocalDate manufacturingDate;
+    public LocalDateTime manufacturingTime;
+    public LocalDate dueDate;
 
-    private Float minimumTemperature;
-
-    private Integer initialQuality;
-
-    private Integer currentQuality;
-
-    private LocalDateTime manufacturingDateTime;
-
-    private Date dueDate;
-
-    private InboundOrder inboundOrder;
-
-    private Product product;
 }
