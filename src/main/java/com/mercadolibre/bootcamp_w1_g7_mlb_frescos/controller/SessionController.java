@@ -2,6 +2,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller;
 
 import javax.validation.Valid;
 
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginResponseDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.session.SessionService;
 
@@ -18,7 +19,7 @@ public class SessionController {
     private  SessionService service ;
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid String userName, @RequestBody @Valid String password){
-        return  ResponseEntity.status(200).body(service.login(userName, password));
+    ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest ){
+        return  ResponseEntity.status(200).body(service.login(loginRequest));
     }
 }

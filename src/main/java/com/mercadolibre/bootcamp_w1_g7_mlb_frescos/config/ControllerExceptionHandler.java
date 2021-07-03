@@ -2,6 +2,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiError;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.LoginFailedException;
 import com.newrelic.api.agent.NewRelic;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -45,6 +46,15 @@ public class ControllerExceptionHandler {
 		NewRelic.noticeError(e);
 
 		ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+		return ResponseEntity.status(apiError.getStatus())
+				.body(apiError);
+	}
+
+	@ExceptionHandler(value = { LoginFailedException.class})
+	protected ResponseEntity<ApiError> handleLoginFailedException( Exception e){
+		LOGGER.error(e.getMessage(), e);
+
+		ApiError apiError = new ApiError("unauthorized", e.getMessage(), HttpStatus.UNAUTHORIZED.value());
 		return ResponseEntity.status(apiError.getStatus())
 				.body(apiError);
 	}
