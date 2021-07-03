@@ -7,6 +7,9 @@ spring:
     add-mappings: false # Whether to enable default resource handling.
   mvc:
     throw-exception-if-no-handler-found: true # Whether a "NoHandlerFoundException" should be thrown if no Handler was found to process a request.
+  data:
+    rest:
+      basePath: /api/v1/fresh-products/
 
 server:
   compression:
@@ -19,7 +22,7 @@ springdoc:
     enabled: true
     path: /v3/api-docs
   paths-to-match: /**
-  packages-to-scan: com.mercadolibre.bootcamp_it_test_lucas.controller
+  packages-to-scan: com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller
   show-actuator: true
   swagger-ui:
     operations-sorter: alpha
