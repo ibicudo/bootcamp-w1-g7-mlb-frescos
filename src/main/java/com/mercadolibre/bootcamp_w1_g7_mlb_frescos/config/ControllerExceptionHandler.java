@@ -50,12 +50,12 @@ public class ControllerExceptionHandler {
 				.body(apiError);
 	}
 
-	@ExceptionHandler(value = { LoginFailedException.class})
-	protected ResponseEntity<ApiError> handleLoginFailedException( Exception e){
-		LOGGER.error(e.getMessage(), e);
-
-		ApiError apiError = new ApiError("unauthorized", e.getMessage(), HttpStatus.UNAUTHORIZED.value());
-		return ResponseEntity.status(apiError.getStatus())
-				.body(apiError);
-	}
+//	@ExceptionHandler(value = { LoginFailedException.class})
+//	protected ResponseEntity<ApiError> handleLoginFailedException( Exception e){
+//		LOGGER.error(e.getMessage(), e);
+//
+//		ApiError apiError = new ApiError("unauthorized", e.getMessage(), HttpStatus.UNAUTHORIZED.value());
+//		return ResponseEntity.status(apiError.getStatus())
+//				.body(apiError);
+//	}
 }

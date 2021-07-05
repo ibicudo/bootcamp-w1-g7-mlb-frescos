@@ -6,18 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InboundOrderDTO {
+public class InboundOrderWithoutOrderNumberDTO {
 
-    private Integer orderNumber;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate orderDate;
     private SectionDTO section;
-    private List<BatchDTO> batchStock;
+    private List<BatchWithoutNumberDTO> batchStock;
 }

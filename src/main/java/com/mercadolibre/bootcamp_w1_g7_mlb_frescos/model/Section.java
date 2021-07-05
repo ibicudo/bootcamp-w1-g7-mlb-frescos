@@ -16,7 +16,7 @@ import java.util.Set;
 public class Section {
 
     @Id
-    private String sectionCode;
+    private String code;
 
     private String category;
 

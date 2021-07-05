@@ -431,13 +431,12 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Fury Utils 
+        <!-- Fury Utils -->
         <dependency>
             <groupId>com.fury</groupId>
             <artifactId>furyutils</artifactId>
             <version>0.0.2</version>
         </dependency>
-        -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -454,10 +453,10 @@
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-          </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--          </dependency>-->
           <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
