@@ -147,61 +147,38 @@ public class InboundOrderServiceImplUnitTest {
         assertEquals("51b3b287-0b78-484c-90c3-606c4bae9401", response.getBatchStock().get(0).getProductId());
     }
 
-//    @Test
-//    void testCreateWrongBatchWithProduct (){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
-//        when(inboundOrderRepository.findById(inboundOrderDTO.getOrderNumber())).thenReturn(null); //TODO verificar se retorna um null
-//
-//        //act
-//        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//
-//        //assert
-//        verify(inboundOrderRepository, atLeastOnce()).findById(inboundOrderDTO.getOrderNumber());
-//        //assertThrows(); //TODO
-//    }
-//
-//    @Test
-//    void testCreateRightBatchCategory (){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
-//        when(inboundOrderRepository.findById(inboundOrderDTO.getOrderNumber())).thenReturn(inboundOrderOptional);
-//
-//        //act
-//        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//
-//        //assert
-//        verify(inboundOrderRepository, atLeastOnce()).findById(inboundOrderDTO.getOrderNumber());
-//        //assertNotEquals("FS", response.getBatchStock().get(0).get);
-//
-//    }
-//
-//    @Test
-//    void testCreateWrongBatchCategory (){
-//        //arrange
-//
-//        //act
-//
-//        //assert
-//    }
-//
-//    @Test
-//    void testCreateRightBatchCapacity (){
-//        //arrange
-//
-//        //act
-//
-//        //assert
-//    }
-//
-//    @Test
-//    void testCreateWrongBatchCapacity (){
-//        //arrange
-//
-//        //act
-//
-//        //assert
-//    }
+    @Test
+    void testCreateWrongBatchWithProduct (){
+        //arrange
+        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
+        section.setCategory("RF");
+        Optional<Section> sectionOptional = Optional.of(section);
+        List<UUID> listProducts = new ArrayList<>();
+        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
+        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
+        });
+    }
+
+    @Test
+    void testCreateWrongBatchWithWrongCapacity (){
+        //arrange
+        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
+        section.setCapacity(1);
+        Optional<Section> sectionOptional = Optional.of(section);
+        List<UUID> listProducts = new ArrayList<>();
+        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
+        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
+        });
+    }
+
 }
