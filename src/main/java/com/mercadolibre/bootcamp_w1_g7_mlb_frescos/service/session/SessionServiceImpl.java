@@ -10,6 +10,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.security.JWTUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -18,12 +19,13 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) throws NotFoundException {
-        Account account =  accountRepository.findAccount(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
+        Account account =  accountRepository.findAccount(loginRequestDTO.getUserName());
         
-        if (account == null){
+        if (account == null || 
+            ! BCrypt.checkpw(loginRequestDTO.getPassword(), account.getPassword()))
+        {
             throw new LoginFailedException("Account User or Password is wrong");
         }    
-
         return new LoginResponseDTO(account.getUserName(), JWTUtil.getJWT(account));
     }
 }

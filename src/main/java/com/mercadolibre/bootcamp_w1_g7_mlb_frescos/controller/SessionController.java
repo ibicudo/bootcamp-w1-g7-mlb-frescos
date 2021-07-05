@@ -19,7 +19,7 @@ public class SessionController {
     private  SessionService service ;
 
     @PostMapping("/login")
-    ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest ){
+    ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest ){
         return  ResponseEntity.status(200).body(service.login(loginRequest));
     }
 }

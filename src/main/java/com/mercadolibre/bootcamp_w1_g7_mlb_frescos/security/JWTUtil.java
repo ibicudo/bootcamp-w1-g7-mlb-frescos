@@ -9,16 +9,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTUtil  {
-    protected static final String secret = "test";
+    protected static final String secret = "testasdfasdfasdffdd";
 
-    protected static final int expirationTime = 99999;
+    protected static final int expirationTime = 3600000;
 
     public static String getJWT(Account account){
         return Jwts.builder()
                    .setSubject(account.getUserName())
                    .claim("account_id", account.getId())
                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis() ))
+                   .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(SignatureAlgorithm.HS256,
                              secret).compact();
     }

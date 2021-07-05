@@ -14,10 +14,6 @@ public class JWTFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         if ( ! JWTUtil.validateToken(request.getHeader("Token")) )
-            // TODO: throw a custom exception    
             throw new IOException();
-        
-        }
-
-
+    }
 }

@@ -1,9 +1,9 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
-import com.fury.api.FuryUtils;
-import com.fury.api.exceptions.FuryDecryptException;
-import com.fury.api.exceptions.FuryNotFoundAPPException;
-import com.fury.api.exceptions.FuryUpdateException;
+// import com.fury.api.FuryUtils;
+// import com.fury.api.exceptions.FuryDecryptException;
+// import com.fury.api.exceptions.FuryNotFoundAPPException;
+// import com.fury.api.exceptions.FuryUpdateException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,22 +18,22 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = {"com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository"})
 public class DataSourceConfig {
 
-    @Bean
-    @Qualifier("datasource")
-    @Profile({"!local & !integration_test"})
-    public DataSource getDataSource(
-            final @Value("${spring.datasource.host}") String host,
-            final @Value("${spring.datasource.db}") String db,
-            final @Value("${spring.datasource.username}") String user,
-            final @Value("${spring.datasource.password}") String password
-    )
-            throws FuryDecryptException, FuryNotFoundAPPException, FuryUpdateException {
-        return DataSourceBuilder.create()
-                .url(String.format("jdbc:mysql://%s/%s?serverTimezone=UTC", FuryUtils.getEnv(host), db))
-                .username(user)
-                .password(FuryUtils.getEnv(password))
-                .build();
-    }
+//     @Bean
+//     @Qualifier("datasource")
+//     @Profile({"!local & !integration_test"})
+//     public DataSource getDataSource(
+//             final @Value("${spring.datasource.host}") String host,
+//             final @Value("${spring.datasource.db}") String db,
+//             final @Value("${spring.datasource.username}") String user,
+//             final @Value("${spring.datasource.password}") String password
+//     )
+//             throws FuryDecryptException, FuryNotFoundAPPException, FuryUpdateException {
+//         return DataSourceBuilder.create()
+//                 .url(String.format("jdbc:mysql://%s/%s?serverTimezone=UTC", FuryUtils.getEnv(host), db))
+//                 .username(user)
+//                 .password(FuryUtils.getEnv(password))
+//                 .build();
+//     }
 
     @Bean
     @Qualifier("datasource")

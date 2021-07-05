@@ -28,7 +28,7 @@ public class Account {
     private Supervisor Supervisor;
 
     private String userName;
-    // TODO: encrypt that
+    // TODO: encrypted with Bcrypt
     private String password;
 
     private String role;
