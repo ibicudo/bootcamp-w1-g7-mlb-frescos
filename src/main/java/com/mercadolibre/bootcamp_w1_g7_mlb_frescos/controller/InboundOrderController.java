@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("inboundorder")
 public class InboundOrderController {
@@ -22,7 +24,7 @@ public class InboundOrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<BatchStockDTO> createInboundOrder(@RequestBody CreateInboundOrderDTO createInboundOrderDTO) {
+    public ResponseEntity<BatchStockDTO> createInboundOrder(@Valid @RequestBody CreateInboundOrderDTO createInboundOrderDTO) {
         InboundOrderDTO inboundOrderDTO = createInboundOrderDTO.getInboundOrder();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inboundOrderService.createInboundOrder(inboundOrderDTO));

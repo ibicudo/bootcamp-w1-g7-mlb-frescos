@@ -19,6 +19,7 @@ public class SessionController {
 
     @PostMapping("/login")
     ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid String userName, @RequestBody @Valid String password){
-        return  ResponseEntity.status(200).body(service.login(userName, password));
+        //return  ResponseEntity.status(200).body(service.login(userName, password));
+        return null;
     }
 }

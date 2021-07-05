@@ -5,20 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
-import java.io.Serializable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Validated
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class InboundOrderDTO {
 
-    public Integer orderNumber;
+    @NotNull(message = "The orderNumber is required")
+    private Integer orderNumber;
+
+    @NotNull(message = "The orderDate is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public LocalDate orderDate;
-    public SectionDTO section;
-    public List<BatchDTO> batchStock;
+    private LocalDate orderDate;
+
+    @Valid
+    @NotNull(message = "The section is required")
+    private SectionDTO section;
+
+    @Valid
+    @NotEmpty(message = "The batchStock list is required and cannot be empty")
+    private List<BatchDTO> batchStock;
+
 }
