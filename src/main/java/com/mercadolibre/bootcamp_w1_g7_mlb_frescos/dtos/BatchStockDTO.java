@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 @Validated
 @Getter
@@ -19,5 +20,5 @@ public class BatchStockDTO {
 
     @Valid
     @NotEmpty(message = "The batchStock list cannot be empty")
-    private List<BatchDTO> batchStock;
+    private Set<BatchDTO> batchStock;
 }

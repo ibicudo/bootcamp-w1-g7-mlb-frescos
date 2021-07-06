@@ -19,7 +19,7 @@ import java.util.Set;
 public class InboundOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_number_sequence")
     private Integer orderNumber;
 
     @Column
@@ -30,7 +30,7 @@ public class InboundOrder {
     private Section section;
 
     @OneToMany(mappedBy = "inboundOrder", cascade = { CascadeType.ALL })
-    private List<Batch> batchStock;
+    private Set<Batch> batchStock;
 
     @ManyToOne()
     private Supervisor supervisor;

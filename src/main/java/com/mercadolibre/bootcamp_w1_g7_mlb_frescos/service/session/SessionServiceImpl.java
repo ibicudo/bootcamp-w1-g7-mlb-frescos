@@ -2,6 +2,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.session;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginResponseDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.LoginFailedException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
@@ -20,7 +21,7 @@ public class SessionServiceImpl implements SessionService {
         Account account =  accountRepository.findAccount(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
         
         if (account == null){
-            throw new NotFoundException("Account User or Password is wrong");
+            throw new LoginFailedException("Account User or Password is wrong");
         }    
 
         return new LoginResponseDTO(account.getUserName(), JWTUtil.getJWT(account));

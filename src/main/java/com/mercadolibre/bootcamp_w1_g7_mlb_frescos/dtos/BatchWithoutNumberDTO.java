@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -16,15 +15,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Validated
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BatchDTO {
-
-    @NotNull(message = "The batchNumber is required")
-    private Integer batchNumber;
+public class BatchWithoutNumberDTO {
 
     @NotNull(message = "The productId is required")
     private UUID productId;
@@ -56,4 +51,5 @@ public class BatchDTO {
     @NotNull(message = "The dueDate is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
+
 }

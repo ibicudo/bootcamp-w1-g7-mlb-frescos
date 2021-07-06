@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -18,7 +16,7 @@ import java.util.Set;
 public class Section {
 
     @Id
-    private String sectionCode;
+    private String code;
 
     private String category;
 

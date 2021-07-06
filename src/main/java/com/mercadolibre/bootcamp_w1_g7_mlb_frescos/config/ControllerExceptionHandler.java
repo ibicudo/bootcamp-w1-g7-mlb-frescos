@@ -1,10 +1,7 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiError;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ValidationError;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.*;
 import com.newrelic.api.agent.NewRelic;
-import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,4 +73,37 @@ public class ControllerExceptionHandler {
 		}
 		return new ValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
 	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler({
+			BadRequestException.class
+	})
+	@ResponseBody
+	public ApiError badRequest(Exception ex) {
+		LOGGER.info("executing exception handler (REST)");
+		return new ApiError(
+				ex.getClass().getName(),
+				ex.getMessage(),
+				HttpStatus.BAD_REQUEST.value()
+		);
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler({
+			NotFoundException.class
+	})
+	@ResponseBody
+	public ApiError notFoundRequest(Exception ex) {
+		return new ApiError(
+				ex.getClass().getName(),
+				ex.getMessage(),
+				HttpStatus.NOT_FOUND.value()
+		);
+
+	}
+
+//	org.springframework.dao.DuplicateKeyException.class,
+//	org.springframework.web.bind.support.WebExchangeBindException.class,
+//	org.springframework.http.converter.HttpMessageNotReadableException.class,
+//	org.springframework.web.server.ServerWebInputException.class
 }
