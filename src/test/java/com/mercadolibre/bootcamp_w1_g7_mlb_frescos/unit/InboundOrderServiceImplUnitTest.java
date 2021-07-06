@@ -1,13 +1,8 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateInboundOrderDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.InboundOrderDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Section;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Supervisor;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder.InboundOrderServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
@@ -18,13 +13,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class InboundOrderServiceImplUnitTest {
@@ -44,17 +43,16 @@ public class InboundOrderServiceImplUnitTest {
     @Mock
     private BatchRepository batchRepository;
 
-    @MockBean
-    private InboundOrderServiceImpl inboundOrderServiceImpl;
-    InboundOrderDTO inboundOrderDTO;
-
     @InjectMocks
+    private InboundOrderServiceImpl inboundOrderServiceImpl;
+
     private ModelMapper modelMapper;
 
     InboundOrder inboundOrder;
     Section section;
     List<Product> products;
     Supervisor supervisor;
+    InboundOrderDTO inboundOrderDTO;
 
 
     @BeforeEach
@@ -64,6 +62,7 @@ public class InboundOrderServiceImplUnitTest {
         supervisor = TestUniUtilsGenerator.createSupervisor();
         inboundOrder = TestUniUtilsGenerator.createInboundOrder();
         inboundOrderDTO = TestUniUtilsGenerator.createInboundOrderDTO();
+        modelMapper = TestUniUtilsGenerator.createModelMapper();
         inboundOrderServiceImpl = new InboundOrderServiceImpl(productRepository, supervisorRepository,
                  sectionRepository,  inboundOrderRepository, batchRepository, modelMapper);
 
@@ -80,15 +79,13 @@ public class InboundOrderServiceImplUnitTest {
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
-
+        when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
+        inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
         //act
         BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
 
         //assert
-        verify(sectionRepository, atLeastOnce()).findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode());
-        verify(productRepository, atLeastOnce()).findById(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
-        verify(inboundOrderRepository, atLeastOnce()).save(inboundOrder);
-        assertEquals(createInboundOrderDTO.getInboundOrder().getBatchStock().toString(), response.getBatchStock().toString());
+        assertThat(inboundOrderDTO.getBatchStock()).usingRecursiveComparison().isEqualTo(response.getBatchStock());
     }
 
     @Test

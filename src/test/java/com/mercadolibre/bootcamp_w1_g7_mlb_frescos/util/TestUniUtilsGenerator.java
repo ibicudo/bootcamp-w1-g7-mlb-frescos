@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import net.bytebuddy.implementation.bind.annotation.Super;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -145,7 +149,7 @@ public class TestUniUtilsGenerator {
         batch.setInitialQuantity(500);
         batch.setCurrentQuantity(500);
         batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 10, 20, 00, 00));
+        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
         batch.setDueDate(LocalDate.of(2021, 8, 15));
         batch.setBatchNumber(1);
 
@@ -154,6 +158,36 @@ public class TestUniUtilsGenerator {
         return batches;
     }
 
+    public static ModelMapper createModelMapper(){
+        ModelMapper modelMapper = new ModelMapper();
+
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+
+        modelMapper.addMappings(new PropertyMap<SectionDTO, Section>() {
+            @Override
+            protected void configure() {
+                map().setCode(source.getSectionCode());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<BatchWithoutNumberDTO, Batch>() {
+            @Override
+            protected void configure() {
+                map().getInboundOrder().setOrderDate(null);
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<BatchDTO, Batch>() {
+            @Override
+            protected void configure() {
+                map().getInboundOrder().setOrderDate(null);
+            }
+        });
+
+        return modelMapper;
+    }
 
     public static String createRequestOneBatch(){
         String request = "{\"orderNumber\": 1,\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"CAJF001\" , \"warehouseCode\": \"CAJF\"}, \"batchStock\": [" +
