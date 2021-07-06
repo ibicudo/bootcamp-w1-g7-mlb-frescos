@@ -128,25 +128,29 @@ public class InboundOrderServiceImplUnitTest {
         assertEquals("OSAF" , createInboundOrderDTO.getInboundOrder().getSection().getWarehouseCode());
     }
 
-//    @Test
-//    void testCreateWrongWithWrongWarehouse(){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        Optional<Section> sectionOptional = Optional.of(section);
-//        List<UUID> listProducts = new ArrayList<>();
-//        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
-//        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
-//        when(productRepository.findAllById(listProducts)).thenReturn(products);
-//
-//        //act
-//        inboundOrderDTO.getSection().setWarehouseCode("DAHJ");
-//
-//        //assert
-//        assertThrows(BadRequestException.class, () -> {
-//            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//        });
-//
-//    }
+    @Test
+    void testCreateWrongWithWrongWarehouse(){
+        //arrange
+        CreateInboundOrderDTO createInboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
+        Optional<Section> sectionOptional = Optional.of(section);
+        Optional<Supervisor> supervisorOptional = Optional.of(supervisor);
+        Set<UUID> listProducts = new HashSet<>();
+        listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+        when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
+        inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
+
+        //act
+        createInboundOrderDTO.getInboundOrder().getSection().setWarehouseCode("DAHJ");
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        });
+
+    }
 //
 //    @Test
 //    void testCreateRightBatchWithProduct (){
