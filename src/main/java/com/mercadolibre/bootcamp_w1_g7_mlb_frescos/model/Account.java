@@ -23,10 +23,6 @@ public class Account {
     @Id
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
-    private Supervisor Supervisor;
-
     private String userName;
     // TODO: encrypted with Bcrypt
     private String password;

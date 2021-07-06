@@ -436,8 +436,8 @@
             <groupId>com.fury</groupId>
             <artifactId>furyutils</artifactId>
             <version>0.0.2</version>
-        </dependency> -->
-        
+        </dependency>
+         -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

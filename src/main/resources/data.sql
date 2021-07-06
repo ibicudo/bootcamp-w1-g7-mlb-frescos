@@ -12,6 +12,13 @@ insert into seller (id, name) values ('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'A
 insert into seller (id, name) values ('e4654a5a-e247-4981-af1e-b83dee3329e1', 'Fernando');
 insert into seller (id, name) values ('516298ad-c7d4-4195-ab54-d7471623405f', 'Gustavo');
 
+INSERT INTO account (id, user_name, password, role)  VALUES('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'lucas', '$2b$12$DF5MEEf6Jfl4Tzszjb2XVuqJNe6O8./eD3viYs4lhJn4hxrYxJAMi', 'CLIENT' );
+INSERT INTO account (id, user_name, password, role) VALUES('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'ingrid', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'SUPERVISOR');
+INSERT INTO account (id, user_name, password, role) VALUES('e4654a5a-e247-4981-af1e-b83dee3329e1', 'fernando', '$2b$12$mE7K00Yc3Kp5GZ5VZ.upq.1yCCcGJQEcp5eDQV9KqhFsdUxF9CA/u', 'CLIENT');
+INSERT INTO account (id, user_name, password, role) VALUES('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'ana', '$2b$12$3fmHwbbCXe.uVVtyEzd3jeZXZ8Ne6a2fGnFNGwpeUN4VEwps0.sQi', 'SUPERVISOR');
+INSERT INTO account (id, user_name, password, role) VALUES('26f48269-2775-45c4-a627-490e131bec5b', 'ton', '$2b$12$cWgnCHOSpU5h38EtUrVPjOb2Wl9c63UAnsY7ZrTZ5Ti1RPFr2prRC', 'CLIENT');
+
+
 insert into section (section_code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
 insert into section (section_code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');
 insert into section (section_code, capacity, category, warehouse_code) values ('OSAF003', 10, 'FF', 'OSAF');
