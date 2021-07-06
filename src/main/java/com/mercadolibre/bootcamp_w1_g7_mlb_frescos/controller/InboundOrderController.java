@@ -27,7 +27,7 @@ public class InboundOrderController {
     }
 
     @PutMapping()
-    public ResponseEntity<BatchStockDTO> updateInboundOrder(@RequestBody UpdateInboundOrderDTO updateInboundOrderDTO) {
+    public ResponseEntity<BatchStockDTO> updateInboundOrder(@Valid @RequestBody UpdateInboundOrderDTO updateInboundOrderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inboundOrderService.updateInboundOrder(updateInboundOrderDTO));
     }
