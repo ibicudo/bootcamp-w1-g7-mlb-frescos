@@ -26,6 +26,6 @@ public class SessionServiceImpl implements SessionService {
         {
             throw new LoginFailedException("Account User or Password is wrong");
         }    
-        return new LoginResponseDTO(account.getUserName(), JWTUtil.getJWT(account));
+        return new LoginResponseDTO(account.getId(), JWTUtil.getJWT(account));
     }
 }

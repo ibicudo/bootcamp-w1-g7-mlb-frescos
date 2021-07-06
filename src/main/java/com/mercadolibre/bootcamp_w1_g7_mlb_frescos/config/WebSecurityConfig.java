@@ -12,16 +12,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable()
-            .addFilterAfter(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/login").permitAll()
-            .antMatchers(HttpMethod.GET, "/ping").permitAll()
-
-            .anyRequest().permitAll();
-    }
+        .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
+        .authorizeRequests()
+        .antMatchers(HttpMethod.GET, "/api/v1/fresh-products/ping/").permitAll()
+        .anyRequest().permitAll();
+        }
 }

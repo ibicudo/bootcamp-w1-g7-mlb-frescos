@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Account {
     @Id
+    @Type(type = "uuid-char")
     private UUID id;
 
     private String userName;
