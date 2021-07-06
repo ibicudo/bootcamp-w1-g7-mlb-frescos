@@ -226,6 +226,22 @@ public class InboundOrderServiceImplUnitTest {
     }
 
     @Test
+    void testWrongUpdateInboundOrderWhenSupervisorDoesNotExists() {
+        //arrange
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
+        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
+        Optional<Supervisor> supervisorOptional = Optional.empty();
+
+        when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
+        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        });
+    }
+
+    @Test
     void testWrongUpdateInboundOrderWhenSupervisorDoesNotMatchWarehouse() {
         //arrange
         UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
