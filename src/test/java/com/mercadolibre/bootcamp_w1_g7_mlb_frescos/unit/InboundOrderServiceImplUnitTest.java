@@ -151,59 +151,39 @@ public class InboundOrderServiceImplUnitTest {
         });
 
     }
-//
-//    @Test
-//    void testCreateRightBatchWithProduct (){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        Optional<Section> sectionOptional = Optional.of(section);
-//        List<UUID> listProducts = new ArrayList<>();
-//        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
-//        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
-//        when(productRepository.findAllById(listProducts)).thenReturn(products);
-//
-//        //act
-//        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//
-//        //assert
-//        verify(sectionRepository, atLeastOnce()).findById(inboundOrderDTO.getSection().getSectionCode());
-//        verify(productRepository, atLeastOnce()).findById(inboundOrderDTO.getBatchStock().get(0).getProductId());
-//        verify(inboundOrderRepository, atLeastOnce()).save(inboundOrder);
-//        assertEquals("51b3b287-0b78-484c-90c3-606c4bae9401", response.getBatchStock().get(0).getProductId());
-//    }
-//
-//    @Test
-//    void testCreateWrongBatchWithProduct (){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        section.setCategory("RF");
-//        Optional<Section> sectionOptional = Optional.of(section);
-//        List<UUID> listProducts = new ArrayList<>();
-//        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
-//        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
-//        when(productRepository.findAllById(listProducts)).thenReturn(products);
-//
-//        //assert
-//        assertThrows(BadRequestException.class, () -> {
-//            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//        });
-//    }
-//
-//    @Test
-//    void testCreateWrongBatchWithWrongCapacity (){
-//        //arrange
-//        InboundOrderDTO inboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
-//        section.setCapacity(1);
-//        Optional<Section> sectionOptional = Optional.of(section);
-//        List<UUID> listProducts = new ArrayList<>();
-//        listProducts.add(inboundOrderDTO.getBatchStock().get(0).getProductId());
-//        when(sectionRepository.findById(inboundOrderDTO.getSection().getSectionCode())).thenReturn(sectionOptional);
-//        when(productRepository.findAllById(listProducts)).thenReturn(products);
-//
-//        //assert
-//        assertThrows(BadRequestException.class, () -> {
-//            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(inboundOrderDTO);
-//        });
-//    }
+
+    @Test
+    void testCreateWrongBatchWithProduct (){
+        //arrange
+        CreateInboundOrderDTO createInboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
+        section.setCategory("RF");
+        Optional<Section> sectionOptional = Optional.of(section);
+        List<UUID> listProducts = new ArrayList<>();
+        listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+        when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        });
+    }
+
+    @Test
+    void testCreateWrongBatchWithWrongCapacity (){
+        //arrange
+        CreateInboundOrderDTO createInboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
+        section.setCapacity(1);
+        Optional<Section> sectionOptional = Optional.of(section);
+        List<UUID> listProducts = new ArrayList<>();
+        listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+        when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        });
+    }
 
 }
