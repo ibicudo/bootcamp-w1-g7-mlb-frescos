@@ -125,6 +125,18 @@ public class TestUniUtilsGenerator {
         return supervisor;
     }
 
+    //TODO MUDAR SUPERVISOR ID
+    public static Supervisor createOtherSupervisor(){
+        Supervisor supervisor = new Supervisor();
+        Warehouse warehouse = new Warehouse();
+        warehouse.setCode("CAJF");
+        warehouse.setName("Fullfillment Cajamar");
+        supervisor.setId(UUID.fromString("b20c0c2d-f378-4d7c-b965-e8a6a128c948"));
+        supervisor.setName("Barbara");
+        supervisor.setWarehouse(warehouse);
+        return supervisor;
+    }
+
     public static InboundOrder createInboundOrder(){
         InboundOrder inboundOrder = new InboundOrder();
         inboundOrder.setOrderNumber(1);
@@ -152,6 +164,26 @@ public class TestUniUtilsGenerator {
         batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
         batch.setDueDate(LocalDate.of(2021, 8, 15));
         batch.setBatchNumber(1);
+
+        batches.add(batch);
+
+        return batches;
+    }
+    public static List<Batch> createBatchStockList(){
+        List<Batch> batches = new ArrayList<>();
+        Batch batch = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch.setProduct(product);
+        batch.setCurrentTemperature(10.0);
+        batch.setMinimumTemperature(5.0);
+        batch.setInitialQuantity(500);
+        batch.setCurrentQuantity(500);
+        batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch.setDueDate(LocalDate.of(2021, 8, 15));
+        batch.setBatchNumber(1);
+        batch.setInboundOrder(createInboundOrder());
 
         batches.add(batch);
 
@@ -187,6 +219,14 @@ public class TestUniUtilsGenerator {
         });
 
         return modelMapper;
+    }
+
+    public static UpdateInboundOrderDTO createUpdateInboundOrderDTO(){
+        UpdateInboundOrderDTO updateInboundOrderDTO = new UpdateInboundOrderDTO();
+        InboundOrderDTO inboundOrderDTO = createInboundOrderDTO();
+        inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
+        updateInboundOrderDTO.setInboundOrder(inboundOrderDTO);
+        return updateInboundOrderDTO;
     }
 
     public static String createRequestOneBatch(){
