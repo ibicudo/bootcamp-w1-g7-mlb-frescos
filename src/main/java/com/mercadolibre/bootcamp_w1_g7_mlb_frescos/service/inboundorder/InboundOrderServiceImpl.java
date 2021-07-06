@@ -3,6 +3,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder;
 import com.google.common.collect.Sets;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import org.modelmapper.ModelMapper;
@@ -127,6 +128,36 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
         return new BatchStockDTO(batchDTO);
     }
+
+    @Override
+    public ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BadRequestException("Product " + productId + " not found"));
+        Supervisor supervisor = supervisorRepository.findById(supervisorId)
+                .orElseThrow(() -> new BadRequestException("Supervisor not found"));
+
+        String warehouseCode = supervisor.getWarehouse().getCode();
+
+        Section section = sectionRepository
+                .findByWarehouseCodeAndCategory(warehouseCode,product.getCategory())
+                .orElseThrow(() -> new BadRequestException("Section not found"));
+
+        List<Batch> batches = batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode);
+
+        if(batches.isEmpty()) {
+            throw new NotFoundException("No batches contain this product");
+        }
+
+        List<BatchInfoDTO> batchStock = batches.stream()
+                .map(batch -> new BatchInfoDTO(batch.getBatchNumber(), batch.getCurrentQuantity(), batch.getDueDate()))
+                .collect(Collectors.toList());
+
+        SectionDTO sectionDTO = new SectionDTO(section.getCode(), warehouseCode);
+
+        return new ProductBatchStockDTO(sectionDTO, productId, batchStock);
+    }
+
+
 
     private void validateBaseConstraints(String sectionCode, String warehouseCode, Supervisor supervisor, Set<UUID> productIdsInBatch, Integer batchStockSize) {
         Section section = sectionRepository.findById(sectionCode)

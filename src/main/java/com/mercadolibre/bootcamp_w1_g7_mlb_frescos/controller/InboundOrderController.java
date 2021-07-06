@@ -1,16 +1,15 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateInboundOrderDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.InboundOrderDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.UpdateInboundOrderDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder.InboundOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
-@RequestMapping("inboundorder")
+@RequestMapping
 public class InboundOrderController {
 
     private final InboundOrderService inboundOrderService;
@@ -19,15 +18,23 @@ public class InboundOrderController {
         this.inboundOrderService = inboundOrderService;
     }
 
-    @PostMapping()
+    @PostMapping("inboundorder")
     public ResponseEntity<BatchStockDTO> createInboundOrder(@RequestBody CreateInboundOrderDTO createInboundOrderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inboundOrderService.createInboundOrder(createInboundOrderDTO));
     }
 
-    @PutMapping()
+    @PutMapping("inboundorder")
     public ResponseEntity<BatchStockDTO> updateInboundOrder(@RequestBody UpdateInboundOrderDTO updateInboundOrderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inboundOrderService.updateInboundOrder(updateInboundOrderDTO));
+    }
+
+    @GetMapping("list")
+    public ResponseEntity<ProductBatchStockDTO> listProductBatchStock(@RequestParam UUID productId) {
+        //TODO pegarid do supervisor pelo token
+        UUID supervisorId = UUID.fromString("04f55f2c-f769-46fb-bf9c-08b05b51d814");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(inboundOrderService.listProductBatchStock(productId, supervisorId));
     }
 }
