@@ -40,3 +40,7 @@ insert into product (id, name, category, seller_id) values ('749189b8-c6a6-43ff-
 insert into product (id, name, category, seller_id) values ('cb61d2d3-c62f-44fa-909c-cf4d1c8e432f', 'Couve Flor', 'FS', '516298ad-c7d4-4195-ab54-d7471623405f');
 insert into product (id, name, category, seller_id) values ('e1008235-9bbe-436c-a4f4-1b66718c4179', 'Abacaxi', 'FS', '516298ad-c7d4-4195-ab54-d7471623405f');
 insert into product (id, name, category, seller_id) values ('22bfc952-b765-47ff-8603-f24ea179b861', 'Alface', 'FS', '516298ad-c7d4-4195-ab54-d7471623405f');
+
+--insert into inbound_order(order_date, section_code, supervisor_id) values ('2021-07-01', 'OSAF001', '04f55f2c-f769-46fb-bf9c-08b05b51d814');
+
+--insert into batch(current_temperature, minimum_temperature, initial_quantity, current_quantity, manufacturing_date, manufacturing_time, inbound_order_order_number, product_id) values ('10.0', '500', '500', '2021-06-10', '2021-06-10 20:00:00', '1', '2021-08-15');
