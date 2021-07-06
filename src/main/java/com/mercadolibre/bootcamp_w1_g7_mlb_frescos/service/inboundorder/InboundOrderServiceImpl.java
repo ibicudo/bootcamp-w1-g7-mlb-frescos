@@ -7,9 +7,12 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +31,9 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     private final BatchRepository batchRepository;
 
     private final ModelMapper modelMapper;
+
+    private final Map<String, String> order = Map.of("C", "currentQuantity",
+            "F", "dueDate");
 
 
     public InboundOrderServiceImpl(ProductRepository productRepository, SupervisorRepository supervisorRepository,
@@ -130,7 +136,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     }
 
     @Override
-    public ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId) {
+    public ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId, String sortParam) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new BadRequestException("Product " + productId + " not found"));
         Supervisor supervisor = supervisorRepository.findById(supervisorId)
@@ -142,15 +148,21 @@ public class InboundOrderServiceImpl implements InboundOrderService {
                 .findByWarehouseCodeAndCategory(warehouseCode,product.getCategory())
                 .orElseThrow(() -> new BadRequestException("Section not found"));
 
-        List<Batch> batches = batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode);
-
-        if(batches.isEmpty()) {
-            throw new NotFoundException("No batches contain this product");
+        if (order.get(sortParam) == null) {
+            throw new BadRequestException("Order parameter should be F or C");
         }
 
-        List<BatchInfoDTO> batchStock = batches.stream()
+        List<Batch> batches = batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by(order.get(sortParam)));
+
+        LocalDate minDueDate = LocalDate.now().plusWeeks(3);
+
+        List<BatchInfoDTO> batchStock = batches.stream().filter(batch -> minDueDate.isBefore(batch.getDueDate()) )
                 .map(batch -> new BatchInfoDTO(batch.getBatchNumber(), batch.getCurrentQuantity(), batch.getDueDate()))
                 .collect(Collectors.toList());
+
+        if(batchStock.isEmpty()) {
+            throw new NotFoundException("No batches contain this product");
+        }
 
         SectionDTO sectionDTO = new SectionDTO(section.getCode(), warehouseCode);
 

@@ -11,5 +11,5 @@ public interface InboundOrderService {
 
     BatchStockDTO createInboundOrder(CreateInboundOrderDTO createInboundOrderDTO);
     BatchStockDTO updateInboundOrder(UpdateInboundOrderDTO inboundOrderDTO);
-    ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId);
+    ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId, String sortParam);
 }
