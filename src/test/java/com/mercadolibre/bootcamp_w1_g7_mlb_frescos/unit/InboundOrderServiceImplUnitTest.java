@@ -68,7 +68,7 @@ public class InboundOrderServiceImplUnitTest {
 
     }
 
-    @Test  //TODO RESOLVER PROBLEMA
+    @Test
     void testCreateRightWithRightSection(){
         //arrange
         CreateInboundOrderDTO createInboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
@@ -81,6 +81,7 @@ public class InboundOrderServiceImplUnitTest {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
         inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
+
         //act
         BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
 
@@ -89,12 +90,12 @@ public class InboundOrderServiceImplUnitTest {
     }
 
     @Test
-    void testCreateWrongWithWrongSection(){
+    void testCreateWrongIfDoesNotExistSection(){
         //arrange
         CreateInboundOrderDTO createInboundOrderDTO = TestUniUtilsGenerator.getInboundOrderDto();
         Optional<Section> sectionOptional = Optional.empty();
         Optional<Supervisor> supervisorOptional = Optional.of(supervisor);
-        List<UUID> listProducts = new ArrayList<>();
+        Set<UUID> listProducts = new HashSet<>();
         listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
