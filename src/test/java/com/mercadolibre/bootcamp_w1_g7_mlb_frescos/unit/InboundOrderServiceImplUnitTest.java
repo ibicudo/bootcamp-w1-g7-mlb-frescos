@@ -12,18 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class InboundOrderServiceImplUnitTest {
@@ -53,7 +51,6 @@ public class InboundOrderServiceImplUnitTest {
     List<Product> products;
     Supervisor supervisor;
     InboundOrderDTO inboundOrderDTO;
-
 
     @BeforeEach
     public void setUp (){
@@ -183,6 +180,93 @@ public class InboundOrderServiceImplUnitTest {
         //assert
         assertThrows(BadRequestException.class, () -> {
             BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        });
+    }
+
+    @Test
+    void testRightUpdateInboundOrder() {
+        //arrange
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
+        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
+        Optional<Supervisor> supervisorOptional = Optional.of(supervisor);
+        Optional<Section> sectionOptional = Optional.of(section);
+        List<Batch> batches = TestUniUtilsGenerator.createBatchStockList();
+        Set<Integer> batchNumbers = updateInboundOrderDTO.getInboundOrder().getBatchStock().stream().map(BatchDTO::getBatchNumber).collect(Collectors.toSet());
+        Set<UUID> listProducts = new HashSet<>();
+        listProducts.add(updateInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+
+        when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
+        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(batchRepository.findAllById(batchNumbers)).thenReturn(batches);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+        inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
+        when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
+
+        //act
+        BatchStockDTO response = inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+
+        //assert
+        verify(inboundOrderRepository, Mockito.times(1)).save(any(InboundOrder.class));
+        assertThat(inboundOrderDTO.getBatchStock()).usingRecursiveComparison().isEqualTo(response.getBatchStock());
+    }
+
+    @Test
+    void testWrongUpdateInboundOrderWhenInboundOrderDoesNotExists() {
+        //arrange
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
+        Optional<InboundOrder> inboundOrderOptional = Optional.empty();
+
+        when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        });
+    }
+
+    @Test
+    void testWrongUpdateInboundOrderWhenSupervisorDoesNotMatchWarehouse() {
+        //arrange
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
+        inboundOrder.setSupervisor(TestUniUtilsGenerator.createOtherSupervisor());
+        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
+        Optional<Supervisor> supervisorOptional = Optional.of(supervisor);
+        Optional<Section> sectionOptional = Optional.of(section);
+        Set<UUID> listProducts = new HashSet<>();
+        listProducts.add(updateInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+
+        when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
+
+        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        });
+    }
+
+    @Test
+    void testWrongUpdateInboundOrderWhenBatchDoesNotBelongToInboundOrder() {
+        //arrange
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
+        updateInboundOrderDTO.getInboundOrder().setOrderNumber(2);
+        Optional<InboundOrder> inboundOrderOptional = Optional.of(inboundOrder);
+        Optional<Supervisor> supervisorOptional = Optional.of(supervisor);
+        Optional<Section> sectionOptional = Optional.of(section);
+        Set<UUID> listProducts = new HashSet<>();
+        listProducts.add(updateInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
+
+        when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
+        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
+        when(productRepository.findAllById(listProducts)).thenReturn(products);
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
         });
     }
 
