@@ -18,13 +18,12 @@ INSERT INTO account (id, user_name, password, role) VALUES('e4654a5a-e247-4981-a
 INSERT INTO account (id, user_name, password, role) VALUES('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'ana', '$2b$12$3fmHwbbCXe.uVVtyEzd3jeZXZ8Ne6a2fGnFNGwpeUN4VEwps0.sQi', 'SUPERVISOR');
 INSERT INTO account (id, user_name, password, role) VALUES('26f48269-2775-45c4-a627-490e131bec5b', 'ton', '$2b$12$cWgnCHOSpU5h38EtUrVPjOb2Wl9c63UAnsY7ZrTZ5Ti1RPFr2prRC', 'CLIENT');
 
-
-insert into section (section_code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
-insert into section (section_code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');
-insert into section (section_code, capacity, category, warehouse_code) values ('OSAF003', 10, 'FF', 'OSAF');
-insert into section (section_code, capacity, category, warehouse_code) values ('CAJF001', 100, 'FS', 'CAJF');
-insert into section (section_code, capacity, category, warehouse_code) values ('CAJF002', 100, 'RF', 'CAJF');
-insert into section (section_code, capacity, category, warehouse_code) values ('CAJF003', 100, 'FF', 'CAJF');
+insert into section (code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
+insert into section (code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');
+insert into section (code, capacity, category, warehouse_code) values ('OSAF003', 10, 'FF', 'OSAF');
+insert into section (code, capacity, category, warehouse_code) values ('CAJF001', 100, 'FS', 'CAJF');
+insert into section (code, capacity, category, warehouse_code) values ('CAJF002', 100, 'RF', 'CAJF');
+insert into section (code, capacity, category, warehouse_code) values ('CAJF003', 100, 'FF', 'CAJF');
 
 insert into product (id, name, category, seller_id) values ('51b3b287-0b78-484c-90c3-606c4bae9401', 'Alface', 'FS', '5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa');
 insert into product (id, name, category, seller_id) values ('1b0d82fa-277f-4f13-a9b7-a6c4c4eec204', 'Leite', 'RF', '5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa');

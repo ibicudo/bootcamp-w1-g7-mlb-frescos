@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateInboundOrderDTO {
-    InboundOrderDTO inboundOrder;
+    private InboundOrderWithoutOrderNumberDTO inboundOrder;
 }

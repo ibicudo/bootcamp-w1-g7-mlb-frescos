@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Batch {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch_number_sequence")
     private Integer batchNumber;
 
     @Column
@@ -34,15 +34,18 @@ public class Batch {
     private Integer currentQuantity;
 
     @Column
-    private LocalDateTime manufacturingDateTime;
+    private LocalDate manufacturingDate;
+
+    @Column
+    private LocalDateTime manufacturingTime;
 
     @Column
     private LocalDate dueDate;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     private InboundOrder inboundOrder;
 
-    @OneToOne()
+    @ManyToOne()
     private Product product;
 
 }

@@ -15,9 +15,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BatchDTO {
+public class BatchWithoutNumberDTO {
 
-    private Integer batchNumber;
     private UUID productId;
     private Double currentTemperature;
     private Double minimumTemperature;
@@ -28,4 +27,5 @@ public class BatchDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime manufacturingTime;
     private LocalDate dueDate;
+
 }
