@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="account")
@@ -21,6 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Account {
     @Id
+    @Type(type = "uuid-char")
     private UUID id;
 
     private String userName;
