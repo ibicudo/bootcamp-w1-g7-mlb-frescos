@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit;
 
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ProductWarehouseDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.product.ProductServiceImpl;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -48,38 +51,42 @@ public class ProductServiceImplUnitTest {
     private InboundOrder inboundOrder;
     private Product product;
     private List<Batch> batches;
+    private ProductWarehouseDTO productWarehouseDTO;
+    private List<Warehouse> warehouses;
 
 
     @BeforeEach
     void setUp() {
-        sections.add(TestUniUtilsGenerator.createSection());
+        sections.add(TestUniUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        sections.add(TestUniUtilsGenerator.createSection("CAJF001", "FS", 100, new Warehouse("CAJF", "Fullfillment Cajamar")));
         inboundOrder = TestUniUtilsGenerator.createInboundOrder();
         product = TestUniUtilsGenerator.createProduct();
         batches = TestUniUtilsGenerator.createBatchStockList();
+        productWarehouseDTO = TestUniUtilsGenerator.createProductWarehouseDTO();
+        warehouses = TestUniUtilsGenerator.createWarehouses();
 
     }
 
     @Test
     void testGetRightProductInAllWarehouses() {
-
+        //arrange
         batches.add(TestUniUtilsGenerator.createBatch(10.0, 5.0, 500, 500, LocalDate.of(2021, 06, 10),
                 LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 2));
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-        when(batchRepository.findAllByProductId(product.getId())).thenReturn(batches);
 
-        Set<InboundOrder> inboundOrders = batches.stream().map(Batch::getInboundOrder).collect(Collectors.toSet());
-        Set<Section> sections = inboundOrders.stream().map(InboundOrder::getSection).collect(Collectors.toSet());
-        Set<String> sectionCodes = sections.stream().map(Section::getCode).collect(Collectors.toSet());
+        when(warehouseRepository.findAll()).thenReturn(warehouses);
 
+        when(batchRepository.findBatchesByProductAndWarehouse(product.getId(), any())).thenReturn(batches);
 
-  //      when(sectionRepository.findAllById(sectionCodes)).thenReturn();
-  //      when(sectionRepository.findAll()).
+        //act
+        ProductWarehouseDTO response = productService.getProductsInAllWarehouses(product.getId());
 
-
-
-
-
-
+        //assert
+        assertThat(productWarehouseDTO).usingRecursiveComparison().isEqualTo(response);
     }
+
+
+
+
 }

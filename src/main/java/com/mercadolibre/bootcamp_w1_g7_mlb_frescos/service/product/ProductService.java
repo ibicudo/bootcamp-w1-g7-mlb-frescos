@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface ProductService {
 
-    List<ProductWarehouseDTO> getProductsInAllWarehouses(UUID productId);
+    ProductWarehouseDTO getProductsInAllWarehouses(UUID productId);
 }

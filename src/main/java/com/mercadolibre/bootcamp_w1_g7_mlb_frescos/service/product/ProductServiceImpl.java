@@ -10,7 +10,7 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
 
     @Override
-    public List<ProductWarehouseDTO> getProductsInAllWarehouses(UUID productId) {
+    public ProductWarehouseDTO getProductsInAllWarehouses(UUID productId) {
         return null;
     }
 }
