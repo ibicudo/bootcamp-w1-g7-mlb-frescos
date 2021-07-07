@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
             warehouse.getTotalQuantity().equals("0")
         ).collect(Collectors.toList());
 
-        if(!warehouseQuantityNotZero.isEmpty()){
+        if(warehouseQuantityNotZero.isEmpty()){
             throw new NotFoundException("There are no quantity of this product available in warehouses");
         }
     }
