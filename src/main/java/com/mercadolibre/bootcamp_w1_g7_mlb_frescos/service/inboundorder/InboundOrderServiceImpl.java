@@ -137,6 +137,10 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     @Override
     public ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId, String sortParam) {
+
+        if (order.get(sortParam) == null) {
+            throw new BadRequestException("Order parameter should be F or C");
+        }
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new BadRequestException("Product " + productId + " not found"));
         Supervisor supervisor = supervisorRepository.findById(supervisorId)
@@ -148,9 +152,6 @@ public class InboundOrderServiceImpl implements InboundOrderService {
                 .findByWarehouseCodeAndCategory(warehouseCode,product.getCategory())
                 .orElseThrow(() -> new BadRequestException("Section not found"));
 
-        if (order.get(sortParam) == null) {
-            throw new BadRequestException("Order parameter should be F or C");
-        }
 
         List<Batch> batches = batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by(order.get(sortParam)));
 
