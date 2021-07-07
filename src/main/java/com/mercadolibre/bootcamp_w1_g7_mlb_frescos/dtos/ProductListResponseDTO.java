@@ -1,17 +1,17 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos;
 
+import java.util.List;
+
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter
 @AllArgsConstructor
-public class BatchStockDTO {
-
-    private Set<BatchDTO> batchStock;
+@NoArgsConstructor
+public class ProductListResponseDTO {
+    List<Product> products;
 }

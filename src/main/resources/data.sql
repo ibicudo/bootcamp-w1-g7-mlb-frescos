@@ -12,6 +12,9 @@ insert into seller (id, name) values ('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'A
 insert into seller (id, name) values ('e4654a5a-e247-4981-af1e-b83dee3329e1', 'Fernando');
 insert into seller (id, name) values ('516298ad-c7d4-4195-ab54-d7471623405f', 'Gustavo');
 
+INSERT INTO role (id) VALUE('CLIENT');
+INSERT INTO role (id) VALUE('SUPERVISOR');
+
 INSERT INTO account (id, user_name, password, role)  VALUES('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'lucas', '$2b$12$DF5MEEf6Jfl4Tzszjb2XVuqJNe6O8./eD3viYs4lhJn4hxrYxJAMi', 'CLIENT' );
 INSERT INTO account (id, user_name, password, role) VALUES('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'ingrid', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'SUPERVISOR');
 INSERT INTO account (id, user_name, password, role) VALUES('e4654a5a-e247-4981-af1e-b83dee3329e1', 'fernando', '$2b$12$mE7K00Yc3Kp5GZ5VZ.upq.1yCCcGJQEcp5eDQV9KqhFsdUxF9CA/u', 'CLIENT');
@@ -37,7 +40,7 @@ insert into product (id, name, category, seller_id) values ('f2d75a5e-c9a7-498b-
 insert into product (id, name, category, seller_id) values ('5460512e-088d-40cc-8a8c-d2d2fbc2cf5a', 'Batata doce', 'FS', '26f48269-2775-45c4-a627-490e131bec5b');
 insert into product (id, name, category, seller_id) values ('cc00ba83-4e0a-4245-a7d1-035f583bcc6b', 'Cenoura', 'FS', '26f48269-2775-45c4-a627-490e131bec5b');
 insert into product (id, name, category, seller_id) values ('a666f8a3-7ef3-4292-a4b0-9c4d656faaae', 'Banana', 'FS', '26f48269-2775-45c4-a627-490e131bec5b');
-insert into product (id, name, category, seller_id) values ('5fe8ed0c1-bdd5-4c4d-b0aa-2a4877033325', 'Pao de queijo congelado', 'FF', '26f48269-2775-45c4-a627-490e131bec5b');
+insert into product (id, name, category, seller_id) values ('d7ffe85a-5cad-4167-8539-319c6cfb6263', 'Pao de queijo congelado', 'FF', '26f48269-2775-45c4-a627-490e131bec5b');
 insert into product (id, name, category, seller_id) values ('868ed6fd-3d5b-4f22-9fc2-fb4ca82d286d', 'Yogurt', 'RF', '8f54d037-bfd4-43e2-ad2e-58731d52fe37');
 insert into product (id, name, category, seller_id) values ('6bc01115-3e3f-43fe-b21f-1fa336308021', 'Ameixa', 'FS', '8f54d037-bfd4-43e2-ad2e-58731d52fe37');
 insert into product (id, name, category, seller_id) values ('03fa373c-2378-4af3-80e9-d4740e1845b9', 'Batata', 'FS', 'e4654a5a-e247-4981-af1e-b83dee3329e1');

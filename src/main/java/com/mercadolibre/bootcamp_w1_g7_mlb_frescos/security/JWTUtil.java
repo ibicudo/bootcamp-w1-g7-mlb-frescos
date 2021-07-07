@@ -1,38 +1,49 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.security;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.account.AccountService;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.account.AccountServiceImpl;
+
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTUtil  {
-    protected static final String secret = "testasdfasdfasdffdd";
+
+    protected static final String secret = "mySecretKey";
 
     protected static final int expirationTime = 3600000;
 
     public static String getJWT(Account account){
-        return Jwts.builder()
-                   .setSubject(account.getId().toString())
-                   .claim("account_id", account.getId())
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+                    .commaSeparatedStringToAuthorityList(account.getRole().getId());
+
+        return  Jwts.builder()
+                   .setSubject(account.getUserName().toString())
+                   .claim("account_id", account.getUserName())
+                   .claim("authorities",
+                           grantedAuthorities.stream()
+                           .map(GrantedAuthority::getAuthority)
+                           .collect(Collectors.toList())
+                         )
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                    .signWith(SignatureAlgorithm.HS256,
                              secret).compact();
     }
-    
-    public static String getId(String token){
-        Claims claim = decodeJWT(token);
-        return claim.getSubject();
-    }
 
     public static Claims decodeJWT(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-    }
-
-    public static boolean validateToken(String token){
-        return ! decodeJWT(token).getExpiration().before(new Date(System.currentTimeMillis()));
     }
 }

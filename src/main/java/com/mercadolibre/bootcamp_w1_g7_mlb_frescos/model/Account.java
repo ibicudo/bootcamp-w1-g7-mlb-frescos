@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,8 +28,12 @@ public class Account {
     private UUID id;
 
     private String userName;
-    // TODO: encrypted with Bcrypt
-    private String password;
 
-    private String role;
+    private String password;
+    
+    //TODO: need to populate table
+    @ManyToOne
+    @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
+    private Role role;
+
 }
