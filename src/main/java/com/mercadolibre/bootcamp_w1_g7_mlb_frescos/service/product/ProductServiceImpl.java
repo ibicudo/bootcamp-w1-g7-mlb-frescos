@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
     private void checkWarehouseDoesNotContainsProduct(List<WarehouseQuantityDTO> warehousesQuantity) {
 
         List<WarehouseQuantityDTO> warehouseQuantityNotZero = warehousesQuantity.stream().filter(warehouse ->
-            warehouse.getTotalQuantity().equals("0")
+            !warehouse.getTotalQuantity().equals("0")
         ).collect(Collectors.toList());
 
         if(warehouseQuantityNotZero.isEmpty()){

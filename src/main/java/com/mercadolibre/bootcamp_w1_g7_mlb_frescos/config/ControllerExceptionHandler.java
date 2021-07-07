@@ -2,8 +2,10 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiError;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ValidationError;
 import com.newrelic.api.agent.NewRelic;
+import org.eclipse.jetty.server.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -67,6 +69,14 @@ public class ControllerExceptionHandler {
 				.stream()
 				.map(this::mapError)
 				.collect(Collectors.toList());
+	}
+
+	@ExceptionHandler
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<ApiError> handleException(BadRequestException ex) {
+		ApiError apiError = new ApiError("Bad request", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(apiError.getStatus()).body(apiError);
 	}
 
 	private ValidationError mapError(ObjectError objectError) {
