@@ -19,10 +19,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,13 +38,6 @@ public class ProductServiceImplUnitTest {
 
     @Mock
     private WarehouseRepository warehouseRepository;
-
-    @Mock
-    private InboundOrderRepository inboundOrderRepository;
-    
-    @Mock
-    private SectionRepository sectionRepository;
-
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -75,7 +70,7 @@ public class ProductServiceImplUnitTest {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(warehouseRepository.findAll()).thenReturn(warehouses);
-        when(batchRepository.findBatchesByProductAndWarehouse(product.getId(), any())).thenReturn(batches);
+        when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
 
         //act
         ProductWarehouseDTO response = productService.getProductsInAllWarehouses(product.getId());
