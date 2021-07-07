@@ -1,15 +1,11 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
-import net.bytebuddy.implementation.bind.annotation.Super;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.context.annotation.Bean;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -150,6 +146,19 @@ public class TestUniUtilsGenerator {
         return inboundOrder;
     }
 
+    public static InboundOrder createInboundOrderWithTwoBatches(){
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(createSection());
+        inboundOrder.setSupervisor(createSupervisor());
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithTwoProducts();
+        batchStock.forEach(batch -> batch.setInboundOrder(inboundOrder));
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
     public static Set<Batch> createBatchStock(){
         Set<Batch> batches = new HashSet<>();
         Batch batch = new Batch();
@@ -166,6 +175,41 @@ public class TestUniUtilsGenerator {
         batch.setBatchNumber(1);
 
         batches.add(batch);
+
+        return batches;
+    }
+
+    public static Set<Batch> createBatchStockWithTwoProducts(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch.setProduct(product);
+        batch.setCurrentTemperature(10.0);
+        batch.setMinimumTemperature(5.0);
+        batch.setInitialQuantity(500);
+        batch.setCurrentQuantity(500);
+        batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch.setDueDate(LocalDate.of(2021, 8, 15));
+        batch.setBatchNumber(1);
+
+        Batch batch1 = new Batch();
+        Product product1 = new Product();
+        product1.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch1.setProduct(product);
+        batch1.setCurrentTemperature(10.0);
+        batch1.setMinimumTemperature(5.0);
+        batch1.setInitialQuantity(500);
+        batch1.setCurrentQuantity(500);
+        batch1.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch1.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch1.setDueDate(LocalDate.of(2021, 8, 15));
+        batch1.setBatchNumber(1);
+
+        batches.add(batch);
+        batches.add(batch1);
+
 
         return batches;
     }
@@ -246,17 +290,6 @@ public class TestUniUtilsGenerator {
         return request;
     }
 
-    public static String createRequestThreeBatches(){
-        String request = "{\"inboundOrder\": {\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
-                getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15") + "," +
-                getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15") + "," +
-                getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15")  + "]}";
-        return request;
-    }
-
     private static String getBatchStock(String productId, Double currentTemperature, Double minimumTemperature, Integer initialQuantity, Integer currentQuantity, String manufacturingDate, String manufacturingTime, String dueDate) {
         return "{\"productId\": \""+productId+"\", \"currentTemperature\": "+currentTemperature+", " +
                 "\"minimumTemperature\": "+minimumTemperature+", \"initialQuantity\":"+initialQuantity+", \"currentQuantity\": "+currentQuantity+", " +
@@ -283,17 +316,6 @@ public class TestUniUtilsGenerator {
                         500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1) + "," +
                 getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
                         500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1)  + "]}}";
-        return request;
-    }
-
-    public static String updateRequestThreeBatches(){
-        String request = "{\"inboundOrder\": {\"orderNumber\": 1, \"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
-                getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1) + "," +
-                getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1) + "," +
-                getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1)  + "]}";
         return request;
     }
 
