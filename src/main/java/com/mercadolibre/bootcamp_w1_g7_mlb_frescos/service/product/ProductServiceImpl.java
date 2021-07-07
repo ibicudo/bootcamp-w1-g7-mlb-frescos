@@ -53,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
         checkWarehouseDoesNotContainsProduct(warehousesQuantity);
 
         warehousesQuantity.sort(Comparator.comparing(WarehouseQuantityDTO::getTotalQuantity).reversed());
+        productWarehouseDTO.setWarehouses(warehousesQuantity);
 
         return productWarehouseDTO;
     }

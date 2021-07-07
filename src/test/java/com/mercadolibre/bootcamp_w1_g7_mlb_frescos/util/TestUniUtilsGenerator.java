@@ -289,8 +289,8 @@ public class TestUniUtilsGenerator {
         ProductWarehouseDTO productWarehouseDTO = new ProductWarehouseDTO();
         productWarehouseDTO.setProductId("51b3b287-0b78-484c-90c3-606c4bae9401");
         productWarehouseDTO.setWarehouses(new ArrayList<>());
-        productWarehouseDTO.getWarehouses().add(new WarehouseQuantityDTO("OSAF", "1"));
-        productWarehouseDTO.getWarehouses().add(new WarehouseQuantityDTO("CAJF", "1"));
+        productWarehouseDTO.getWarehouses().add(new WarehouseQuantityDTO("OSAF", "1000"));
+        productWarehouseDTO.getWarehouses().add(new WarehouseQuantityDTO("CAJF", "1000"));
 
         return productWarehouseDTO;
     }

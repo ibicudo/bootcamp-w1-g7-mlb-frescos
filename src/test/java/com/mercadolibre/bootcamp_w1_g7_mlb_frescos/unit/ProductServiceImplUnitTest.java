@@ -99,7 +99,7 @@ public class ProductServiceImplUnitTest {
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(warehouseRepository.findAll()).thenReturn(warehouses);
-        when(batchRepository.findBatchesByProductAndWarehouse(product.getId(), any())).thenReturn(batches);
+        when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), any())).thenReturn(batches);
 
         //assert
         assertThrows(NotFoundException.class, () -> {
