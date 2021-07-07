@@ -100,13 +100,18 @@ public class TestUniUtilsGenerator {
 
     public static List<Product> createListProducts(){
         List<Product> products = new ArrayList<>();
+        products.add(createProduct());
+
+        return products;
+    }
+
+    public static Product createProduct(){
         Product product = new Product();
         product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
         product.setName("Alface");
         product.setCategory("FS");
-        products.add(product);
 
-        return products;
+        return product;
     }
 
     public static Supervisor createSupervisor(){
@@ -215,23 +220,30 @@ public class TestUniUtilsGenerator {
     }
     public static List<Batch> createBatchStockList(){
         List<Batch> batches = new ArrayList<>();
-        Batch batch = new Batch();
         Product product = new Product();
         product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
-        batch.setProduct(product);
-        batch.setCurrentTemperature(10.0);
-        batch.setMinimumTemperature(5.0);
-        batch.setInitialQuantity(500);
-        batch.setCurrentQuantity(500);
-        batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch.setDueDate(LocalDate.of(2021, 8, 15));
-        batch.setBatchNumber(1);
-        batch.setInboundOrder(createInboundOrder());
 
-        batches.add(batch);
+        batches.add(createBatch(10.0, 5.0, 500, 500, LocalDate.of(2021, 06, 10),
+                LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 1));
 
         return batches;
+    }
+
+    public static Batch createBatch(Double currentTemperature, Double minimumTemperature, Integer initialQuantity, Integer currentQuantity, LocalDate manufacturingDate,
+                                    LocalDateTime manufacturingTime, LocalDate dueDate, Integer batchNumber){
+        Batch batch = new Batch();
+        batch.setProduct(createProduct());
+        batch.setCurrentTemperature(currentTemperature);
+        batch.setMinimumTemperature(minimumTemperature);
+        batch.setInitialQuantity(initialQuantity);
+        batch.setCurrentQuantity(currentQuantity);
+        batch.setManufacturingDate(manufacturingDate);
+        batch.setManufacturingTime(manufacturingTime);
+        batch.setDueDate(dueDate);
+        batch.setBatchNumber(batchNumber);
+        batch.setInboundOrder(createInboundOrder());
+
+        return batch;
     }
 
     public static ModelMapper createModelMapper(){
