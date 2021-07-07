@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class TestUniUtilsGenerator {
+public class TestUtilsGenerator {
 
     public static CreateInboundOrderDTO getInboundOrderDto (){
         CreateInboundOrderDTO createInboundOrderDTO = new CreateInboundOrderDTO();
@@ -96,6 +96,15 @@ public class TestUniUtilsGenerator {
         section.setInboundOrder(inboundOrderSet);
 
         return section;
+    }
+
+    public static Product createProduct() {
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        product.setName("Alface");
+        product.setCategory("FS");
+
+        return product;
     }
 
     public static List<Product> createListProducts(){
@@ -319,4 +328,9 @@ public class TestUniUtilsGenerator {
         return request;
     }
 
+    public static List<BatchInfoDTO> createBatchInfoList() {
+        return List.of(
+                new BatchInfoDTO(1, 500, LocalDate.of(2021, 8, 15))
+        );
+    }
 }

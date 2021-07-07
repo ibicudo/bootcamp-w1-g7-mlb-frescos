@@ -8,7 +8,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Supervisor;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.SupervisorRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUtilsGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +52,15 @@ public class InboundOrderServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp(){
-        inboundOrder = TestUniUtilsGenerator.createInboundOrder();
-        supervisor = TestUniUtilsGenerator.createSupervisor();
+        inboundOrder = TestUtilsGenerator.createInboundOrder();
+        supervisor = TestUtilsGenerator.createSupervisor();
     }
 
     @Test
     void createInboundOrderWithOneBatch() throws Exception {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
-        String request = TestUniUtilsGenerator.createRequestOneBatch();
+        String request = TestUtilsGenerator.createRequestOneBatch();
         this.mockMvc.perform(
                 post("/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -74,10 +74,10 @@ public class InboundOrderServiceImplIntegrationTest {
 
     @Test
     void createInboundOrderWithTwoBatch() throws Exception {
-        inboundOrder = TestUniUtilsGenerator.createInboundOrderWithTwoBatches();
+        inboundOrder = TestUtilsGenerator.createInboundOrderWithTwoBatches();
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
-        String request = TestUniUtilsGenerator.createRequestTwoBatches();
+        String request = TestUtilsGenerator.createRequestTwoBatches();
         this.mockMvc.perform(
                 post("/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -92,8 +92,8 @@ public class InboundOrderServiceImplIntegrationTest {
 
     @Test
     void updateInboundOrderWithOneBatch() throws Exception {
-        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
-        List<Batch> batches = TestUniUtilsGenerator.createBatchStockList();
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUtilsGenerator.createUpdateInboundOrderDTO();
+        List<Batch> batches = TestUtilsGenerator.createBatchStockList();
         Set<Integer> batchNumbers = updateInboundOrderDTO.getInboundOrder().getBatchStock().stream().map(BatchDTO::getBatchNumber).collect(Collectors.toSet());
         when(inboundOrderRepository.findById(inboundOrder.getOrderNumber())).thenReturn(Optional.of(inboundOrder));
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
@@ -101,7 +101,7 @@ public class InboundOrderServiceImplIntegrationTest {
         when(batchRepository.findAllById(batchNumbers)).thenReturn(batches);
 
 
-        String request = TestUniUtilsGenerator.updateRequestOneBatch();
+        String request = TestUtilsGenerator.updateRequestOneBatch();
         this.mockMvc.perform(
                 put("/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,17 +114,17 @@ public class InboundOrderServiceImplIntegrationTest {
 
     @Test
     void updateInboundOrderWithTwoBatches() throws Exception {
-        UpdateInboundOrderDTO updateInboundOrderDTO = TestUniUtilsGenerator.createUpdateInboundOrderDTO();
-        List<Batch> batches = TestUniUtilsGenerator.createBatchStockList();
+        UpdateInboundOrderDTO updateInboundOrderDTO = TestUtilsGenerator.createUpdateInboundOrderDTO();
+        List<Batch> batches = TestUtilsGenerator.createBatchStockList();
         Set<Integer> batchNumbers = updateInboundOrderDTO.getInboundOrder().getBatchStock().stream().map(BatchDTO::getBatchNumber).collect(Collectors.toSet());
-        inboundOrder = TestUniUtilsGenerator.createInboundOrderWithTwoBatches();
+        inboundOrder = TestUtilsGenerator.createInboundOrderWithTwoBatches();
         when(inboundOrderRepository.findById(inboundOrder.getOrderNumber())).thenReturn(Optional.of(inboundOrder));
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(batchRepository.findAllById(batchNumbers)).thenReturn(batches);
 
 
-        String request = TestUniUtilsGenerator.updateRequestTwoBatches();
+        String request = TestUtilsGenerator.updateRequestTwoBatches();
         this.mockMvc.perform(
                 put("/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
