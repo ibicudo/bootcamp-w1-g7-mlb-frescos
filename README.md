@@ -1,23 +1,31 @@
-# Documentação Bootcamp MLB Wave1 (Grupo7)
+# Bootcamp MLB Wave1 Documentation (Group7)
 
 ---
 
-## Informações básicas da aplicação
+## Application base info
 
-* Path base para requisições: **/api/v1/fresh-products/**
-* A aplicação necessita autenticação para a utilização de seus recursos
-* A documentação completa a respeito dos endpoints da aplicação está presente no **swagger-ui.html**
+- Base path: **/api/v1/fresh-products/**
+- Further documentation about the applications endpoints can be found at **/swagger-ui.html**
+- Authentication is needed to access this application requirements, authenticate via **/login**
+
+---
+
+## Enviroment setup
+
+
 
 ---
 
 ### UserStory 001
 **US-code:** ml-insert-batch-in-fulfillment-warehouse-01
 
-##### Mudanças em DTOs:
+##### DTO Changes:
 
-**Endpoint**: POST /inboundorder \
-Decidimos por não receber os códigos tanto da **InboundOrder** quanto das **Batch(s)** para a criação, deixando o Hibernate gerar os IDs para ambas entidades. \
-Exemplo de entrada válida:
+**Endpoint**: POST /inboundorder
+
+We chose to not receive the number(id) for the **InboundOrder** and its **Batch(s)** at creation, leaving it to Hibernate to manage these entities IDs.
+
+Valid Request:
 
 ```json
 {
@@ -53,10 +61,10 @@ Exemplo de entrada válida:
 }
 ```
 
-#### Diagrama de sequência da criação de uma InboundOrder
+#### Sequence diagram of the creation of a InboundOrder
 [Link](https://mermaid-js.github.io/mermaid-live-editor/view/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgSW5ib3VuZE9yZGVyQ29udHJvbGxlci0-PitJbmJvdW5kT3JkZXJTZXJ2aWNlOiBjcmVhdGVJbmJvdW5kT3JkZXIoKVxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU3VwZXJ2aXNvclJlcG9zaXRvcnk6IGZpbmRCeUlkKClcbiAgICBTdXBlcnZpc29yUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBsb2dnZWQgc3VwZXJ2aXNvclxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU2VjdGlvblJlcG9zaXRvcnk6IGZpbmRCeUlkKClcbiAgICBTZWN0aW9uUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBzZWN0aW9uXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PitQcm9kdWN0UmVwb3NpdG9yeTogZmluZEFsbEJ5SWQoKVxuICAgIFByb2R1Y3RSZXBvc2l0b3J5LT4-LUluYm91bmRPcmRlclNlcnZpY2U6IHByb2R1Y3RzXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PiBJbmJvdW5kT3JkZXJTZXJ2aWNlOiBWYWxpZGF0aW9uc1xuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rSW5ib3VuZE9yZGVyUmVwb3NpdG9yeTogc2F2ZSgpXG4gICAgSW5ib3VuZE9yZGVyUmVwb3NpdG9yeS0-PitCYXRjaFJlcG9zaXRvcnk6IHNhdmVBbGwoKVxuICAgIEJhdGNoUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJSZXBvc2l0b3J5OiBjcmVhdGVkXG4gICAgSW5ib3VuZE9yZGVyUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBjcmVhdGVkXG5cbiAgICBJbmJvdW5kT3JkZXJTZXJ2aWNlLT4-LUluYm91bmRPcmRlckNvbnRyb2xsZXI6IENyZWF0ZWQgMjAxXG4iLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjp0cnVlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6dHJ1ZX0)
 
-#### Diagrama de sequência da atualização de uma InboundOrder
+#### Sequencce diagram of the update of a InboundOrder
 [Link](https://mermaid-js.github.io/mermaid-live-editor/view/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgSW5ib3VuZE9yZGVyQ29udHJvbGxlci0-PitJbmJvdW5kT3JkZXJTZXJ2aWNlOiB1cGRhdGVJbmJvdW5kT3JkZXIoKVxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rSW5ib3VuZE9yZGVyUmVwb3NpdG9yeTogZmluZEJ5SWQoKVxuICAgIEluYm91bmRPcmRlclJlcG9zaXRvcnktPj4tSW5ib3VuZE9yZGVyU2VydmljZTogSW5ib3VuZE9yZGVyXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PiBJbmJvdW5kT3JkZXJTZXJ2aWNlOiBWYWxpZGF0ZSBpZiBvcmRlciBleHNpdHNcbiAgICBJbmJvdW5kT3JkZXJTZXJ2aWNlLT4-K0JhdGNoUmVwb3NpdG9yeTogZmluZEFsbEJ5SWQoKVxuICAgIEJhdGNoUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJSZXBvc2l0b3J5OiBiYXRjaGVzXG4gICAgSW5ib3VuZE9yZGVyUmVwb3NpdG9yeS0-PitJbmJvdW5kT3JkZXJTZXJ2aWNlOiByZXF1ZXN0ZWQgYmF0Y2hlc1xuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4gSW5ib3VuZE9yZGVyU2VydmljZTogVmFsaWRhdGUgaWYgdGhlIHJlcXVlc3RlZCBiYXRjaChlcykgYXJlIGZyb20gdGhlIEluYm91bmRPcmRlclxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU3VwZXJ2aXNvclJlcG9zaXRvcnk6IGZpbmRCeUlkKClcbiAgICBTdXBlcnZpc29yUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBsb2dnZWQgc3VwZXJ2aXNvclxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU2VjdGlvblJlcG9zaXRvcnk6IGZpbmRCeUlkKClcbiAgICBTZWN0aW9uUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBzZWN0aW9uXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PitQcm9kdWN0UmVwb3NpdG9yeTogZmluZEFsbEJ5SWQoKVxuICAgIFByb2R1Y3RSZXBvc2l0b3J5LT4-LUluYm91bmRPcmRlclNlcnZpY2U6IHByb2R1Y3RzXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PiBJbmJvdW5kT3JkZXJTZXJ2aWNlOiBWYWxpZGF0aW9uc1xuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rSW5ib3VuZE9yZGVyUmVwb3NpdG9yeTogdXBkYXRlKClcbiAgICBJbmJvdW5kT3JkZXJSZXBvc2l0b3J5LT4-K0JhdGNoUmVwb3NpdG9yeTogdXBkYXRlQWxsKClcbiAgICBCYXRjaFJlcG9zaXRvcnktPj4tSW5ib3VuZE9yZGVyUmVwb3NpdG9yeTogdXBkYXRlZFxuICAgIEluYm91bmRPcmRlclJlcG9zaXRvcnktPj4tSW5ib3VuZE9yZGVyU2VydmljZTogdXBkYXRlZFxuXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-Pi1JbmJvdW5kT3JkZXJDb250cm9sbGVyOiBDcmVhdGVkIDIwMVxuIiwibWVybWFpZCI6IntcbiAgXCJ0aGVtZVwiOiBcImRlZmF1bHRcIlxufSIsInVwZGF0ZUVkaXRvciI6dHJ1ZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOnRydWV9)
 
 ---
@@ -69,13 +77,13 @@ Exemplo de entrada válida:
 ### UserStory 003
 **US-code:** ml-check-product-location-in-warehouse-01
 
-#### Considerações:
+**Endpoint**: POST /list?productId=<>&sortParam=<>
 
-- Visto a UserStory não definir a forma pela qual deveríamos escolher a warehouse onde deveria ser feita a listagem optamos por utilizar o warehouse vinculado ao supervisor que está autenticado na execução da chamada.
+- The warehouse in which we search for the batch list is the same warehouse that the supervisor who authenticated the call is registered at.
+- If no sortParam is given it will default to order the response by the batch currentQuantity.
+- The sortParam variable will only accept C or F as values. (C as for ordering by the currentQuantity, and F for the dueDate)
 
-- Além disso, quando não é especificado um valor para o parâmetro sortOrder, o padrão será ordenar pela quantidade disponível de produtos.
-
-#### Diagrama de sequência da listagem de batches do produto especificado
+#### Sequence diagram of the response list of batches by any given product
 
 [Link](https://mermaid-js.github.io/mermaid-live-editor/view/#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgSW5ib3VuZE9yZGVyQ29udHJvbGxlci0-PitJbmJvdW5kT3JkZXJTZXJ2aWNlOiBsaXN0UHJvZHVjdEJhdGNoU3RvY2soKVxuICAgIFxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj5JbmJvdW5kT3JkZXJTZXJ2aWNlOiBWYWxpZGF0ZSBzb3J0IHBhcmFtZXRlclxuXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PitQcm9kdWN0UmVwb3NpdG9yeTogZmluZEJ5SWQoKVxuICAgIFByb2R1Y3RSZXBvc2l0b3J5LT4-LUluYm91bmRPcmRlclNlcnZpY2U6IHByb2R1Y3RcblxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU3VwZXJ2aXNvclJlcG9zaXRvcnk6IGZpbmRCeUlkKClcbiAgICBTdXBlcnZpc29yUmVwb3NpdG9yeS0-Pi1JbmJvdW5kT3JkZXJTZXJ2aWNlOiBsb2dnZWQgc3VwZXJ2aXNvclxuICAgIFxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4rU2VjdGlvblJlcG9zaXRvcnk6IGZpbmRCeVdhcmVob3VzZUNvZGVBbmRDYXRlZ29yeSgpXG4gICAgU2VjdGlvblJlcG9zaXRvcnktPj4tSW5ib3VuZE9yZGVyU2VydmljZTogc2VjdGlvblxuXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PitCYXRjaFJlcG9zaXRvcnk6IGZpbmRCYXRjaGVzQnlQcm9kdWN0QW5kV2FyZWhvdXNlKClcbiAgICBCYXRjaFJlcG9zaXRvcnktPj4tSW5ib3VuZE9yZGVyU2VydmljZTogYmF0Y2hlc1xuXG4gICAgSW5ib3VuZE9yZGVyU2VydmljZS0-PkluYm91bmRPcmRlclNlcnZpY2U6IGZpbHRlciBhbmQgbWFwIGJhdGNoZXNcblxuICAgIEluYm91bmRPcmRlclNlcnZpY2UtPj4tSW5ib3VuZE9yZGVyQ29udHJvbGxlcjogT0sgMjAwXG4iLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjp0cnVlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6dHJ1ZX0)
 
