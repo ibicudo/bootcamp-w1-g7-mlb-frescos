@@ -1,6 +1,8 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ProductWarehouseDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.product.ProductServiceImpl;
@@ -17,11 +19,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -74,9 +74,7 @@ public class ProductServiceImplUnitTest {
                 LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 2));
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-
         when(warehouseRepository.findAll()).thenReturn(warehouses);
-
         when(batchRepository.findBatchesByProductAndWarehouse(product.getId(), any())).thenReturn(batches);
 
         //act
@@ -86,7 +84,31 @@ public class ProductServiceImplUnitTest {
         assertThat(productWarehouseDTO).usingRecursiveComparison().isEqualTo(response);
     }
 
+    @Test
+    void testGetProductsInAllWarehousesWhenProductDoesNotExist() {
+        //arrange
+         when(productRepository.findById(product.getId())).thenReturn(Optional.empty());
+
+        //assert
+        assertThrows(BadRequestException.class, () -> {
+            productService.getProductsInAllWarehouses(product.getId());
+        });
+    }
 
 
+    @Test
+    void testGetProductsInAllWarehousesWhenBatchesDoesNotContainsAnyProduct() {
+        batches.get(0).setCurrentQuantity(0);
+        batches.add(TestUniUtilsGenerator.createBatch(10.0, 5.0, 500, 0, LocalDate.of(2021, 06, 10),
+                LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 2));
 
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        when(warehouseRepository.findAll()).thenReturn(warehouses);
+        when(batchRepository.findBatchesByProductAndWarehouse(product.getId(), any())).thenReturn(batches);
+
+        //assert
+        assertThrows(NotFoundException.class, () -> {
+            productService.getProductsInAllWarehouses(product.getId());
+        });
+    }
 }
