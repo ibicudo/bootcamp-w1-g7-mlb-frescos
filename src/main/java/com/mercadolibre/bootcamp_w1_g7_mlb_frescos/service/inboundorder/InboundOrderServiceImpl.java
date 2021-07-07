@@ -138,6 +138,10 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     @Override
     public ProductBatchStockDTO listProductBatchStock(UUID productId, UUID supervisorId, String sortParam) {
 
+        if (sortParam == null) {
+            sortParam = "C";
+        }
+
         if (order.get(sortParam) == null) {
             throw new BadRequestException("Order parameter should be F or C");
         }

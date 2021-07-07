@@ -71,7 +71,9 @@ Exemplo de entrada válida:
 
 #### Considerações:
 
-Visto a UserStory não definir a forma pela qual deveríamos escolher a warehouse onde deveria ser feita a listagem optamos por utilizar o warehouse vinculado ao supervisor que está autenticado na execução da chamada.
+- Visto a UserStory não definir a forma pela qual deveríamos escolher a warehouse onde deveria ser feita a listagem optamos por utilizar o warehouse vinculado ao supervisor que está autenticado na execução da chamada.
+
+- Além disso, quando não é especificado um valor para o parâmetro sortOrder, o padrão será ordenar pela quantidade disponível de produtos.
 
 #### Diagrama de sequência da listagem de batches do produto especificado
 
