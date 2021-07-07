@@ -15,7 +15,7 @@ public class JWTUtil  {
 
     public static String getJWT(Account account){
         return Jwts.builder()
-                   .setSubject(account.getUserName())
+                   .setSubject(account.getId().toString())
                    .claim("account_id", account.getId())
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
@@ -25,7 +25,7 @@ public class JWTUtil  {
     
     public static String getId(String token){
         Claims claim = decodeJWT(token);
-        return claim.getId();
+        return claim.getSubject();
     }
 
     public static Claims decodeJWT(String token){
