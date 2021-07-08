@@ -202,9 +202,9 @@ public class TestUtilsGenerator {
         batch.setMinimumTemperature(5.0);
         batch.setInitialQuantity(500);
         batch.setCurrentQuantity(500);
-        batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch.setDueDate(LocalDate.of(2021, 8, 15));
+        batch.setManufacturingDate(LocalDate.now());
+        batch.setManufacturingTime(LocalDateTime.now());
+        batch.setDueDate(LocalDate.now().plusWeeks(1));
         batch.setBatchNumber(1);
 
         batches.add(batch);
@@ -222,9 +222,9 @@ public class TestUtilsGenerator {
         batch1.setMinimumTemperature(5.0);
         batch1.setInitialQuantity(500);
         batch1.setCurrentQuantity(500);
-        batch1.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch1.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch1.setDueDate(LocalDate.of(2021, 8, 15));
+        batch1.setManufacturingDate(LocalDate.now());
+        batch1.setManufacturingTime(LocalDateTime.now());
+        batch1.setDueDate(LocalDate.now().plusWeeks(1));
 
         Batch batch2 = new Batch();
         product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
@@ -233,12 +233,55 @@ public class TestUtilsGenerator {
         batch2.setMinimumTemperature(5.0);
         batch2.setInitialQuantity(500);
         batch2.setCurrentQuantity(500);
-        batch2.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch2.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch2.setDueDate(LocalDate.of(2021, 8, 15));
+        batch2.setManufacturingDate(LocalDate.now());
+        batch2.setManufacturingTime(LocalDateTime.now());
+        batch2.setDueDate(LocalDate.now().plusWeeks(4));
 
         batches.add(batch1);
         batches.add(batch2);
+
+        return batches;
+    }
+
+    public static Set<Batch> createBatchStockWithThreeBatches(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch1 = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch1.setProduct(product);
+        batch1.setCurrentTemperature(10.0);
+        batch1.setMinimumTemperature(5.0);
+        batch1.setInitialQuantity(500);
+        batch1.setCurrentQuantity(500);
+        batch1.setManufacturingDate(LocalDate.now());
+        batch1.setManufacturingTime(LocalDateTime.now());
+        batch1.setDueDate(LocalDate.now().plusWeeks(1));
+
+        Batch batch2 = new Batch();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch2.setProduct(product);
+        batch2.setCurrentTemperature(10.0);
+        batch2.setMinimumTemperature(5.0);
+        batch2.setInitialQuantity(500);
+        batch2.setCurrentQuantity(500);
+        batch2.setManufacturingDate(LocalDate.now());
+        batch2.setManufacturingTime(LocalDateTime.now());
+        batch2.setDueDate(LocalDate.now().plusWeeks(4));
+
+        Batch batch3 = new Batch();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch3.setProduct(product);
+        batch3.setCurrentTemperature(10.0);
+        batch3.setMinimumTemperature(5.0);
+        batch3.setInitialQuantity(500);
+        batch3.setCurrentQuantity(300);
+        batch3.setManufacturingDate(LocalDate.now());
+        batch3.setManufacturingTime(LocalDateTime.now());
+        batch3.setDueDate(LocalDate.now().plusWeeks(5));
+
+        batches.add(batch1);
+        batches.add(batch2);
+        batches.add(batch3);
 
         return batches;
     }
@@ -347,7 +390,7 @@ public class TestUtilsGenerator {
         inboundOrder.setOrderNumber(1);
         inboundOrder.setSection(sectionPersisted);
         inboundOrder.setSupervisor(supervisorPersisted);
-        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        inboundOrder.setOrderDate(LocalDate.now());
         Set<Batch> batchStock = createBatchStock();
         batchStock.forEach(batch -> {
             batch.setInboundOrder(inboundOrder);
@@ -368,8 +411,29 @@ public class TestUtilsGenerator {
         inboundOrder.setOrderNumber(1);
         inboundOrder.setSection(sectionPersisted);
         inboundOrder.setSupervisor(supervisorPersisted);
-        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        inboundOrder.setOrderDate(LocalDate.now());
         Set<Batch> batchStock = createBatchStockWithTwoBatches();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setMinimumTemperature(20.0);
+            batch.setCurrentTemperature(30.0);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createThreeBatchInboundOrderToPersist() {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode("OSAF001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.now());
+        Set<Batch> batchStock = createBatchStockWithThreeBatches();
         batchStock.forEach(batch -> {
             batch.setInboundOrder(inboundOrder);
             batch.setMinimumTemperature(20.0);
