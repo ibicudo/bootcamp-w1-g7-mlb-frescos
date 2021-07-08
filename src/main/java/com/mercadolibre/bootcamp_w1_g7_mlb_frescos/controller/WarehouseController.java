@@ -18,8 +18,8 @@ public class WarehouseController {
         this.warehouseService = warehouseService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ProductWarehouseDTO> getProductsInAllWarehouses(@RequestParam UUID productId ) {
+    @GetMapping
+        public ResponseEntity<ProductWarehouseDTO> getProductsInAllWarehouses(@RequestParam UUID productId ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(warehouseService.getProductsInAllWarehouses(productId));
     }

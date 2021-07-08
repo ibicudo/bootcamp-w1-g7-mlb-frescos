@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/inboundorder").hasRole("SUPERVISOR")
                 .mvcMatchers(HttpMethod.PUT, "/inboundorder").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.GET, "/warehouse").hasRole("SUPERVISOR")
                 .anyRequest().authenticated();
     }
 }
