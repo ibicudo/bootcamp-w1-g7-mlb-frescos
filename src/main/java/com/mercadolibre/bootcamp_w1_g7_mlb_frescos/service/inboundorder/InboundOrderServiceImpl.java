@@ -3,6 +3,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder;
 import com.google.common.collect.Sets;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import org.modelmapper.ModelMapper;
@@ -41,11 +42,10 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     }
 
     @Override
-    public BatchStockDTO createInboundOrder(CreateInboundOrderDTO createInboundOrderDTO) {
+    public BatchStockDTO createInboundOrder(CreateInboundOrderDTO createInboundOrderDTO, Account account) {
         InboundOrderWithoutOrderNumberDTO inboundOrderDTO = createInboundOrderDTO.getInboundOrder();
 
-        // TODO: get Id from token
-        Supervisor supervisor = this.supervisorRepository.findById(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"))
+        Supervisor supervisor = this.supervisorRepository.findById(account.getId())
                 .orElseThrow(() -> new BadRequestException("Supervisor not found"));
 
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
@@ -93,15 +93,15 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     }
 
     @Override
-    public BatchStockDTO updateInboundOrder(UpdateInboundOrderDTO updateInboundOrderDTO) {
+    public BatchStockDTO updateInboundOrder(UpdateInboundOrderDTO updateInboundOrderDTO, Account account) {
         InboundOrderDTO inboundOrderDTO = updateInboundOrderDTO.getInboundOrder();
 
         InboundOrder inboundOrder = this.inboundOrderRepository.findById(inboundOrderDTO.getOrderNumber())
-                .orElseThrow(() -> new BadRequestException("Inbound order does not exist"));
+                .orElseThrow(() -> new NotFoundException("Inbound order does not exist"));
 
-        // TODO: Supervisor somente edita ordem vinculada a ele próprio
-        Supervisor supervisor = this.supervisorRepository.findById(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"))
-                .orElseThrow(() -> new BadRequestException("Supervisor not found"));
+
+        Supervisor supervisor = this.supervisorRepository.findById(account.getId())
+                .orElseThrow(() -> new NotFoundException("Supervisor not found"));
 
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Set<UUID> productIdsInBatch = inboundOrderDTO
@@ -111,7 +111,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
                 .collect(Collectors.toSet());
 
         validateBaseConstraints(sectionDTO.getSectionCode(), sectionDTO.getWarehouseCode(), supervisor, productIdsInBatch, inboundOrderDTO.getBatchStock().size());
-        validateUpdateConstraints(inboundOrder, inboundOrderDTO.getBatchStock());
+        validateUpdateConstraints(inboundOrder, inboundOrderDTO.getBatchStock(), supervisor.getId());
 
         InboundOrder newInboundOrder = modelMapper.map(inboundOrderDTO, InboundOrder.class);
         newInboundOrder.getBatchStock().stream().forEach(batch -> batch.setInboundOrder(newInboundOrder));
@@ -130,7 +130,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     private void validateBaseConstraints(String sectionCode, String warehouseCode, Supervisor supervisor, Set<UUID> productIdsInBatch, Integer batchStockSize) {
         Section section = sectionRepository.findById(sectionCode)
-                .orElseThrow(() -> new BadRequestException("Section not found"));
+                .orElseThrow(() -> new NotFoundException("Section not found"));
         List<Product> products = this.getExistingProducts(productIdsInBatch);
 
         this.checkWarehouse(section.getWarehouse().getCode(), warehouseCode);
@@ -188,14 +188,14 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         }
     }
 
-    private void validateUpdateConstraints(InboundOrder inboundOrder, List<BatchDTO> batchStock) {
-        checkSupervisorOwnsInboundOrder(inboundOrder);
+    private void validateUpdateConstraints(InboundOrder inboundOrder, List<BatchDTO> batchStock, UUID supervisorId) {
+        checkSupervisorOwnsInboundOrder(inboundOrder, supervisorId);
         checkBatchBelongsToCorrectInboundOrder(inboundOrder.getOrderNumber(), batchStock);
     }
 
-    private void checkSupervisorOwnsInboundOrder(InboundOrder inboundOrder) {
+    private void checkSupervisorOwnsInboundOrder(InboundOrder inboundOrder, UUID supervisorId) {
         Supervisor supervisor = inboundOrder.getSupervisor();
-        if (!supervisor.getId().equals(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"))) {
+        if (!supervisor.getId().equals(supervisorId)) {
             throw new BadRequestException("Supervisor does not own this inboundOrder");
         }
     }

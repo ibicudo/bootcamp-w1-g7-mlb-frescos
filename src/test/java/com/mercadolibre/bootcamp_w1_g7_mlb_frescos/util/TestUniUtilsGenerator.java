@@ -12,6 +12,9 @@ import java.util.*;
 
 public class TestUniUtilsGenerator {
 
+    private static final UUID supervisorId = UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020");
+
+
     public static CreateInboundOrderDTO getInboundOrderDto (){
         CreateInboundOrderDTO createInboundOrderDTO = new CreateInboundOrderDTO();
         InboundOrderWithoutOrderNumberDTO inboundOrderWithoutOrderNumberDTO = new InboundOrderWithoutOrderNumberDTO();
@@ -114,12 +117,33 @@ public class TestUniUtilsGenerator {
         return product;
     }
 
+    public static Account createAccountSupervisor() {
+        Account account = new Account();
+        Role role = new Role("ROLE_SUPERVISOR", List.of(account));
+        account.setId(supervisorId);
+        account.setUserName("Maria");
+        account.setPassword("contra123");
+        account.setRole(role);
+
+        return account;
+    }
+
+    public static Account createPersistedAccountSupervisor() {
+        Account account = new Account();
+        Role role = new Role("ROLE_SUPERVISOR", List.of(account));
+        account.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        account.setRole(role);
+        account.setUserName("monaliza");
+
+        return account;
+    }
+
     public static Supervisor createSupervisor(){
         Supervisor supervisor = new Supervisor();
         Warehouse warehouse = new Warehouse();
         warehouse.setCode("OSAF");
         warehouse.setName("Fullfillment Osasco");
-        supervisor.setId(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"));
+        supervisor.setId(supervisorId);
         supervisor.setName("Maria");
         supervisor.setWarehouse(warehouse);
 
@@ -184,6 +208,38 @@ public class TestUniUtilsGenerator {
         return batches;
     }
 
+    public static Set<Batch> createBatchStockWithTwoBatches(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch1 = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch1.setProduct(product);
+        batch1.setCurrentTemperature(10.0);
+        batch1.setMinimumTemperature(5.0);
+        batch1.setInitialQuantity(500);
+        batch1.setCurrentQuantity(500);
+        batch1.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch1.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch1.setDueDate(LocalDate.of(2021, 8, 15));
+
+        Batch batch2 = new Batch();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch2.setProduct(product);
+        batch2.setCurrentTemperature(10.0);
+        batch2.setMinimumTemperature(5.0);
+        batch2.setInitialQuantity(500);
+        batch2.setCurrentQuantity(500);
+        batch2.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch2.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch2.setDueDate(LocalDate.of(2021, 8, 15));
+        batch2.setBatchNumber(1);
+
+        batches.add(batch1);
+        batches.add(batch2);
+
+        return batches;
+    }
+
     public static Set<Batch> createBatchStockWithTwoProducts(){
         Set<Batch> batches = new HashSet<>();
         Batch batch = new Batch();
@@ -218,6 +274,7 @@ public class TestUniUtilsGenerator {
 
         return batches;
     }
+
     public static List<Batch> createBatchStockList(){
         List<Batch> batches = new ArrayList<>();
         Product product = new Product();
@@ -304,6 +361,48 @@ public class TestUniUtilsGenerator {
         return warehouses;
     }
 
+    public static InboundOrder createOneBatchInboundOrderToPersist() {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode("OSAF001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStock();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setMinimumTemperature(20.0);
+            batch.setCurrentTemperature(30.0);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createTwoBatchInboundOrderToPersist() {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode("OSAF001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithTwoBatches();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setMinimumTemperature(20.0);
+            batch.setCurrentTemperature(30.0);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
     public static String createRequestOneBatch(){
         String request = "{\"inboundOrder\": {\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
                 getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
@@ -313,7 +412,7 @@ public class TestUniUtilsGenerator {
     }
 
     public static String createRequestTwoBatches(){
-        String request = "{\"inboundOrder\": {\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
+        String request = "{\"inboundOrder\": {\"orderNumber\": 1,\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
                 getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
                         500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15") + "," +
                 getBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
@@ -346,7 +445,7 @@ public class TestUniUtilsGenerator {
                 getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
                         500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1) + "," +
                 getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
-                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 1)  + "]}}";
+                        500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 2)  + "]}}";
         return request;
     }
 }
