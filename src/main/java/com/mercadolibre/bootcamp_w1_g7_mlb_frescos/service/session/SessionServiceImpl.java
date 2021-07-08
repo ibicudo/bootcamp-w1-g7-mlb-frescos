@@ -7,8 +7,8 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.security.JWTUtil;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,12 +18,13 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) throws NotFoundException {
-        Account account =  accountRepository.findAccount(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
-        
-        if (account == null){
-            throw new LoginFailedException("Account User or Password is wrong");
-        }    
+        Account account =  accountRepository.findAccount(loginRequestDTO.getUserName());
 
-        return new LoginResponseDTO(account.getUserName(), JWTUtil.getJWT(account));
+        if (account == null ||
+                ! BCrypt.checkpw(loginRequestDTO.getPassword(), account.getPassword()))
+        {
+            throw new LoginFailedException("Account User or Password is wrong");
+        }
+        return new LoginResponseDTO(account.getId(), JWTUtil.getJWT(account));
     }
 }

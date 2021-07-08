@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 public class SessionController {
     @Autowired
-    private  SessionService service ;
+    private  SessionService service;
 
     @PostMapping("/login")
     ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequest ){
