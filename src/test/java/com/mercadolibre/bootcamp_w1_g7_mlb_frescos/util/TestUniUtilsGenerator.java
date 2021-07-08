@@ -411,6 +411,26 @@ public class TestUniUtilsGenerator {
         return inboundOrder;
     }
 
+    public static InboundOrder createOneBatchInboundOrderToPersistWith0QuantityBatch() {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode("OSAF001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStock();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setCurrentQuantity(0);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
     public static InboundOrder createOneBatchInboundOrderToPersistByWarehouseCode(String warehouseCode) {
         Supervisor supervisorPersisted = new Supervisor();
         supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));

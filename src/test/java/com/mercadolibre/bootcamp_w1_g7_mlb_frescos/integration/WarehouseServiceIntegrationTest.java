@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.integration;
 
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
@@ -65,6 +66,21 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
                         .queryParam("productId", "2345eeba-7b7f-4a7d-8576-a78e5700abf6"))
 
                 .andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getProductsInAllWarehousesWhenAllBatchesHave0Quantity() throws Exception {
+        InboundOrder orderPersisted = inboundOrderRepository
+                .save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistWith0QuantityBatch());
+        String productId = orderPersisted.getBatchStock().iterator().next().getProduct().getId().toString();
+
+        this.mockMvc.perform(
+                get("/warehouse" )
+                        .header("Authorization", token)
+                        .queryParam("productId", productId))
+
+                .andDo(print()).andExpect(status().isNotFound());
+
     }
 
 }
