@@ -1,29 +1,26 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateInboundOrderDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ProductWarehouseDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.product.ProductService;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.warehouse.WarehouseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("warehouse")
-public class ProductController {
+public class WarehouseController {
 
-    private final ProductService productService;
+    private final WarehouseService warehouseService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public WarehouseController(WarehouseService warehouseService) {
+        this.warehouseService = warehouseService;
     }
 
     @GetMapping("/")
     public ResponseEntity<ProductWarehouseDTO> getProductsInAllWarehouses(@RequestParam UUID productId ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(productService.getProductsInAllWarehouses(productId));
+                .body(warehouseService.getProductsInAllWarehouses(productId));
     }
 }

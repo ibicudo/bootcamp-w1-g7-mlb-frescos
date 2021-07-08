@@ -1,4 +1,4 @@
-package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.product;
+package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.warehouse;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ProductWarehouseDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.WarehouseQuantityDTO;
@@ -19,13 +19,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class WarehouseServiceImpl implements WarehouseService {
 
     private final ProductRepository productRepository;
     private final BatchRepository batchRepository;
     private final WarehouseRepository warehouseRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, BatchRepository batchRepository, WarehouseRepository warehouseRepository) {
+    public WarehouseServiceImpl(ProductRepository productRepository, BatchRepository batchRepository, WarehouseRepository warehouseRepository) {
         this.productRepository = productRepository;
         this.batchRepository = batchRepository;
         this.warehouseRepository = warehouseRepository;

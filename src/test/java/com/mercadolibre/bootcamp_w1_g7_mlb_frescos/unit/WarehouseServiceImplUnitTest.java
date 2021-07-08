@@ -5,7 +5,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestExceptio
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.product.ProductServiceImpl;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.warehouse.WarehouseServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceImplUnitTest {
+public class WarehouseServiceImplUnitTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -40,7 +40,7 @@ public class ProductServiceImplUnitTest {
     private WarehouseRepository warehouseRepository;
 
     @InjectMocks
-    private ProductServiceImpl productService;
+    private WarehouseServiceImpl productService;
 
     private List<Section> sections = new ArrayList<>();
     private InboundOrder inboundOrder;
