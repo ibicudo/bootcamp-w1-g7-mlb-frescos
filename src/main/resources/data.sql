@@ -1,9 +1,9 @@
 insert into warehouse (code, name) values ('OSAF', 'Fullfillment Osasco');
 insert into warehouse (code, name) values ('CAJF', 'Fullfillment Cajamar');
 
-insert into supervisor (id, name, warehouse_code) values ('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'Monaliza', 'OSAF');
-insert into supervisor (id, name, warehouse_code) values ('cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020', 'Marcus', 'OSAF');
-insert into supervisor (id, name, warehouse_code) values ('b20c0c2d-f378-4d7c-b965-e8a6a128c948', 'Barbara', 'CAJF');
+insert into supervisor (id, name, warehouse_code) values ('27a40a9e-3838-4717-935d-b9f6f4a4f623', 'Monaliza', 'OSAF');
+insert into supervisor (id, name, warehouse_code) values ('0f6df1fd-3767-4a9a-9705-66ce04275027', 'Marcus', 'OSAF');
+insert into supervisor (id, name, warehouse_code) values ('740bbe6c-0a49-4c3b-92d8-90c1aa036064', 'Barbara', 'CAJF');
 
 insert into seller (id, name) values ('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'Lucas');
 insert into seller (id, name) values ('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'Ingrid');
@@ -15,11 +15,16 @@ insert into seller (id, name) values ('516298ad-c7d4-4195-ab54-d7471623405f', 'G
 INSERT INTO role (id) VALUE('ROLE_CLIENT');
 INSERT INTO role (id) VALUE('ROLE_SUPERVISOR');
 
-INSERT INTO account (id, user_name, password, role)  VALUES('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'lucas', '$2b$12$DF5MEEf6Jfl4Tzszjb2XVuqJNe6O8./eD3viYs4lhJn4hxrYxJAMi', 'ROLE_CLIENT' );
-INSERT INTO account (id, user_name, password, role) VALUES('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'ingrid', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_SUPERVISOR');
-INSERT INTO account (id, user_name, password, role) VALUES('e4654a5a-e247-4981-af1e-b83dee3329e1', 'fernando', '$2b$12$mE7K00Yc3Kp5GZ5VZ.upq.1yCCcGJQEcp5eDQV9KqhFsdUxF9CA/u', 'ROLE_CLIENT');
-INSERT INTO account (id, user_name, password, role) VALUES('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'ana', '$2b$12$3fmHwbbCXe.uVVtyEzd3jeZXZ8Ne6a2fGnFNGwpeUN4VEwps0.sQi', 'ROLE_SUPERVISOR');
+INSERT INTO account (id, user_name, password, role) VALUES('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'lucas', '$2b$12$DF5MEEf6Jfl4Tzszjb2XVuqJNe6O8./eD3viYs4lhJn4hxrYxJAMi', 'ROLE_CLIENT' );
+INSERT INTO account (id, user_name, password, role) VALUES('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'ingrid', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_CLIENT');
 INSERT INTO account (id, user_name, password, role) VALUES('26f48269-2775-45c4-a627-490e131bec5b', 'ton', '$2b$12$cWgnCHOSpU5h38EtUrVPjOb2Wl9c63UAnsY7ZrTZ5Ti1RPFr2prRC', 'ROLE_CLIENT');
+INSERT INTO account (id, user_name, password, role) VALUES('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'ana', '$2b$12$3fmHwbbCXe.uVVtyEzd3jeZXZ8Ne6a2fGnFNGwpeUN4VEwps0.sQi', 'ROLE_CLIENT');
+INSERT INTO account (id, user_name, password, role) VALUES('e4654a5a-e247-4981-af1e-b83dee3329e1', 'fernando', '$2b$12$mE7K00Yc3Kp5GZ5VZ.upq.1yCCcGJQEcp5eDQV9KqhFsdUxF9CA/u', 'ROLE_CLIENT');
+INSERT INTO account (id, user_name, password, role) VALUES('516298ad-c7d4-4195-ab54-d7471623405f', 'gustavo', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_CLIENT');
+
+INSERT INTO account (id, user_name, password, role) VALUES('27a40a9e-3838-4717-935d-b9f6f4a4f623', 'monaliza', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_SUPERVISOR');
+INSERT INTO account (id, user_name, password, role) VALUES('0f6df1fd-3767-4a9a-9705-66ce04275027', 'marcus', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_SUPERVISOR');
+INSERT INTO account (id, user_name, password, role) VALUES('740bbe6c-0a49-4c3b-92d8-90c1aa036064', 'barbara', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_SUPERVISOR');
 
 insert into section (code, capacity, category, warehouse_code) values ('OSAF001', 10, 'FS', 'OSAF');
 insert into section (code, capacity, category, warehouse_code) values ('OSAF002', 10, 'RF', 'OSAF');

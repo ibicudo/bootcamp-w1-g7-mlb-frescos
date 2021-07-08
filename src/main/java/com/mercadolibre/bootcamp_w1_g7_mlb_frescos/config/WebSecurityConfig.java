@@ -19,8 +19,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable()
             .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
+            .antMatchers(HttpMethod.GET, "/ping").permitAll()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
             .antMatchers(HttpMethod.POST, "/inboundorder").hasRole("SUPERVISOR")
             .anyRequest().authenticated();
-        }
+    }
 }
