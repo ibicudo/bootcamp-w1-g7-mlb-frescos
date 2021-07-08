@@ -1,78 +1,54 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.integration;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ProductWarehouseDTO;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.ProductRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.WarehouseRepository;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class WarehouseServiceIntegrationTest {
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class WarehouseServiceIntegrationTest extends IntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private ProductRepository productRepository;
+    @Autowired
+    private InboundOrderRepository inboundOrderRepository;
 
-    @MockBean
-    private BatchRepository batchRepository;
-
-    @MockBean
-    private WarehouseRepository warehouseRepository;
-
-    private List<Section> sections = new ArrayList<>();
-    private InboundOrder inboundOrder;
+    private String token;
     private Product product;
-    private List<Batch> batches;
-    private ProductWarehouseDTO productWarehouseDTO;
-    private List<Warehouse> warehouses;
 
-   @BeforeEach
-   void setUp(){
-       sections.add(TestUniUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
-       sections.add(TestUniUtilsGenerator.createSection("CAJF001", "FS", 100, new Warehouse("CAJF", "Fullfillment Cajamar")));
-       inboundOrder = TestUniUtilsGenerator.createInboundOrder();
-       product = TestUniUtilsGenerator.createProduct();
-       batches = TestUniUtilsGenerator.createBatchStockList();
-       productWarehouseDTO = TestUniUtilsGenerator.createProductWarehouseDTO();
-       warehouses = TestUniUtilsGenerator.createWarehouses();
-   }
+    @BeforeAll
+    void createToken() {
+        token = TestUniUtilsGenerator.createToken();
+        product = TestUniUtilsGenerator.createProductToPersist();
+    }
+
+
 
     @Test
     void getRightProductInAllWarehouses() throws Exception {
-
-        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-        when(warehouseRepository.findAll()).thenReturn(warehouses);
-        when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
+       inboundOrderRepository.save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("CAJF"));
+       inboundOrderRepository.save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("OSAF"));
 
         this.mockMvc.perform(
-                get("/warehouse/" ).queryParam("productId", product.getId().toString()))
+                get("/warehouse" )
+                        .header("Authorization", token)
+                        .queryParam("productId", product.getId().toString()))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.warehouses.[0].warehouseCode").value("OSAF"))
                 .andExpect(jsonPath("$.warehouses.[0].totalQuantity").value("500"))
@@ -83,12 +59,11 @@ public class WarehouseServiceIntegrationTest {
     @Test
     void getProductsInAllWarehousesWhenProductDoesNotExist() throws Exception {
 
-        when(productRepository.findById(product.getId())).thenReturn(Optional.empty());
-        when(warehouseRepository.findAll()).thenReturn(warehouses);
-        when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
-
         this.mockMvc.perform(
-                get("/warehouse/" ).queryParam("productId", product.getId().toString()))
+                get("/warehouse" )
+                        .header("Authorization", token)
+                        .queryParam("productId", "2345eeba-7b7f-4a7d-8576-a78e5700abf6"))
+
                 .andDo(print()).andExpect(status().isBadRequest());
     }
 

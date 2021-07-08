@@ -2,6 +2,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.security.JWTUtil;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
@@ -117,6 +118,15 @@ public class TestUniUtilsGenerator {
         return product;
     }
 
+    public static Product createProductToPersist(){
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        product.setName("Alface");
+        product.setCategory("FS");
+
+        return product;
+    }
+
     public static Account createAccountSupervisor() {
         Account account = new Account();
         Role role = new Role("ROLE_SUPERVISOR", List.of(account));
@@ -202,6 +212,25 @@ public class TestUniUtilsGenerator {
         batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
         batch.setDueDate(LocalDate.of(2021, 8, 15));
         batch.setBatchNumber(1);
+
+        batches.add(batch);
+
+        return batches;
+    }
+
+    public static Set<Batch> createBatchStockWithNoBatchNumber(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch.setProduct(product);
+        batch.setCurrentTemperature(10.0);
+        batch.setMinimumTemperature(5.0);
+        batch.setInitialQuantity(500);
+        batch.setCurrentQuantity(500);
+        batch.setManufacturingDate(LocalDate.of(2021, 06, 10));
+        batch.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
+        batch.setDueDate(LocalDate.of(2021, 8, 15));
 
         batches.add(batch);
 
@@ -382,6 +411,26 @@ public class TestUniUtilsGenerator {
         return inboundOrder;
     }
 
+    public static InboundOrder createOneBatchInboundOrderToPersistByWarehouseCode(String warehouseCode) {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode(warehouseCode + "001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithNoBatchNumber();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setInitialQuantity(500);
+            batch.setCurrentQuantity(500);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
     public static InboundOrder createTwoBatchInboundOrderToPersist() {
         Supervisor supervisorPersisted = new Supervisor();
         supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
@@ -447,5 +496,9 @@ public class TestUniUtilsGenerator {
                 getUpdateBatchStock("51b3b287-0b78-484c-90c3-606c4bae9401", 10.0, 5.0,
                         500, 500, "2021-06-10", "2021-06-03 00:00:00", "2021-08-15", 2)  + "]}}";
         return request;
+    }
+
+    public static String createToken() {
+        return "Bearer " + JWTUtil.getJWT(createPersistedAccountSupervisor());
     }
 }

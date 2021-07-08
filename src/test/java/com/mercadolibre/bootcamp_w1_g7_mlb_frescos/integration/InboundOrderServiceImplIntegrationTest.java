@@ -38,7 +38,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
 
     @BeforeAll
     void setup() {
-        token = "Bearer " + JWTUtil.getJWT(TestUniUtilsGenerator.createPersistedAccountSupervisor());
+        token = TestUniUtilsGenerator.createToken();
     }
 
 
