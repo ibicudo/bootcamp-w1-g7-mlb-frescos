@@ -34,5 +34,4 @@ public class InboundOrderDTO {
     @Valid
     @NotEmpty(message = "The batchStock list is required and cannot be empty")
     private List<BatchDTO> batchStock;
-
 }

@@ -14,6 +14,7 @@ import javax.validation.Valid;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateInboundOrderDTO {
+
     @Valid
     private InboundOrderDTO inboundOrder;
 }

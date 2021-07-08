@@ -49,6 +49,7 @@ public class InboundOrderServiceImplUnitTest {
 
     private ModelMapper modelMapper;
 
+    Account accountSupervisor;
     InboundOrder inboundOrder;
     Section section;
     List<Product> products;
@@ -57,6 +58,7 @@ public class InboundOrderServiceImplUnitTest {
 
     @BeforeEach
     public void setUp (){
+        accountSupervisor = TestUtilsGenerator.createAccountSupervisor();
         section = TestUtilsGenerator.createSection();
         products = TestUtilsGenerator.createListProducts();
         supervisor = TestUtilsGenerator.createSupervisor();
@@ -78,12 +80,12 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
         inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
 
         //act
-        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
 
         //assert
         assertThat(inboundOrderDTO.getBatchStock()).usingRecursiveComparison().isEqualTo(response.getBatchStock());
@@ -99,11 +101,11 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
 
         //assert
-        assertThrows(BadRequestException.class, () -> {
-            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        assertThrows(NotFoundException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -117,12 +119,12 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
         inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
 
         //act
-        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
 
         //assert
         assertEquals("OSAF" , createInboundOrderDTO.getInboundOrder().getSection().getWarehouseCode());
@@ -138,7 +140,7 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(createInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
         when(sectionRepository.findById(createInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
         inboundOrderDTO.getBatchStock().get(0).setBatchNumber(1);
 
@@ -147,7 +149,7 @@ public class InboundOrderServiceImplUnitTest {
 
         //assert
         assertThrows(BadRequestException.class, () -> {
-            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
         });
 
     }
@@ -164,8 +166,8 @@ public class InboundOrderServiceImplUnitTest {
         when(productRepository.findAllById(listProducts)).thenReturn(products);
 
         //assert
-        assertThrows(BadRequestException.class, () -> {
-            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        assertThrows(NotFoundException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -181,8 +183,8 @@ public class InboundOrderServiceImplUnitTest {
         when(productRepository.findAllById(listProducts)).thenReturn(products);
 
         //assert
-        assertThrows(BadRequestException.class, () -> {
-            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO);
+        assertThrows(NotFoundException.class, () -> {
+            BatchStockDTO response = inboundOrderServiceImpl.createInboundOrder(createInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -199,7 +201,7 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(updateInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
 
         when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(batchRepository.findAllById(batchNumbers)).thenReturn(batches);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
@@ -207,7 +209,7 @@ public class InboundOrderServiceImplUnitTest {
         when(inboundOrderRepository.save(any(InboundOrder.class))).thenReturn(inboundOrder);
 
         //act
-        BatchStockDTO response = inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        BatchStockDTO response = inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO, accountSupervisor);
 
         //assert
         verify(inboundOrderRepository, Mockito.times(1)).save(any(InboundOrder.class));
@@ -223,8 +225,8 @@ public class InboundOrderServiceImplUnitTest {
         when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
 
         //assert
-        assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        assertThrows(NotFoundException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -236,11 +238,11 @@ public class InboundOrderServiceImplUnitTest {
         Optional<Supervisor> supervisorOptional = Optional.empty();
 
         when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
 
         //assert
-        assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+        assertThrows(NotFoundException.class, () -> {
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -257,13 +259,13 @@ public class InboundOrderServiceImplUnitTest {
 
         when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
 
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
 
         //assert
         assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -279,13 +281,13 @@ public class InboundOrderServiceImplUnitTest {
         listProducts.add(updateInboundOrderDTO.getInboundOrder().getBatchStock().get(0).getProductId());
 
         when(inboundOrderRepository.findById(updateInboundOrderDTO.getInboundOrder().getOrderNumber())).thenReturn(inboundOrderOptional);
-        when(supervisorRepository.findById(supervisor.getId())).thenReturn(supervisorOptional);
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(supervisorOptional);
         when(sectionRepository.findById(updateInboundOrderDTO.getInboundOrder().getSection().getSectionCode())).thenReturn(sectionOptional);
         when(productRepository.findAllById(listProducts)).thenReturn(products);
 
         //assert
         assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO);
+            inboundOrderServiceImpl.updateInboundOrder(updateInboundOrderDTO, accountSupervisor);
         });
     }
 
@@ -306,7 +308,7 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // act
-        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, "C");
+        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "C");
 
         // assert
         assertThat(productBatchStockDTO.getBatchStock()).usingRecursiveComparison().isEqualTo(expectedBatches);
@@ -329,7 +331,7 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("dueDate"))).thenReturn(batches);
 
         // act
-        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, "F");
+        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "F");
 
         // assert
         verify(batchRepository, Mockito.times(1)).findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("dueDate"));
@@ -352,7 +354,7 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // act
-        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, null);
+        ProductBatchStockDTO productBatchStockDTO = inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, null);
 
         // assert
         verify(batchRepository, Mockito.times(1)).findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"));
@@ -375,7 +377,7 @@ public class InboundOrderServiceImplUnitTest {
 
         // assert
         assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, "X");
+            inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "X");
         });
     }
 
@@ -395,8 +397,8 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // assert
-        assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.listProductBatchStock(UUID.fromString("da372202-a300-4996-aee2-8c5cb52a2e59"), supervisorId, "C");
+        assertThrows(NotFoundException.class, () -> {
+            inboundOrderServiceImpl.listProductBatchStock(UUID.fromString("da372202-a300-4996-aee2-8c5cb52a2e59"), accountSupervisor, "C");
         });
     }
 
@@ -411,13 +413,13 @@ public class InboundOrderServiceImplUnitTest {
         batches.get(0).setDueDate(LocalDate.now().plusWeeks(2));
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-        when(supervisorRepository.findById(supervisorId)).thenReturn(Optional.of(supervisor));
+        when(supervisorRepository.findById(supervisorId)).thenReturn(Optional.empty());
         when(sectionRepository.findByWarehouseCodeAndCategory(warehouseCode, product.getCategory())).thenReturn(Optional.of(section));
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // assert
-        assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.listProductBatchStock(productId, UUID.fromString("da372202-a300-4996-aee2-8c5cb52a2e59"), "C");
+        assertThrows(NotFoundException.class, () -> {
+            inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "C");
         });
     }
 
@@ -437,8 +439,8 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // assert
-        assertThrows(BadRequestException.class, () -> {
-            inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, "C");
+        assertThrows(NotFoundException.class, () -> {
+            inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "C");
         });
     }
 
@@ -460,7 +462,7 @@ public class InboundOrderServiceImplUnitTest {
 
         // assert
         assertThrows(NotFoundException.class, () -> {
-            inboundOrderServiceImpl.listProductBatchStock(productId, supervisorId, "C");
+            inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, "C");
         });
     }
 
