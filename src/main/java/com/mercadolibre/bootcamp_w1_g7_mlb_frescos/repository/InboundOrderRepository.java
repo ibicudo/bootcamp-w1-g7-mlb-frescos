@@ -9,5 +9,4 @@ import java.util.Set;
 
 public interface InboundOrderRepository extends JpaRepository<InboundOrder, Integer> {
 
-    List<InboundOrder> findAllBySectionsCode (Set<String> sectionCode);
 }

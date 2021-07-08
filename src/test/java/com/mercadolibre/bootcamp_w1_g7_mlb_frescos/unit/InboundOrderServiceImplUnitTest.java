@@ -54,7 +54,7 @@ public class InboundOrderServiceImplUnitTest {
 
     @BeforeEach
     public void setUp (){
-        section = TestUniUtilsGenerator.createSection();
+//        section = TestUniUtilsGenerator.createSection();
         products = TestUniUtilsGenerator.createListProducts();
         supervisor = TestUniUtilsGenerator.createSupervisor();
         inboundOrder = TestUniUtilsGenerator.createInboundOrder();

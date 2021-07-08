@@ -92,12 +92,19 @@ public class TestUniUtilsGenerator {
         section.setCode("OSAF001");
         section.setCategory("FS");
         section.setCapacity(500);
-        section.setWarehouse(new Warehouse("OSAF", "Fullfillment Osasco"));
+        section.setWarehouse(createWarehouse());
         section.setInboundOrder(inboundOrderSet);
 
         return section;
     }
 
+    public static Warehouse createWarehouse (){
+        Warehouse warehouse = new Warehouse();
+        warehouse.setName("Fullfillment Osasco");
+        warehouse.setCode("OSAF");
+
+        return warehouse;
+    }
     public static List<Product> createListProducts(){
         List<Product> products = new ArrayList<>();
         products.add(createProduct());
@@ -116,9 +123,7 @@ public class TestUniUtilsGenerator {
 
     public static Supervisor createSupervisor(){
         Supervisor supervisor = new Supervisor();
-        Warehouse warehouse = new Warehouse();
-        warehouse.setCode("OSAF");
-        warehouse.setName("Fullfillment Osasco");
+        Warehouse warehouse = createWarehouse();
         supervisor.setId(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"));
         supervisor.setName("Maria");
         supervisor.setWarehouse(warehouse);
@@ -141,7 +146,7 @@ public class TestUniUtilsGenerator {
     public static InboundOrder createInboundOrder(){
         InboundOrder inboundOrder = new InboundOrder();
         inboundOrder.setOrderNumber(1);
-        inboundOrder.setSection(createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        inboundOrder.setSection(createSection("OSAF001", "FS", 500, createWarehouse()));
         inboundOrder.setSupervisor(createSupervisor());
         inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
         Set<Batch> batchStock = createBatchStock();
@@ -154,7 +159,7 @@ public class TestUniUtilsGenerator {
     public static InboundOrder createInboundOrderWithTwoBatches(){
         InboundOrder inboundOrder = new InboundOrder();
         inboundOrder.setOrderNumber(1);
-        inboundOrder.setSection(createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        inboundOrder.setSection(createSection("OSAF001", "FS", 500, createWarehouse()));
         inboundOrder.setSupervisor(createSupervisor());
         inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
         Set<Batch> batchStock = createBatchStockWithTwoProducts();
@@ -298,7 +303,7 @@ public class TestUniUtilsGenerator {
     public static List<Warehouse> createWarehouses() {
         List<Warehouse> warehouses = new ArrayList<>();
 
-        warehouses.add(new Warehouse("OSAF", "Fullfillment Osasco"));
+        warehouses.add(createWarehouse());
         warehouses.add(new Warehouse("CAJF", "Fullfillment Cajamar"));
 
         return warehouses;
@@ -311,6 +316,18 @@ public class TestUniUtilsGenerator {
 
         return request;
     }
+
+    public static BatchStockWithDueDateDTO createBatchStockWithDueDate (){
+        BatchStockWithDueDateDTO batchStockWithDueDateDTO = new BatchStockWithDueDateDTO();
+        batchStockWithDueDateDTO.setDueDate(LocalDate.of(2021, 8, 15));
+        batchStockWithDueDateDTO.setBatchNumber(1);
+        batchStockWithDueDateDTO.setProductId("51b3b287-0b78-484c-90c3-606c4bae9401");
+        batchStockWithDueDateDTO.setQuantity(500);
+        batchStockWithDueDateDTO.setProductTypeId("FS");
+
+        return batchStockWithDueDateDTO;
+    }
+
 
     public static String createRequestTwoBatches(){
         String request = "{\"inboundOrder\": {\"orderDate\": \"2021-07-01\", \"section\": {\"sectionCode\": \"OSAF001\" , \"warehouseCode\": \"OSAF\"}, \"batchStock\": [" +
