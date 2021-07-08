@@ -40,7 +40,7 @@ public class WarehouseServiceImplUnitTest {
     private WarehouseRepository warehouseRepository;
 
     @InjectMocks
-    private WarehouseServiceImpl productService;
+    private WarehouseServiceImpl warehouseService;
 
     private List<Section> sections = new ArrayList<>();
     private InboundOrder inboundOrder;
@@ -73,7 +73,7 @@ public class WarehouseServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
 
         //act
-        ProductWarehouseDTO response = productService.getProductsInAllWarehouses(product.getId());
+        ProductWarehouseDTO response = warehouseService.getProductsInAllWarehouses(product.getId());
 
         //assert
         assertThat(productWarehouseDTO).usingRecursiveComparison().isEqualTo(response);
@@ -86,7 +86,7 @@ public class WarehouseServiceImplUnitTest {
 
         //assert
         assertThrows(BadRequestException.class, () -> {
-            productService.getProductsInAllWarehouses(product.getId());
+            warehouseService.getProductsInAllWarehouses(product.getId());
         });
     }
 
@@ -103,7 +103,7 @@ public class WarehouseServiceImplUnitTest {
 
         //assert
         assertThrows(NotFoundException.class, () -> {
-            productService.getProductsInAllWarehouses(product.getId());
+            warehouseService.getProductsInAllWarehouses(product.getId());
         });
     }
 }
