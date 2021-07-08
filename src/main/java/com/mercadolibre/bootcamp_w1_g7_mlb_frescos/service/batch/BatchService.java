@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface BatchService {
     ExpiringProductsDTO getBatchesWithExpiringProducts(Integer quantityDays, Account account);
+    ExpiringProductsDTO getBatchesWithExpiringProductsWithFilters(Integer quantityDays, String category, String asc,  Account account);
 }

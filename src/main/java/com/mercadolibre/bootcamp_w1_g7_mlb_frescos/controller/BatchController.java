@@ -25,10 +25,21 @@ public class BatchController {
 
     @GetMapping()
     public ResponseEntity<ExpiringProductsDTO> getExpiringProductsDTO(@RequestParam Integer quantityDays) {
+        //TODO Autenticacao
         Account account = new Account();
         account.setId(UUID.fromString("04f55f2c-f769-46fb-bf9c-08b05b51d814"));
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(batchService.getBatchesWithExpiringProducts(quantityDays,account));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ExpiringProductsDTO> getExpiringProductsDTO(@RequestParam Integer quantityDays, @RequestParam String category, @RequestParam (required = false) String typeOrder) {
+        //TODO Autenticacao
+        Account account = new Account();
+        account.setId(UUID.fromString("04f55f2c-f769-46fb-bf9c-08b05b51d814"));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(batchService.getBatchesWithExpiringProductsWithFilters(quantityDays, category, typeOrder,account));
     }
 }
