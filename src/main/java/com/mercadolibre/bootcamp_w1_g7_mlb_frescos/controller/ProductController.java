@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("warehouse")
 public class ProductController {
 
     private final ProductService productService;
@@ -21,8 +21,8 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<ProductWarehouseDTO> getProductsInAllWarehouses(@PathVariable UUID productId ) {
+    @GetMapping("/")
+    public ResponseEntity<ProductWarehouseDTO> getProductsInAllWarehouses(@RequestParam UUID productId ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.getProductsInAllWarehouses(productId));
     }

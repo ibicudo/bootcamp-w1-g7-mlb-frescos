@@ -72,7 +72,7 @@ public class ProductOrderServiceIntegrationTest {
         when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
 
         this.mockMvc.perform(
-                get("/products/" + product.getId().toString()))
+                get("/warehouse/" ).queryParam("productId", product.getId().toString()))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.warehouses.[0].warehouseCode").value("OSAF"))
                 .andExpect(jsonPath("$.warehouses.[0].totalQuantity").value("500"))
@@ -88,7 +88,7 @@ public class ProductOrderServiceIntegrationTest {
         when(batchRepository.findBatchesByProductAndWarehouse(any(UUID.class), anyString())).thenReturn(batches);
 
         this.mockMvc.perform(
-                get("/products/" + product.getId()))
+                get("/warehouse/" ).queryParam("productId", product.getId().toString()))
                 .andDo(print()).andExpect(status().isBadRequest());
     }
 
