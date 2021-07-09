@@ -3,7 +3,7 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.integration;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUtilsGenerator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -35,16 +35,16 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
 
     @BeforeAll
     void createToken() {
-        token = TestUniUtilsGenerator.createToken();
-        product = TestUniUtilsGenerator.createProductToPersist();
+        token = TestUtilsGenerator.createToken();
+        product = TestUtilsGenerator.createProductToPersist();
     }
 
 
 
     @Test
     void getRightProductInAllWarehouses() throws Exception {
-       inboundOrderRepository.save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("CAJF"));
-       inboundOrderRepository.save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("OSAF"));
+       inboundOrderRepository.save(TestUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("CAJF"));
+       inboundOrderRepository.save(TestUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("OSAF"));
 
         this.mockMvc.perform(
                 get("/warehouse" )
@@ -71,7 +71,7 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
     @Test
     void getProductsInAllWarehousesWhenAllBatchesHave0Quantity() throws Exception {
         InboundOrder orderPersisted = inboundOrderRepository
-                .save(TestUniUtilsGenerator.createOneBatchInboundOrderToPersistWith0QuantityBatch());
+                .save(TestUtilsGenerator.createOneBatchInboundOrderToPersistWith0QuantityBatch());
         String productId = orderPersisted.getBatchStock().iterator().next().getProduct().getId().toString();
 
         this.mockMvc.perform(

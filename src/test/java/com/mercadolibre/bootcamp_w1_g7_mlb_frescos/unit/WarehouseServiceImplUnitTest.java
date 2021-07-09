@@ -7,7 +7,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.warehouse.WarehouseServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUtilsGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,20 +52,20 @@ public class WarehouseServiceImplUnitTest {
 
     @BeforeEach
     void setUp() {
-        sections.add(TestUniUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
-        sections.add(TestUniUtilsGenerator.createSection("CAJF001", "FS", 100, new Warehouse("CAJF", "Fullfillment Cajamar")));
-        inboundOrder = TestUniUtilsGenerator.createInboundOrder();
-        product = TestUniUtilsGenerator.createProduct();
-        batches = TestUniUtilsGenerator.createBatchStockList();
-        productWarehouseDTO = TestUniUtilsGenerator.createProductWarehouseDTO();
-        warehouses = TestUniUtilsGenerator.createWarehouses();
+        sections.add(TestUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        sections.add(TestUtilsGenerator.createSection("CAJF001", "FS", 100, new Warehouse("CAJF", "Fullfillment Cajamar")));
+        inboundOrder = TestUtilsGenerator.createInboundOrder();
+        product = TestUtilsGenerator.createProduct();
+        batches = TestUtilsGenerator.createBatchStockList();
+        productWarehouseDTO = TestUtilsGenerator.createProductWarehouseDTO();
+        warehouses = TestUtilsGenerator.createWarehouses();
 
     }
 
     @Test
     void testGetRightProductInAllWarehouses() {
         //arrange
-        batches.add(TestUniUtilsGenerator.createBatch(10.0, 5.0, 500, 500, LocalDate.of(2021, 06, 10),
+        batches.add(TestUtilsGenerator.createBatch(10.0, 5.0, 500, 500, LocalDate.of(2021, 06, 10),
                 LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 2));
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
@@ -94,7 +94,7 @@ public class WarehouseServiceImplUnitTest {
     @Test
     void testGetProductsInAllWarehousesWhenBatchesDoesNotContainsAnyProduct() {
         batches.get(0).setCurrentQuantity(0);
-        batches.add(TestUniUtilsGenerator.createBatch(10.0, 5.0, 500, 0, LocalDate.of(2021, 06, 10),
+        batches.add(TestUtilsGenerator.createBatch(10.0, 5.0, 500, 0, LocalDate.of(2021, 06, 10),
                 LocalDateTime.of(2021, 06, 03, 00, 00, 00), (LocalDate.of(2021, 8, 15)), 2));
 
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));

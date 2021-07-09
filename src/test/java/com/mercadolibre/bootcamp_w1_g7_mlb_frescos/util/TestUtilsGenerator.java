@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class TestUniUtilsGenerator {
+public class TestUtilsGenerator {
 
     private static final UUID supervisorId = UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020");
 
@@ -102,20 +102,20 @@ public class TestUniUtilsGenerator {
         return section;
     }
 
-    public static List<Product> createListProducts(){
-        List<Product> products = new ArrayList<>();
-        products.add(createProduct());
-
-        return products;
-    }
-
-    public static Product createProduct(){
+    public static Product createProduct() {
         Product product = new Product();
         product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
         product.setName("Alface");
         product.setCategory("FS");
 
         return product;
+    }
+
+    public static List<Product> createListProducts(){
+        List<Product> products = new ArrayList<>();
+        products.add(createProduct());
+
+        return products;
     }
 
     public static Product createProductToPersist(){
@@ -185,6 +185,19 @@ public class TestUniUtilsGenerator {
         return inboundOrder;
     }
 
+    public static InboundOrder createInboundOrderWithSetBatchDates() {
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        inboundOrder.setSupervisor(createSupervisor());
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithSetTime();
+        batchStock.forEach(batch -> batch.setInboundOrder(inboundOrder));
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
     public static InboundOrder createInboundOrderWithTwoBatches(){
         InboundOrder inboundOrder = new InboundOrder();
         inboundOrder.setOrderNumber(1);
@@ -199,6 +212,26 @@ public class TestUniUtilsGenerator {
     }
 
     public static Set<Batch> createBatchStock(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch.setProduct(product);
+        batch.setCurrentTemperature(10.0);
+        batch.setMinimumTemperature(5.0);
+        batch.setInitialQuantity(500);
+        batch.setCurrentQuantity(500);
+        batch.setManufacturingDate(LocalDate.now());
+        batch.setManufacturingTime(LocalDateTime.now());
+        batch.setDueDate(LocalDate.now().plusWeeks(1));
+        batch.setBatchNumber(1);
+
+        batches.add(batch);
+
+        return batches;
+    }
+
+    public static Set<Batch> createBatchStockWithSetTime(){
         Set<Batch> batches = new HashSet<>();
         Batch batch = new Batch();
         Product product = new Product();
@@ -247,9 +280,9 @@ public class TestUniUtilsGenerator {
         batch1.setMinimumTemperature(5.0);
         batch1.setInitialQuantity(500);
         batch1.setCurrentQuantity(500);
-        batch1.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch1.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch1.setDueDate(LocalDate.of(2021, 8, 15));
+        batch1.setManufacturingDate(LocalDate.now());
+        batch1.setManufacturingTime(LocalDateTime.now());
+        batch1.setDueDate(LocalDate.now().plusWeeks(1));
 
         Batch batch2 = new Batch();
         product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
@@ -258,13 +291,55 @@ public class TestUniUtilsGenerator {
         batch2.setMinimumTemperature(5.0);
         batch2.setInitialQuantity(500);
         batch2.setCurrentQuantity(500);
-        batch2.setManufacturingDate(LocalDate.of(2021, 06, 10));
-        batch2.setManufacturingTime(LocalDateTime.of(2021, 06, 03, 00, 00, 00));
-        batch2.setDueDate(LocalDate.of(2021, 8, 15));
-        batch2.setBatchNumber(1);
+        batch2.setManufacturingDate(LocalDate.now());
+        batch2.setManufacturingTime(LocalDateTime.now());
+        batch2.setDueDate(LocalDate.now().plusWeeks(4));
 
         batches.add(batch1);
         batches.add(batch2);
+
+        return batches;
+    }
+
+    public static Set<Batch> createBatchStockWithThreeBatches(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch1 = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch1.setProduct(product);
+        batch1.setCurrentTemperature(10.0);
+        batch1.setMinimumTemperature(5.0);
+        batch1.setInitialQuantity(500);
+        batch1.setCurrentQuantity(500);
+        batch1.setManufacturingDate(LocalDate.now());
+        batch1.setManufacturingTime(LocalDateTime.now());
+        batch1.setDueDate(LocalDate.now().plusWeeks(1));
+
+        Batch batch2 = new Batch();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch2.setProduct(product);
+        batch2.setCurrentTemperature(10.0);
+        batch2.setMinimumTemperature(5.0);
+        batch2.setInitialQuantity(500);
+        batch2.setCurrentQuantity(500);
+        batch2.setManufacturingDate(LocalDate.now());
+        batch2.setManufacturingTime(LocalDateTime.now());
+        batch2.setDueDate(LocalDate.now().plusWeeks(4));
+
+        Batch batch3 = new Batch();
+        product.setId(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"));
+        batch3.setProduct(product);
+        batch3.setCurrentTemperature(10.0);
+        batch3.setMinimumTemperature(5.0);
+        batch3.setInitialQuantity(500);
+        batch3.setCurrentQuantity(300);
+        batch3.setManufacturingDate(LocalDate.now());
+        batch3.setManufacturingTime(LocalDateTime.now());
+        batch3.setDueDate(LocalDate.now().plusWeeks(5));
+
+        batches.add(batch1);
+        batches.add(batch2);
+        batches.add(batch3);
 
         return batches;
     }
@@ -399,7 +474,7 @@ public class TestUniUtilsGenerator {
         inboundOrder.setOrderNumber(1);
         inboundOrder.setSection(sectionPersisted);
         inboundOrder.setSupervisor(supervisorPersisted);
-        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        inboundOrder.setOrderDate(LocalDate.now());
         Set<Batch> batchStock = createBatchStock();
         batchStock.forEach(batch -> {
             batch.setInboundOrder(inboundOrder);
@@ -460,8 +535,29 @@ public class TestUniUtilsGenerator {
         inboundOrder.setOrderNumber(1);
         inboundOrder.setSection(sectionPersisted);
         inboundOrder.setSupervisor(supervisorPersisted);
-        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        inboundOrder.setOrderDate(LocalDate.now());
         Set<Batch> batchStock = createBatchStockWithTwoBatches();
+        batchStock.forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+            batch.setMinimumTemperature(20.0);
+            batch.setCurrentTemperature(30.0);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createThreeBatchInboundOrderToPersist() {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode("OSAF001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setOrderNumber(1);
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.now());
+        Set<Batch> batchStock = createBatchStockWithThreeBatches();
         batchStock.forEach(batch -> {
             batch.setInboundOrder(inboundOrder);
             batch.setMinimumTemperature(20.0);
@@ -520,5 +616,11 @@ public class TestUniUtilsGenerator {
 
     public static String createToken() {
         return "Bearer " + JWTUtil.getJWT(createPersistedAccountSupervisor());
+    }
+
+    public static List<BatchInfoDTO> createBatchInfoList() {
+        return List.of(
+                new BatchInfoDTO(1, 500, LocalDate.of(2021, 8, 15))
+        );
     }
 }
