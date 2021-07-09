@@ -23,7 +23,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BatchDTO {
 
-
     @NotNull(message = "The batchNumber is required")
     private Integer batchNumber;
 
@@ -57,5 +56,4 @@ public class BatchDTO {
     @NotNull(message = "The dueDate is required")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
-
 }

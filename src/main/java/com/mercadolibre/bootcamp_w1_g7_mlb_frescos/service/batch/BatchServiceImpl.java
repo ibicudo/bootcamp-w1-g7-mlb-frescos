@@ -48,7 +48,7 @@ public class BatchServiceImpl implements BatchService {
         date=date.plusDays(quantityDays);
 
         List<Batch> batchList = batchRepository.findAllByOrderNumberFilter(date);
-        batchList.stream().forEach(batch ->  {
+        batchList.stream().forEach(batch -> {
             BatchStockWithDueDateDTO batchStockWithDueDateDTO = new BatchStockWithDueDateDTO();
             batchStockWithDueDateDTO.setDueDate(batch.getDueDate());
             batchStockWithDueDateDTO.setBatchNumber(batch.getBatchNumber());

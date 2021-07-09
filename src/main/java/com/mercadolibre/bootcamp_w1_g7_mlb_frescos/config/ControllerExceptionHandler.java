@@ -1,13 +1,13 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiError;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ApiException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.ValidationError;
+
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.*;
 import com.newrelic.api.agent.NewRelic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -58,6 +58,16 @@ public class ControllerExceptionHandler {
 				.body(apiError);
 	}
 
+	@ExceptionHandler(value = { HttpMessageNotReadableException.class })
+	protected ResponseEntity<ApiError> handleBadFormattedJSONException(Exception e) {
+		LOGGER.error("Bad JSON", e);
+		NewRelic.noticeError(e);
+
+		ApiError apiError = new ApiError("internal_error", "The JSON body contains syntax error", HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(apiError.getStatus())
+				.body(apiError);
+	}
+
 
 	@ExceptionHandler
 	@ResponseBody
@@ -75,5 +85,33 @@ public class ControllerExceptionHandler {
 					objectError.getDefaultMessage());
 		}
 		return new ValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler({
+			BadRequestException.class
+	})
+	@ResponseBody
+	public ApiError badRequest(Exception ex) {
+		LOGGER.info("executing exception handler (REST)");
+		return new ApiError(
+				ex.getClass().getName(),
+				ex.getMessage(),
+				HttpStatus.BAD_REQUEST.value()
+		);
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler({
+			NotFoundException.class
+	})
+	@ResponseBody
+	public ApiError notFoundRequest(Exception ex) {
+		return new ApiError(
+				ex.getClass().getName(),
+				ex.getMessage(),
+				HttpStatus.NOT_FOUND.value()
+		);
+
 	}
 }

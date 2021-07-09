@@ -4,17 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 
-@Validated
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateInboundOrderDTO {
+public class ProductBatchStockDTO {
 
-    @Valid
-    private InboundOrderDTO inboundOrder;
+    private SectionDTO section;
+
+    private UUID productId;
+
+    private List<BatchInfoDTO> batchStock;
 }

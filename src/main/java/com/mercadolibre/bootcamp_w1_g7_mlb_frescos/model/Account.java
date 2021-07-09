@@ -1,19 +1,13 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model;
 
-import java.util.UUID;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name="account")
@@ -26,8 +20,11 @@ public class Account {
     private UUID id;
 
     private String userName;
-    // TODO: encrypted with Bcrypt
+
     private String password;
 
-    private String role;
+    @ManyToOne
+    @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
+    private Role role;
+
 }

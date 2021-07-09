@@ -4,13 +4,11 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockWithDueDateDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ExpiringProductsDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.batch.BatchServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUniUtilsGenerator;
-import org.hibernate.annotations.NotFound;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUtilsGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,11 +17,9 @@ import org.mockito.Mock;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,19 +56,19 @@ public class BatchServiceImplUnitTest {
 
     @BeforeEach
     public void setUp (){
-        sectionList.add(TestUniUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
-        sectionList.add(TestUniUtilsGenerator.createSection("OSAF002", "RF", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
-        inboundOrders.add(TestUniUtilsGenerator.createInboundOrder());
-        InboundOrder inboundOrder2 = TestUniUtilsGenerator.createInboundOrder();
+        sectionList.add(TestUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        sectionList.add(TestUtilsGenerator.createSection("OSAF002", "RF", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
+        inboundOrders.add(TestUtilsGenerator.createInboundOrder());
+        InboundOrder inboundOrder2 = TestUtilsGenerator.createInboundOrder();
         inboundOrder2.setSection(sectionList.get(1));
         inboundOrders.add(inboundOrder2);
         sectionCodesList.add("OSAF001");
         sectionCodesList.add("OSAF002");
-        batchStockWithDueDateDTO.add(TestUniUtilsGenerator.createBatchStockWithDueDate(LocalDate.of(2021, 8, 15),1, "51b3b287-0b78-484c-90c3-606c4bae9401", 500, "FS"));
-        batchList = TestUniUtilsGenerator.createBatchStockList();
-        supervisor = TestUniUtilsGenerator.createSupervisor();
+        batchStockWithDueDateDTO.add(TestUtilsGenerator.createBatchStockWithDueDate(LocalDate.of(2021, 8, 15),1, "51b3b287-0b78-484c-90c3-606c4bae9401", 500, "FS"));
+        batchList = TestUtilsGenerator.createBatchStockList();
+        supervisor = TestUtilsGenerator.createSupervisor();
         batchService = new BatchServiceImpl(batchRepository, warehouseRepository, supervisorRepository);
-        warehouse = TestUniUtilsGenerator.createWarehouse();
+        warehouse = TestUtilsGenerator.createWarehouse();
         date= date.plusDays(30);
         account.setId(supervisor.getId());
     }
