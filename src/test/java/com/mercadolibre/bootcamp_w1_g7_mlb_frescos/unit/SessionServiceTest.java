@@ -5,15 +5,12 @@ import static org.mockito.Mockito.*;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.LoginFailedException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.session.SessionService;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.session.SessionServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.LoginRequestDTOFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
 
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

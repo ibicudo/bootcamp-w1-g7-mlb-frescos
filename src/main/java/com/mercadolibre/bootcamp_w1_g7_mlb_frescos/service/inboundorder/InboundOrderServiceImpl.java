@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.persistence.NoResultException;
 
 @Service
 public class InboundOrderServiceImpl implements InboundOrderService {

@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-//TODO: need to populate table with roles
 @Entity
 @Table(name="role")
 @Getter

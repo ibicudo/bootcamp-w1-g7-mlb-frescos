@@ -19,6 +19,4 @@ public class ProductsController {
     ResponseEntity<ProductListResponseDTO> getMethodName(@RequestParam(required=false) String filter) {
         return ResponseEntity.status(200).body(productService.listProducts(filter));
     }
-    
-    
 }

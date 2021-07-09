@@ -5,15 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.account.AccountService;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.account.AccountServiceImpl;
 
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

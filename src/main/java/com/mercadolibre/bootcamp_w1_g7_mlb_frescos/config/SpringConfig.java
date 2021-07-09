@@ -1,27 +1,15 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
-import com.mercadolibre.routing.RoutingFilter;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @ComponentScan("com.mercadolibre.bootcamp_w1_g7_mlb_frescos")
 @Configuration
 @EnableAutoConfiguration
 public class SpringConfig implements WebMvcConfigurer {
-	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+	// private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	// @Bean
 	// @Primary

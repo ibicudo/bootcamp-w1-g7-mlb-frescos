@@ -1,12 +1,14 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
@@ -16,22 +18,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="account")
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Order {
     @Id
+    @GeneratedValue
     @Type(type = "uuid-char")
     private UUID id;
-
-    private String userName;
-
-    private String password;
     
-    //TODO: need to populate table
-    @ManyToOne
-    @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
-    private Role role;
+    @ManyToOne()
+    private List<Product> products;
+    // TODO: quantity of products
+    @Column
+    private Double price;
 
+    @OneToMany(mappedBy = "purchaseOrder")
+    private List<ProductOrder> detailOrder;
 }

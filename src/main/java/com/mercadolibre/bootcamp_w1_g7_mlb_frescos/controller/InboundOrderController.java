@@ -7,7 +7,6 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.account.AccountService;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.inboundorder.InboundOrderService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

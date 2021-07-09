@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -19,7 +18,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class Warehouse {
 
-    @Id
+@Id
     private String code;
 
     @Column
