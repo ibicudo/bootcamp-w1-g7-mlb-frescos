@@ -31,15 +31,14 @@ public class BatchController {
     @GetMapping()
     public ResponseEntity<ExpiringProductsDTO> getExpiringProductsDTO(@RequestHeader("Authorization") String token, @RequestParam Integer quantityDays) {
 
-
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(batchService.getBatchesWithExpiringProducts(quantityDays, getAccount(token)));
     }
 
     @GetMapping("/list")
     public ResponseEntity<ExpiringProductsDTO> getExpiringProductsDTO(@RequestHeader("Authorization") String token, @RequestParam Integer quantityDays, @RequestParam String category, @RequestParam (required = false) String typeOrder) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(batchService.getBatchesWithExpiringProductsWithFilters(quantityDays, category, typeOrder, getAccount(token)));
     }
 

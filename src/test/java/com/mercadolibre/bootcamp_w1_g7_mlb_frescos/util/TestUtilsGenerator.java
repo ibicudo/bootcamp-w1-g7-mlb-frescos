@@ -308,6 +308,36 @@ public class TestUtilsGenerator {
         return batches;
     }
 
+    public static Set<Batch> createBatchStockWithTwoBatchesWithProductOfRFCategory(){
+        Set<Batch> batches = new HashSet<>();
+        Batch batch1 = new Batch();
+        Product product = new Product();
+        product.setId(UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"));
+        batch1.setProduct(product);
+        batch1.setCurrentTemperature(10.0);
+        batch1.setMinimumTemperature(5.0);
+        batch1.setInitialQuantity(500);
+        batch1.setCurrentQuantity(500);
+        batch1.setManufacturingDate(LocalDate.now());
+        batch1.setManufacturingTime(LocalDateTime.now());
+        batch1.setDueDate(LocalDate.now().plusWeeks(1));
+
+        Batch batch2 = new Batch();
+        batch2.setProduct(product);
+        batch2.setCurrentTemperature(10.0);
+        batch2.setMinimumTemperature(5.0);
+        batch2.setInitialQuantity(500);
+        batch2.setCurrentQuantity(500);
+        batch2.setManufacturingDate(LocalDate.now());
+        batch2.setManufacturingTime(LocalDateTime.now());
+        batch2.setDueDate(LocalDate.now().plusWeeks(4));
+
+        batches.add(batch1);
+        batches.add(batch2);
+
+        return batches;
+    }
+
     public static Set<Batch> createBatchStockWithThreeBatches(){
         Set<Batch> batches = new HashSet<>();
         Batch batch1 = new Batch();
@@ -527,6 +557,69 @@ public class TestUtilsGenerator {
             batch.setInboundOrder(inboundOrder);
             batch.setInitialQuantity(500);
             batch.setCurrentQuantity(500);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createTwoBatchesInboundOrderToPersistByWarehouseCodeWithOneExpiringBatch(String warehouseCode) {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode(warehouseCode + "001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithTwoBatches();
+        Iterator<Batch> iterator = batchStock.iterator();
+        iterator.next().setDueDate(LocalDate.now());
+        iterator.next().setDueDate(LocalDate.now().plusYears(1));
+        batchStock.stream().forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createTwoBatchesInboundOrderToPersistByWarehouseCodeWithOneExpiringBatchWithRFProduct(String warehouseCode) {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode(warehouseCode + "001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithTwoBatchesWithProductOfRFCategory();
+        Iterator<Batch> iterator = batchStock.iterator();
+        iterator.next().setDueDate(LocalDate.now());
+        iterator.next().setDueDate(LocalDate.now().plusYears(1));
+        batchStock.stream().forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
+        });
+        inboundOrder.setBatchStock(batchStock);
+
+        return inboundOrder;
+    }
+
+    public static InboundOrder createTwoBatchesInboundOrderToPersistByWarehouseCodeWithTwoExpiringBatchWithRFProduct(String warehouseCode) {
+        Supervisor supervisorPersisted = new Supervisor();
+        supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));
+        Section sectionPersisted = new Section();
+        sectionPersisted.setCode(warehouseCode + "001");
+        InboundOrder inboundOrder = new InboundOrder();
+        inboundOrder.setSection(sectionPersisted);
+        inboundOrder.setSupervisor(supervisorPersisted);
+        inboundOrder.setOrderDate(LocalDate.of(2021, 07, 05));
+        Set<Batch> batchStock = createBatchStockWithTwoBatchesWithProductOfRFCategory();
+        Iterator<Batch> iterator = batchStock.iterator();
+        iterator.next().setDueDate(LocalDate.now().plusWeeks(1));
+        iterator.next().setDueDate(LocalDate.now());
+        batchStock.stream().forEach(batch -> {
+            batch.setInboundOrder(inboundOrder);
         });
         inboundOrder.setBatchStock(batchStock);
 

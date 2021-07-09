@@ -37,9 +37,6 @@ public class BatchServiceImplUnitTest {
     @Mock
     private SectionRepository sectionRepository;
 
-    @Mock
-    private InboundOrderRepository inboundOrderRepository;
-
     @InjectMocks
     private BatchServiceImpl batchService;
 
@@ -79,7 +76,7 @@ public class BatchServiceImplUnitTest {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(warehouseRepository.findById(supervisor.getWarehouse().getCode())).thenReturn(Optional.of(warehouse));
         when(sectionRepository.findAllByWarehouseCode(warehouse.getCode())).thenReturn(sectionList);
-        when(batchRepository.findAllByOrderNumberFilter(date)).thenReturn(batchList);
+        when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
         //act
         //TODO A DATA PASSADA É MAIO QUE A DATA ATUAL + 30 DIAS E AINDA ASSIM ESTÁ VOLTANDO NO FILTRO (OBS: NO POSTMAN ESTÁ INDO CORRETAMENTE)
@@ -97,7 +94,7 @@ public class BatchServiceImplUnitTest {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.empty());
         when(warehouseRepository.findById(supervisor.getWarehouse().getCode())).thenReturn(Optional.of(warehouse));
         when(sectionRepository.findAllByWarehouseCode(warehouse.getCode())).thenReturn(sectionList);
-        when(batchRepository.findAllByOrderNumberFilter(date)).thenReturn(batchList);
+        when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
 
         //act assert
@@ -114,7 +111,7 @@ public class BatchServiceImplUnitTest {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(warehouseRepository.findById(supervisor.getWarehouse().getCode())).thenReturn(Optional.empty());
         when(sectionRepository.findAllByWarehouseCode(warehouse.getCode())).thenReturn(sectionList);
-        when(batchRepository.findAllByOrderNumberFilter(date)).thenReturn(batchList);
+        when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
         //act assert
         assertThrows(BadRequestException.class, () -> {
@@ -129,7 +126,7 @@ public class BatchServiceImplUnitTest {
         when(supervisorRepository.findById(supervisor.getId())).thenReturn(Optional.of(supervisor));
         when(warehouseRepository.findById(supervisor.getWarehouse().getCode())).thenReturn(Optional.of(warehouse));
         when(sectionRepository.findAllByWarehouseCode(warehouse.getCode())).thenReturn(sectionList);
-        when(batchRepository.findAllByOrderNumberFilter(date)).thenReturn(batchList);
+        when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
         //act
         //TODO A DATA PASSADA É MAIO QUE A DATA ATUAL + 30 DIAS E AINDA ASSIM ESTÁ VOLTANDO NO FILTRO (OBS: NO POSTMAN ESTÁ INDO CORRETAMENTE)
