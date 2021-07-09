@@ -3,13 +3,19 @@ package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.batch;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.BatchStockWithDueDateDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.ExpiringProductsDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.BadRequestException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Batch;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Supervisor;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Warehouse;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.SupervisorRepository;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,21 +27,11 @@ public class BatchServiceImpl implements BatchService {
 
     private final SupervisorRepository supervisorRepository;
 
-    private final SectionRepository sectionRepository;
-
-    private final InboundOrderRepository inboundOrderRepository;
-
-    private final ProductRepository productRepository;
-
-    public BatchServiceImpl(BatchRepository batchRepository, WarehouseRepository warehouseRepository, SupervisorRepository supervisorRepository, SectionRepository sectionRepository, InboundOrderRepository inboundOrderRepository, ProductRepository productRepository) {
+    public BatchServiceImpl(BatchRepository batchRepository, WarehouseRepository warehouseRepository, SupervisorRepository supervisorRepository) {
         this.batchRepository = batchRepository;
         this.warehouseRepository = warehouseRepository;
         this.supervisorRepository = supervisorRepository;
-        this.sectionRepository = sectionRepository;
-        this.inboundOrderRepository = inboundOrderRepository;
-        this.productRepository = productRepository;
     }
-
 
     @Override
     public ExpiringProductsDTO getBatchesWithExpiringProducts(Integer quantityDays, Account account) {
@@ -51,7 +47,7 @@ public class BatchServiceImpl implements BatchService {
         LocalDate date = LocalDate.now();
         date=date.plusDays(quantityDays);
 
-        List<Batch> batchList = batchRepository.findAllByOrderNumberFilte(date);
+        List<Batch> batchList = batchRepository.findAllByOrderNumberFilter(date);
         batchList.stream().forEach(batch ->  {
             BatchStockWithDueDateDTO batchStockWithDueDateDTO = new BatchStockWithDueDateDTO();
             batchStockWithDueDateDTO.setDueDate(batch.getDueDate());

@@ -317,13 +317,13 @@ public class TestUniUtilsGenerator {
         return request;
     }
 
-    public static BatchStockWithDueDateDTO createBatchStockWithDueDate (){
+    public static BatchStockWithDueDateDTO createBatchStockWithDueDate (LocalDate dueDate, Integer batchNumber, String producId, Integer quantity, String category){
         BatchStockWithDueDateDTO batchStockWithDueDateDTO = new BatchStockWithDueDateDTO();
-        batchStockWithDueDateDTO.setDueDate(LocalDate.of(2021, 8, 15));
-        batchStockWithDueDateDTO.setBatchNumber(1);
-        batchStockWithDueDateDTO.setProductId("51b3b287-0b78-484c-90c3-606c4bae9401");
-        batchStockWithDueDateDTO.setQuantity(500);
-        batchStockWithDueDateDTO.setProductTypeId("FS");
+        batchStockWithDueDateDTO.setDueDate(dueDate);
+        batchStockWithDueDateDTO.setBatchNumber(batchNumber);
+        batchStockWithDueDateDTO.setProductId(producId);
+        batchStockWithDueDateDTO.setQuantity(quantity);
+        batchStockWithDueDateDTO.setProductTypeId(category);
 
         return batchStockWithDueDateDTO;
     }

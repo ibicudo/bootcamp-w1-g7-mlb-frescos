@@ -16,5 +16,5 @@ public interface BatchRepository  extends JpaRepository<Batch, Integer> {
 //    Batch findAllByOrderNumberFilterDate(@Param("orderNumber") Integer orderNumber, @Param("date") LocalDate date);
 
     @Query(value = "SELECT b FROM Batch b JOIN b.inboundOrder as io JOIN io.section as ios JOIN ios.warehouse WHERE b.dueDate <= :date")
-    List<Batch> findAllByOrderNumberFilte(@Param("date") LocalDate date);
+    List<Batch> findAllByOrderNumberFilter(@Param("date") LocalDate date);
 }
