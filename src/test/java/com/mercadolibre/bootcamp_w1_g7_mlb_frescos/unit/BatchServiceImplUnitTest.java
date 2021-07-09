@@ -61,7 +61,7 @@ public class BatchServiceImplUnitTest {
         inboundOrders.add(inboundOrder2);
         sectionCodesList.add("OSAF001");
         sectionCodesList.add("OSAF002");
-        batchStockWithDueDateDTO.add(TestUtilsGenerator.createBatchStockWithDueDate(LocalDate.of(2021, 8, 15),1, "51b3b287-0b78-484c-90c3-606c4bae9401", 500, "FS"));
+        batchStockWithDueDateDTO.add(TestUtilsGenerator.createBatchStockWithDueDate(LocalDate.of(2021, 8, 06),1, "51b3b287-0b78-484c-90c3-606c4bae9401", 500, "FS"));
         batchList = TestUtilsGenerator.createBatchStockList();
         supervisor = TestUtilsGenerator.createSupervisor();
         batchService = new BatchServiceImpl(batchRepository, warehouseRepository, supervisorRepository);
