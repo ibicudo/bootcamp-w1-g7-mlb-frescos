@@ -8,15 +8,15 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 
-@Validated
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter @Getter
-public class LoginRequestDTO {
+@Validated
+public class WarehouseQuantityDTO {
 
-    @NotNull(message = "The userName is required")
-    private String userName;
-
-    @NotNull(message = "The password is required")
-    private String password;
+    @NotNull(message = "The warehouseCode is required")
+    private String warehouseCode;
+    @NotNull
+    private String totalQuantity;
 }

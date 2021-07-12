@@ -8,9 +8,12 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.*;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.*;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,6 +34,9 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     private final ModelMapper modelMapper;
 
+    private final Map<String, String> order = Map.of("C", "currentQuantity",
+            "F", "dueDate");
+
 
     public InboundOrderServiceImpl(ProductRepository productRepository, SupervisorRepository supervisorRepository,
                                    SectionRepository sectionRepository, InboundOrderRepository inboundOrderRepository,
@@ -48,7 +54,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         InboundOrderWithoutOrderNumberDTO inboundOrderDTO = createInboundOrderDTO.getInboundOrder();
 
         Supervisor supervisor = this.supervisorRepository.findById(account.getId())
-                .orElseThrow(() -> new BadRequestException("Supervisor not found"));
+                .orElseThrow(() -> new NotFoundException("Supervisor not found"));
 
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Set<UUID> productIdsInBatch = inboundOrderDTO
@@ -113,7 +119,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
                 .collect(Collectors.toSet());
 
         validateBaseConstraints(sectionDTO.getSectionCode(), sectionDTO.getWarehouseCode(), supervisor, productIdsInBatch, inboundOrderDTO.getBatchStock().size());
-        validateUpdateConstraints(inboundOrder, inboundOrderDTO.getBatchStock());
+        validateUpdateConstraints(inboundOrder, inboundOrderDTO.getBatchStock(), supervisor.getId());
 
         InboundOrder newInboundOrder = modelMapper.map(inboundOrderDTO, InboundOrder.class);
         newInboundOrder.getBatchStock().stream().forEach(batch -> batch.setInboundOrder(newInboundOrder));
@@ -129,6 +135,47 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
         return new BatchStockDTO(batchDTO);
     }
+
+    @Override
+    public ProductBatchStockDTO listProductBatchStock(UUID productId, Account account, String sortParam) {
+
+        if (sortParam == null) {
+            sortParam = "C";
+        }
+
+        if (order.get(sortParam) == null) {
+            throw new BadRequestException("Order parameter should be F or C");
+        }
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Product " + productId + " not found"));
+        Supervisor supervisor = supervisorRepository.findById(account.getId())
+                .orElseThrow(() -> new NotFoundException("Supervisor not found"));
+
+        String warehouseCode = supervisor.getWarehouse().getCode();
+
+        Section section = sectionRepository
+                .findByWarehouseCodeAndCategory(warehouseCode,product.getCategory())
+                .orElseThrow(() -> new NotFoundException("Section not found"));
+
+
+        List<Batch> batches = batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by(order.get(sortParam)));
+
+        LocalDate minDueDate = LocalDate.now().plusWeeks(3);
+
+        List<BatchInfoDTO> batchStock = batches.stream().filter(batch -> minDueDate.isBefore(batch.getDueDate()) )
+                .map(batch -> new BatchInfoDTO(batch.getBatchNumber(), batch.getCurrentQuantity(), batch.getDueDate()))
+                .collect(Collectors.toList());
+
+        if(batchStock.isEmpty()) {
+            throw new NotFoundException("No batches contain this product");
+        }
+
+        SectionDTO sectionDTO = new SectionDTO(section.getCode(), warehouseCode);
+
+        return new ProductBatchStockDTO(sectionDTO, productId, batchStock);
+    }
+
+
 
     private void validateBaseConstraints(String sectionCode, String warehouseCode, Supervisor supervisor, Set<UUID> productIdsInBatch, Integer batchStockSize) {
         Section section = sectionRepository.findById(sectionCode)
@@ -166,7 +213,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         Set<UUID> missingProducts = Sets.difference(productIdsInBatch, retrievedProductIds);
 
         if (!missingProducts.isEmpty()) {
-            throw new BadRequestException("Products with ids " + missingProducts + " are missing in the database");
+            throw new NotFoundException("Products with ids " + missingProducts + " are missing in the database");
         }
     }
 
@@ -190,14 +237,14 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         }
     }
 
-    private void validateUpdateConstraints(InboundOrder inboundOrder, List<BatchDTO> batchStock) {
-        checkSupervisorOwnsInboundOrder(inboundOrder);
+    private void validateUpdateConstraints(InboundOrder inboundOrder, List<BatchDTO> batchStock, UUID supervisorId) {
+        checkSupervisorOwnsInboundOrder(inboundOrder, supervisorId);
         checkBatchBelongsToCorrectInboundOrder(inboundOrder.getOrderNumber(), batchStock);
     }
 
-    private void checkSupervisorOwnsInboundOrder(InboundOrder inboundOrder) {
+    private void checkSupervisorOwnsInboundOrder(InboundOrder inboundOrder, UUID supervisorId) {
         Supervisor supervisor = inboundOrder.getSupervisor();
-        if (!supervisor.getId().equals(UUID.fromString("cdd7bfff-1eeb-4fe8-b3ed-7fb2c0304020"))) {
+        if (!supervisor.getId().equals(supervisorId)) {
             throw new BadRequestException("Supervisor does not own this inboundOrder");
         }
     }

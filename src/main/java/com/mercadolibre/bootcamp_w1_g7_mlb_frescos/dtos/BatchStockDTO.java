@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Set;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Validated
 @Getter

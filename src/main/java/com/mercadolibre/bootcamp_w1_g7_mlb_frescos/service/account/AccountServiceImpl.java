@@ -13,7 +13,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account getAccountByName(String userName) {
-        
+
         return accountRepository.findAccount(userName);
     }
 

@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
+import java.time.LocalDate;
 
-@Validated
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateInboundOrderDTO {
+public class BatchInfoDTO {
 
-    @Valid
-    private InboundOrderDTO inboundOrder;
+    private Integer batchNumber;
+
+    private Integer currentQuantity;
+
+    private LocalDate dueDate;
 }

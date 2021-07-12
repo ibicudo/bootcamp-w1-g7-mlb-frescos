@@ -12,8 +12,8 @@ insert into seller (id, name) values ('8f54d037-bfd4-43e2-ad2e-58731d52fe37', 'A
 insert into seller (id, name) values ('e4654a5a-e247-4981-af1e-b83dee3329e1', 'Fernando');
 insert into seller (id, name) values ('516298ad-c7d4-4195-ab54-d7471623405f', 'Gustavo');
 
-INSERT INTO role (id) VALUE('ROLE_CLIENT');
-INSERT INTO role (id) VALUE('ROLE_SUPERVISOR');
+INSERT INTO role (id) VALUES('ROLE_CLIENT');
+INSERT INTO role (id) VALUES('ROLE_SUPERVISOR');
 
 INSERT INTO account (id, user_name, password, role) VALUES('5d5ba4e5-7919-4ffc-abe5-de9e23fe3faa', 'lucas', '$2b$12$DF5MEEf6Jfl4Tzszjb2XVuqJNe6O8./eD3viYs4lhJn4hxrYxJAMi', 'ROLE_CLIENT' );
 INSERT INTO account (id, user_name, password, role) VALUES('8232aedf-cc56-4ca5-a0d5-720f21a9a2c3', 'ingrid', '$2b$12$7/rmCRkKyOrjdJZSqKU7GO48j0kddaTfv3Nl6GGwiggXhWXyOhZ1C', 'ROLE_CLIENT');

@@ -1,19 +1,13 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model;
 
-import java.util.UUID;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name="account")
@@ -33,5 +27,4 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
-
 }
