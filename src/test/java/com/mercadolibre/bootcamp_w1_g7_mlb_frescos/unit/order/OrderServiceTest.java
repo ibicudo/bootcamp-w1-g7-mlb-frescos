@@ -15,6 +15,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderResponseDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Batch;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Order;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.OrderRepository;
@@ -22,6 +23,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.ProductRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.order.OrderServiceImpl;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.BatchFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.CreateOrderRequestDTOFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.OrderFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.ProductFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
 
@@ -115,6 +117,31 @@ public class OrderServiceTest {
         // order does not exists
     
     // modifyOrder
+    @Test
+    public void modifyOrderWithAValidOne(){
+        CreateOrderRequestDTO mockedCreateOrderRequestDTO = CreateOrderRequestDTOFactory.getOrderWithLegalValues2();
+        Order mockedOrderTochange = OrderFactory.getOrderThatExits();
+        List<Batch> mockedBatchesAlface = BatchFactory.createBatchsListAlface();
+        List<Batch> mockedBatchesLeite = BatchFactory.createBatchsListLeite();
+        List<Batch> mockedBatchesBatata = BatchFactory.createBatchsListBatata();
+        Optional<Product> mockedAlface = Optional.of(ProductFactory.getMockedAlface());
+        Optional<Product> mockedLeite = Optional.of(ProductFactory.getMockedLeite());
+        
+        when(orderRepository.getOne(UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"))).thenReturn(mockedOrderTochange);
+
+        when(batchRepository.findByProduct(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"))).thenReturn(mockedBatchesAlface);
+        when(batchRepository.findByProduct(UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"))).thenReturn(mockedBatchesLeite);
+        when(batchRepository.findByProduct(UUID.fromString("fa0d9b2e-3eac-417e-8ee6-f26037336522"))).thenReturn(mockedBatchesBatata);
+
+        when(productRepository.findById(UUID.fromString("51b3b287-0b78-484c-90c3-606c4bae9401"))).thenReturn(mockedAlface);
+        when(productRepository.findById(UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"))).thenReturn(mockedLeite);
+        
+
+        CreateOrderResponseDTO orderDTO =  orderServiceImpl.modifyOrder( UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"), mockedCreateOrderRequestDTO);
+
+        assertEquals( 200D, orderDTO.getPrice(), "");
+    
+    }
         // order does not exists
         // not enough products
         // setting products to less than 0

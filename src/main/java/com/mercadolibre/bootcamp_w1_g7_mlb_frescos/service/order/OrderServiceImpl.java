@@ -45,9 +45,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<ProductOrder> listProductsFromOrder(UUID orderId) {
         List<ProductOrder> order = orderRepository.findById(orderId).get().getDetailOrder();
-        
-        if (order == null)
-            throw new NotFoundException("Order does not exists");
         return order;
     }
 
@@ -61,9 +58,9 @@ public class OrderServiceImpl implements OrderService {
             productsToReturn.add(new ProductOrderDTO(productOrder.getProduct().getId(), productOrder.getQuantity()));
         }
         returnToBatch(productsToReturn);
+        setOrderProducts(createOrderRequestDTO, orderToChange);
         removeFromBatchs(createOrderRequestDTO.getOrder());
             
-        setOrderProducts(createOrderRequestDTO, orderToChange);
         orderRepository.save(orderToChange);
 
         return new CreateOrderResponseDTO(orderToChange.getPrice());
@@ -75,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
         
         for (ProductOrderDTO  productOrder : productsToRemove) {
             batches = batchRepository.findByProduct(productOrder.getProductId());
-            batches.sort((Batch b1, Batch b2) -> b2.getDueDate().compareTo(b1.getDueDate()));
+            batches.sort((Batch b1, Batch b2) -> b1.getDueDate().compareTo(b2.getDueDate()));
             
             for (Batch batch : batches) {
                 if (batch.getCurrentQuantity() >= productOrder.getQuantity()){
@@ -93,7 +90,6 @@ public class OrderServiceImpl implements OrderService {
                 productsFalting.add(productOrder);
         }
         if (productsFalting.size() > 0)
-            // TODO new custom exception
             throw new NotFoundException(productsFalting.toString());
         
         batchRepository.saveAll(batches);
@@ -102,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
     private void returnToBatch (List<ProductOrderDTO>  producstToReturn){
         for (ProductOrderDTO productOrder : producstToReturn) {
             List<Batch> batches = batchRepository.findByProduct(productOrder.getProductId());
-            batches.sort((Batch b1, Batch b2) -> b2.getDueDate().compareTo(b1.getDueDate()));
+            batches.sort((Batch b1, Batch b2) -> b1.getDueDate().compareTo(b2.getDueDate()));
             batches.get(0).setCurrentQuantity(batches.get(0).getCurrentQuantity() + productOrder.getQuantity());
     
             batchRepository.saveAll(batches);
