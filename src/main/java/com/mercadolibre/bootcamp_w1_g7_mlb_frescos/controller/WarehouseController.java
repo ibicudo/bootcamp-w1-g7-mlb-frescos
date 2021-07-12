@@ -14,7 +14,7 @@ import java.util.UUID;
  * Controller responsible for find the product amount available in all warehouses.
  */
 @RestController
-@RequestMapping("warehouse")
+@RequestMapping("api/v1/fresh-products/warehouse")
 public class WarehouseController {
 
     private final WarehouseService warehouseService;

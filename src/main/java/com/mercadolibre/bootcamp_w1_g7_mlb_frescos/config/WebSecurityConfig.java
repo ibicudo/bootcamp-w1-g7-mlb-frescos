@@ -21,11 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.GET, "/ping").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/fake").permitAll()
-                .mvcMatchers(HttpMethod.POST, "/inboundorder").hasRole("SUPERVISOR")
-                .mvcMatchers(HttpMethod.PUT, "/inboundorder").hasRole("SUPERVISOR")
-                .mvcMatchers(HttpMethod.GET, "/list").hasRole("SUPERVISOR")
-                .mvcMatchers(HttpMethod.GET, "/warehouse").hasRole("SUPERVISOR")
-                .mvcMatchers(HttpMethod.GET, "/due-date").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.POST, "/api/v1/fresh-products/inboundorder").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.PUT, "/api/v1/fresh-products/inboundorder").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/list").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/warehouse").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/due-date").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products").hasRole("CLIENT")
+                .mvcMatchers(HttpMethod.POST, "/api/v1/fresh-products/orders").hasRole("CLIENT")
+                .mvcMatchers(HttpMethod.POST, "/api/v1/fresh-products/orders").hasRole("CLIENT")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/orders").hasRole("CLIENT")
+                .mvcMatchers(HttpMethod.PUT, "/api/v1/fresh-products/orders").hasRole("CLIENT")
                 .anyRequest().authenticated();
     }
 

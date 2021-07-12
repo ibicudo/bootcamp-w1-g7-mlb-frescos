@@ -4,15 +4,31 @@
 
 ## Application base info
 
-- Base path: **/api/v1/fresh-products/**
+- Base path: **/api/v1/fresh-products/** (not used on /ping, /swagger-ui.html, /login)
 - Further documentation about the applications endpoints can be found at **/swagger-ui.html**
 - Authentication is needed to access this application requirements, authenticate via **/login**
 
 ---
 
-## Enviroment setup
+## Local Enviroment setup
 
+- Local instance of MYSQL 8.0.19
+- Create schema "freshProducts"
+- Set variables requested on application-local.yml
 
+---
+
+## Users to authenticate into the system
+
+Supervisor (warehouse / user / pass)
+- OSAF / monaliza / 123456
+- CAJF / barbara / 123456
+
+Cliente (user / pass)
+- lucas / contra123
+- ingrid / 123456
+
+Token type used: **Bearer**
 
 ---
 

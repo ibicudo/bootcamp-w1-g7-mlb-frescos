@@ -47,7 +47,7 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
        inboundOrderRepository.save(TestUtilsGenerator.createOneBatchInboundOrderToPersistByWarehouseCode("OSAF"));
 
         this.mockMvc.perform(
-                get("/warehouse" )
+                get("/api/v1/fresh-products/warehouse" )
                         .header("Authorization", token)
                         .queryParam("productId", product.getId().toString()))
                 .andDo(print()).andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
     void getProductsInAllWarehousesWhenProductDoesNotExist() throws Exception {
 
         this.mockMvc.perform(
-                get("/warehouse" )
+                get("/api/v1/fresh-products/warehouse" )
                         .header("Authorization", token)
                         .queryParam("productId", "2345eeba-7b7f-4a7d-8576-a78e5700abf6"))
 
@@ -75,7 +75,7 @@ public class WarehouseServiceIntegrationTest extends IntegrationTest {
         String productId = orderPersisted.getBatchStock().iterator().next().getProduct().getId().toString();
 
         this.mockMvc.perform(
-                get("/warehouse" )
+                get("/api/v1/fresh-products/warehouse" )
                         .header("Authorization", token)
                         .queryParam("productId", productId))
 

@@ -57,7 +57,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         String request = TestUtilsGenerator.createRequestOneBatch();
 
         this.mockMvc.perform(
-                post("/inboundorder")
+                post("/api/v1/fresh-products/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
                         .content(request))
@@ -73,7 +73,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         String request = TestUtilsGenerator.createRequestTwoBatches();
         
         this.mockMvc.perform(
-                post("/inboundorder")
+                post("/api/v1/fresh-products/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
                         .content(request))
@@ -91,7 +91,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
 
         String request = TestUtilsGenerator.updateRequestOneBatch();
         this.mockMvc.perform(
-                put("/inboundorder")
+                put("/api/v1/fresh-products/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
                         .content(request))
@@ -107,7 +107,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
 
         String request = TestUtilsGenerator.updateRequestTwoBatches();
         this.mockMvc.perform(
-                put("/inboundorder")
+                put("/api/v1/fresh-products/inboundorder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
                         .content(request))
@@ -124,7 +124,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createTwoBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isOk())
@@ -136,7 +136,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createThreeBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=C")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=C")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isOk())
@@ -150,7 +150,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createThreeBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isOk())
@@ -164,7 +164,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createThreeBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=X")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=X")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -176,7 +176,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createThreeBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=4a60193e-806e-4872-8b08-bda1dcfcb64e&sortParam=F")
+                get("/api/v1/fresh-products/list?productId=4a60193e-806e-4872-8b08-bda1dcfcb64e&sortParam=F")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isNotFound())
@@ -194,7 +194,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         String token = "Bearer " + JWTUtil.getJWT(account);
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isNotFound())
@@ -209,7 +209,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         sectionRepository.save(section);
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isNotFound())
@@ -221,7 +221,7 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createOneBatchInboundOrderToPersist());
 
         this.mockMvc.perform(
-                get("/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
+                get("/api/v1/fresh-products/list?productId=51b3b287-0b78-484c-90c3-606c4bae9401&sortParam=F")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token))
                 .andDo(print()).andExpect(status().isNotFound())

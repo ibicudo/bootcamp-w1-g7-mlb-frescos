@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 @Validated
 @RestController
-@RequestMapping
+@RequestMapping("api/v1/fresh-products/")
 public class InboundOrderController {
 
     private final InboundOrderService inboundOrderService;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * Controller responsible for find products with due date less than the specified date in the the logged supervisor warehouse.
  */
 @RestController
-@RequestMapping("due-date")
+@RequestMapping("api/v1/fresh-products/due-date")
 public class BatchController {
 
     private final BatchService batchService;

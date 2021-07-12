@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("api/v1/fresh-products/orders")
 public class OrderController {
     @Autowired
     private OrderService orderService;

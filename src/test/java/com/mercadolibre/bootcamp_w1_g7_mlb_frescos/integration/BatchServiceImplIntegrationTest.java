@@ -44,7 +44,7 @@ public class BatchServiceImplIntegrationTest extends IntegrationTest {
         inboundOrderRepository.save(TestUtilsGenerator.createTwoBatchesInboundOrderToPersistByWarehouseCodeWithOneExpiringBatch("OSAF"));
 
         this.mockMvc.perform(
-                get("/due-date")
+                get("/api/v1/fresh-products/due-date")
                         .header("Authorization", token)
                         .queryParam("quantityDays", "30"))
                 .andDo(print()).andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class BatchServiceImplIntegrationTest extends IntegrationTest {
 
 
         this.mockMvc.perform(
-                get("/due-date/list")
+                get("/api/v1/fresh-products/due-date/list")
                         .header("Authorization", token)
                         .queryParam("quantityDays", "30")
                         .queryParam("category", "RF"))
@@ -80,7 +80,7 @@ public class BatchServiceImplIntegrationTest extends IntegrationTest {
 
 
         this.mockMvc.perform(
-                get("/due-date/list")
+                get("/api/v1/fresh-products/due-date/list")
                         .header("Authorization", token)
                         .queryParam("quantityDays", "30")
                         .queryParam("category", "RF")
@@ -100,7 +100,7 @@ public class BatchServiceImplIntegrationTest extends IntegrationTest {
 
 
         this.mockMvc.perform(
-                get("/due-date/list")
+                get("/api/v1/fresh-products/due-date/list")
                         .header("Authorization", token)
                         .queryParam("quantityDays", "30")
                         .queryParam("category", "RF")
