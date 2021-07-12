@@ -21,7 +21,7 @@ springdoc:
     enabled: true
     path: /v3/api-docs
   paths-to-match: /**
-  packages-to-scan: com.mercadolibre.bootcamp_w1_g7_mlb_frescos.controller
+  packages-to-scan: com.mercadolibre.ingrid_bicudo.controller
   show-actuator: true
   swagger-ui:
     operations-sorter: alpha
@@ -29,6 +29,6 @@ springdoc:
     path: /swagger-ui.html
 
 app:
-  title: bootcamp-w1-g7-mlb-frescos
+  title: ingrid-bicudo
   description: @project.description@
   version: @project.version@
