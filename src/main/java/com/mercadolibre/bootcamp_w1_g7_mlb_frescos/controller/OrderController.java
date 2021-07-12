@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -25,16 +27,19 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping()
+    @Operation(description = "Create an Order for a client and return the price of the order")
     public ResponseEntity<CreateOrderResponseDTO> createOrder(@RequestBody CreateOrderRequestDTO createOrderRequestDTO){
         return ResponseEntity.status(201).body(orderService.createOrder(createOrderRequestDTO));
     }
 
     @GetMapping()
+    @Operation(description = "Get a list of products of an a existing order")
     public ResponseEntity<List<ProductOrder>> listProductFromOrder(@RequestParam UUID orderId){
         return ResponseEntity.status(200).body(orderService.listProductsFromOrder(orderId));
     }
  
     @PutMapping()
+    @Operation(description = "Update an existing order for a client and return the price of the order")
     public ResponseEntity<CreateOrderResponseDTO> craeteOrder(@RequestBody CreateOrderRequestDTO createOrderRequestDTO,
                                                               @RequestParam UUID orderId
     ){
