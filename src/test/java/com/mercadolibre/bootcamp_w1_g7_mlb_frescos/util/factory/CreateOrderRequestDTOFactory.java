@@ -1,4 +1,4 @@
-package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.until.factory;
+package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory;
 
 import java.util.ArrayList;
 import java.util.List;
