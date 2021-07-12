@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectionDTO{
+public class SectionDTO {
 
     @NotNull(message = "The sectionCode is required")
     private String sectionCode;
