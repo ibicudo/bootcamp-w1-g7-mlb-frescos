@@ -37,9 +37,9 @@ public class SectionServiceImpl implements SectionService{
                 .orElseThrow(() -> new NotFoundException("Supervisor not found"));
 
         Section newInboundOrder = modelMapper.map(sectionUpdateDTO, Section.class);
-        Section sectionSaved = sectionRepository.save(newInboundOrder);
+        sectionRepository.save(newInboundOrder);
 
-        return sectionSaved;
+        return newInboundOrder;
     }
 
 

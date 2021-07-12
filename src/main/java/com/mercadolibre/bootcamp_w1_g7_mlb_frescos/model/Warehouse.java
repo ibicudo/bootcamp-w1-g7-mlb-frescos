@@ -18,7 +18,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class Warehouse {
 
-@Id
+    @Id
     private String code;
 
     @Column

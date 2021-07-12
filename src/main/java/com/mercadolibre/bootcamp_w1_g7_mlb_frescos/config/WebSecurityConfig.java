@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/list").hasRole("SUPERVISOR")
                 .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/warehouse").hasRole("SUPERVISOR")
                 .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products/due-date").hasRole("SUPERVISOR")
+                .mvcMatchers(HttpMethod.PUT, "/api/v1/fresh-products/section").hasRole("SUPERVISOR")
                 .mvcMatchers(HttpMethod.GET, "/api/v1/fresh-products").hasRole("CLIENT")
                 .mvcMatchers(HttpMethod.POST, "/api/v1/fresh-products/orders").hasRole("CLIENT")
                 .mvcMatchers(HttpMethod.POST, "/api/v1/fresh-products/orders").hasRole("CLIENT")

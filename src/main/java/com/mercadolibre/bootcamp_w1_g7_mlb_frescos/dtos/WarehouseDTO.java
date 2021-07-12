@@ -1,6 +1,6 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.InboundOrder;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,18 +12,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SectionUpdateDTO {
+public class WarehouseDTO {
 
     @NotNull
     private String code;
-
     @NotNull
-    private String category;
-
-    @NotNull
-    private int capacity;
-
-    @NotNull
-    private WarehouseDTO warehouse;
-
+    private String name;
 }

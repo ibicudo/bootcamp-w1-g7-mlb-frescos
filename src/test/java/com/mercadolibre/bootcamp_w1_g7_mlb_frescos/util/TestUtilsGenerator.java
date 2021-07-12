@@ -646,6 +646,20 @@ public class TestUtilsGenerator {
         return inboundOrder;
     }
 
+    public static SectionUpdateDTO createSectionUpdateDTO(){
+        SectionUpdateDTO sectionUpdateDTO = new SectionUpdateDTO();
+        sectionUpdateDTO.setCode("OSAF001");
+        sectionUpdateDTO.setCategory("FS");
+        sectionUpdateDTO.setCapacity(100);
+        WarehouseDTO warehouseDTO = new WarehouseDTO();
+        warehouseDTO.setCode("OSAF");
+        warehouseDTO.setName("Fullfillment Osasco");
+        sectionUpdateDTO.setWarehouse(warehouseDTO);
+
+        return sectionUpdateDTO;
+    }
+
+
     public static InboundOrder createThreeBatchInboundOrderToPersist() {
         Supervisor supervisorPersisted = new Supervisor();
         supervisorPersisted.setId(UUID.fromString("27a40a9e-3838-4717-935d-b9f6f4a4f623"));

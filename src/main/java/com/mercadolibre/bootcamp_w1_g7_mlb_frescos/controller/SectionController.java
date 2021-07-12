@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("section")
+@RequestMapping("api/v1/fresh-products/section")
 public class SectionController {
 
     private final SectionService sectionService;
