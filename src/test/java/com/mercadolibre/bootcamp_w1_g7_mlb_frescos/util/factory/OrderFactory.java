@@ -1,6 +1,4 @@
-package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory;
-
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.OrderRepository;
+package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +47,6 @@ public class OrderFactory {
         detailOrder.add(productOrder2);
         
         return new Order(
-            // TODO: set uuid for this order
             UUID.fromString("1b0d82fa-277f-4f13-a9b7-a6c4c4eec204"),
             300D,
             detailOrder

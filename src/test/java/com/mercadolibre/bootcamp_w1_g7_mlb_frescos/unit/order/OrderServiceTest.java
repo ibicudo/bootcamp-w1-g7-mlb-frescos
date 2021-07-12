@@ -21,10 +21,10 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.OrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.ProductRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.order.OrderServiceImpl;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.BatchFactory;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.CreateOrderRequestDTOFactory;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.OrderFactory;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.ProductFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory.BatchFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory.CreateOrderRequestDTOFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory.OrderFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory.ProductFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
 
 import org.eclipse.jetty.io.RuntimeIOException;

@@ -1,4 +1,4 @@
-package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory;
+package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,7 +7,6 @@ import java.util.List;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Batch;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
 
-import org.hibernate.type.LocalDateType;
 
 public class BatchFactory {
     static public List<Batch> createBatchsListAlface(){

@@ -7,7 +7,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.LoginRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.LoginFailedException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.session.SessionServiceImpl;
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.unit.factory.LoginRequestDTOFactory;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.factory.LoginRequestDTOFactory;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.MockitoExtension;
 
 import org.junit.Test;
