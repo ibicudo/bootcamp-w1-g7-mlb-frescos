@@ -20,7 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/ping").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-//                .mvcMatchers(HttpMethod.GET, "/swagger-ui").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/fake").permitAll()
                 .mvcMatchers(HttpMethod.POST, "/inboundorder").hasRole("SUPERVISOR")
                 .mvcMatchers(HttpMethod.PUT, "/inboundorder").hasRole("SUPERVISOR")
