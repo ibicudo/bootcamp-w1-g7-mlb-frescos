@@ -28,7 +28,6 @@ public class ProductOrder {
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Order order;
 
-    // TODO: verify if its ocurring
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)

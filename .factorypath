@@ -105,7 +105,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/com/datadoghq/java-dogstatsd-client/2.4/java-dogstatsd-client-2.4.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/javadog/javadog/0.1.0/javadog-0.1.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/directory/studio/org.apache.commons.io/2.4/org.apache.commons.io-2.4.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/commons-io/commons-io/2.6/commons-io-2.6.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/commons-io/commons-io/2.10.0/commons-io-2.10.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/mercadolibre/threading/0.1.4/threading-0.1.4.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/mercadolibre/routing/2.2.1/routing-2.2.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/mercadolibre/restclient/meli-restclient-context/0.3.52/meli-restclient-context-0.3.52.jar" enabled="true" runInBatchMode="false"/>

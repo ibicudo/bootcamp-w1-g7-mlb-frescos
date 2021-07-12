@@ -78,7 +78,6 @@ public class BatchServiceImplUnitTest {
         when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
         //act
-        //TODO A DATA PASSADA É MAIO QUE A DATA ATUAL + 30 DIAS E AINDA ASSIM ESTÁ VOLTANDO NO FILTRO (OBS: NO POSTMAN ESTÁ INDO CORRETAMENTE)
         ExpiringProductsDTO response = batchService.getBatchesWithExpiringProducts(30, account);
 
         //assert
@@ -128,7 +127,6 @@ public class BatchServiceImplUnitTest {
         when(batchRepository.findAllByOrderNumberFilter(warehouse.getCode(), date)).thenReturn(batchList);
 
         //act
-        //TODO A DATA PASSADA É MAIO QUE A DATA ATUAL + 30 DIAS E AINDA ASSIM ESTÁ VOLTANDO NO FILTRO (OBS: NO POSTMAN ESTÁ INDO CORRETAMENTE)
         ExpiringProductsDTO response = batchService.getBatchesWithExpiringProductsWithFilters(30, "FS", "asc", account);
 
         //assert

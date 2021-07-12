@@ -167,7 +167,6 @@ public class TestUtilsGenerator {
         return supervisor;
     }
 
-    //TODO MUDAR SUPERVISOR ID
     public static Supervisor createOtherSupervisor(){
         Supervisor supervisor = new Supervisor();
         Warehouse warehouse = new Warehouse();

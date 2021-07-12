@@ -23,7 +23,6 @@ public class Account {
 
     private String password;
     
-    //TODO: need to populate table
     @ManyToOne
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
