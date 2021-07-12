@@ -30,6 +30,6 @@ public class Order {
     @Column
     private Double price;
 
-    @OneToMany(mappedBy = "purchaseOrder")
+    @OneToMany(mappedBy = "order")
     private List<ProductOrder> detailOrder = new ArrayList<>();
 }

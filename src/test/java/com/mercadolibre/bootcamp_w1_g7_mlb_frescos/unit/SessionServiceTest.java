@@ -26,11 +26,4 @@ public class SessionServiceTest {
     @InjectMocks
     private SessionServiceImpl service;
 
-
-    @Test
-    public void loginUserNotExistsTest(){
-        LoginRequestDTO loginRequest = LoginRequestDTOFactory.getLoginMock();
-        when(accountRepository.findAccount("123445")).thenReturn(null);
-        assertThrows(LoginFailedException.class, () -> service.login(loginRequest));
-    }
 }

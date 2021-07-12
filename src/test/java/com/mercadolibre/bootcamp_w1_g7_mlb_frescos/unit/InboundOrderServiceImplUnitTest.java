@@ -349,7 +349,7 @@ public class InboundOrderServiceImplUnitTest {
         when(batchRepository.findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"))).thenReturn(batches);
 
         // act
-        
+        inboundOrderServiceImpl.listProductBatchStock(productId, accountSupervisor, null);
         // assert
         verify(batchRepository, Mockito.times(1)).findBatchesByProductAndWarehouse(productId, warehouseCode, Sort.by("currentQuantity"));
     }

@@ -26,7 +26,7 @@ public class ProductOrder {
     @ManyToOne
     @MapsId("purchaseOrderId")
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Order Order;
+    private Order order;
 
     // TODO: verify if its ocurring
     @ManyToOne

@@ -21,7 +21,7 @@ public interface BatchRepository extends JpaRepository<Batch, Integer> {
     @Query(value = "SELECT b FROM Batch b JOIN b.inboundOrder as io JOIN io.section as s WHERE b.product.id = :productId and s.warehouse.code = :warehouseCode")
     List<Batch> findBatchesByProductAndWarehouse(UUID productId, String warehouseCode, Sort sort);
 
-    @Query("FROM batch b WHERE b.product=:product")
+    @Query(value = "SELECT b FROM Batch b WHERE b.product.id = :product")
     List<Batch> findByProduct(UUID product);
 
 }
