@@ -16,6 +16,7 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.BatchRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.OrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.ProductRepository;
 
+import org.eclipse.jetty.io.RuntimeIOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,20 +32,19 @@ public class OrderServiceImpl implements OrderService {
     ProductRepository productRepository;
 
     @Override
-    public CreateOrderResponseDTO createOrder(CreateOrderRequestDTO createOrderRequestDTO) {
+    public CreateOrderResponseDTO createOrder(CreateOrderRequestDTO createOrderRequestDTO)  throws NotFoundException{
         Order orderToSave = new Order();
+        setOrderProducts(createOrderRequestDTO, orderToSave);
         removeFromBatchs(createOrderRequestDTO.getOrder());
 
-        orderToSave.setPrice(orderPricing(createOrderRequestDTO));
-        setOrderProducts(createOrderRequestDTO, orderToSave);
         orderRepository.save(orderToSave);
 
         return new CreateOrderResponseDTO(orderToSave.getPrice());
     }
 
     @Override
-    public List<Product> listProductsFromOrder(UUID orderId) {
-        List<Product> order = orderRepository.findById(orderId).get().getProducts();
+    public List<ProductOrder> listProductsFromOrder(UUID orderId) {
+        List<ProductOrder> order = orderRepository.findById(orderId).get().getDetailOrder();
         
         if (order == null)
             throw new NotFoundException("Order does not exists");
@@ -54,37 +54,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CreateOrderResponseDTO modifyOrder(UUID orderId, CreateOrderRequestDTO createOrderRequestDTO) {
         Order orderToChange = orderRepository.getOne(orderId);
-        List<ProductOrderDTO> productsToRemove = new ArrayList<>(); 
+        
         List<ProductOrderDTO> productsToReturn = new ArrayList<>();
 
-        for ( ProductOrderDTO newOrder : createOrderRequestDTO.getOrder()) {
-            for (ProductOrder productOrderToChange : orderToChange.getDetailOrder()) {
-                // TODO: What hapens if the product he is trying to add does not exists in original order?
-                // for now its just ignores we can just sort the two order and then go foreach of then
-                // may tranform into a dict
-                // maybe just 
-                if (newOrder.getProductId() == productOrderToChange.getProduct().getId())
-                    if (newOrder.getQuantity() > productOrderToChange.getQuantity())
-                        productsToRemove.add(
-                            new ProductOrderDTO(newOrder.getProductId(),
-                                                newOrder.getQuantity() - productOrderToChange.getQuantity())
-                        );
-                    else if (newOrder.getQuantity() < productOrderToChange.getQuantity())
-                        productsToReturn.add( 
-                            new ProductOrderDTO(newOrder.getProductId(),  
-                                                productOrderToChange.getQuantity() - newOrder.getQuantity())
-                            );
-            }
+        for (ProductOrder productOrder : orderToChange.getDetailOrder()){
+            productsToReturn.add(new ProductOrderDTO(productOrder.getProduct().getId(), productOrder.getQuantity()));
         }
-        removeFromBatchs(productsToRemove);
         returnToBatch(productsToReturn);
-
-        orderToChange.setPrice(orderPricing(createOrderRequestDTO));
+        removeFromBatchs(createOrderRequestDTO.getOrder());
+            
         setOrderProducts(createOrderRequestDTO, orderToChange);
-
         orderRepository.save(orderToChange);
 
-        return new CreateOrderResponseDTO();
+        return new CreateOrderResponseDTO(orderToChange.getPrice());
     }
 
     private void removeFromBatchs(List<ProductOrderDTO> productsToRemove ){
@@ -93,8 +75,6 @@ public class OrderServiceImpl implements OrderService {
         
         for (ProductOrderDTO  productOrder : productsToRemove) {
             batches = batchRepository.findByProduct(productOrder.getProductId());
-            // exception if the batch for a given product does not exists
-            // or is less than 1
             batches.sort((Batch b1, Batch b2) -> b2.getDueDate().compareTo(b1.getDueDate()));
             
             for (Batch batch : batches) {
@@ -112,7 +92,6 @@ public class OrderServiceImpl implements OrderService {
             if (productOrder.getQuantity() > 1)
                 productsFalting.add(productOrder);
         }
-
         if (productsFalting.size() > 0)
             // TODO new custom exception
             throw new NotFoundException(productsFalting.toString());
@@ -130,19 +109,23 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Double orderPricing(CreateOrderRequestDTO createOrderRequestDTO){
-        Double result = 0D ;
-
-        for (ProductOrderDTO productOrderDTO : createOrderRequestDTO.getOrder()) {
-            Product product = productRepository.findById(productOrderDTO.getProductId()).get();
-            result += product.getPrice() * productOrderDTO.getQuantity();
-        }
-        return result;
-    }
     private void setOrderProducts(CreateOrderRequestDTO createOrderRequestDTO, Order order){
+        order.setPrice(0D);
         for (ProductOrderDTO productOrderDTO : createOrderRequestDTO.getOrder()) {
             Product product = productRepository.findById(productOrderDTO.getProductId()).get();
-            order.getProducts().add(product);
+            ProductOrder productOrder = new ProductOrder();
+            
+            if (product.getPrice() <= 0 || productOrderDTO.getQuantity() <= 0)
+                throw new RuntimeIOException("Price or Quantity of product:" + product.getName() + "cant be less than or 0");
+
+            order.setPrice( order.getPrice() + product.getPrice() * productOrderDTO.getQuantity() );
+
+            productOrder.setOrder(order);
+            productOrder.setProduct(product);
+            productOrder.setQuantity(productOrderDTO.getQuantity());
+
+            order.getDetailOrder().add(productOrder);
         }
+
     }
 }

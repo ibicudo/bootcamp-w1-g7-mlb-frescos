@@ -5,12 +5,14 @@ import java.util.UUID;
 
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderResponseDTO;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.exceptions.NotFoundException;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.ProductOrder;
 
 public interface OrderService {
-    CreateOrderResponseDTO createOrder(CreateOrderRequestDTO createOrderRequestDTO);
+    CreateOrderResponseDTO createOrder(CreateOrderRequestDTO createOrderRequestDTO) throws NotFoundException;
 
-    List<Product> listProductsFromOrder( UUID orderId);
+    List<ProductOrder> listProductsFromOrder( UUID orderId);
 
     CreateOrderResponseDTO modifyOrder(UUID orderId, CreateOrderRequestDTO createOrderRequestDTO);
 }

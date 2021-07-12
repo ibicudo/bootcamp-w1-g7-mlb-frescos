@@ -33,6 +33,7 @@ public class Product {
     private Seller seller;
 
     // TODO: need to udpate data.sql
+    // price should be by batch? no
     @Column
     private Double price;
 }

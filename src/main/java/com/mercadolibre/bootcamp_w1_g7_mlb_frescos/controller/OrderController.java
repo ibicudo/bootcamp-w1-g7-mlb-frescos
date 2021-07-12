@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderRequestDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.CreateOrderResponseDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Product;
+import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.ProductOrder;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.service.order.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Product>> listProductFromOrder(@RequestParam UUID orderId){
+    public ResponseEntity<List<ProductOrder>> listProductFromOrder(@RequestParam UUID orderId){
         return ResponseEntity.status(200).body(orderService.listProductsFromOrder(orderId));
     }
  

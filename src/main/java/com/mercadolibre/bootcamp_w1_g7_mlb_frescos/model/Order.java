@@ -1,5 +1,6 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +28,9 @@ public class Order {
     @Type(type = "uuid-char")
     private UUID id;
     
-    @ManyToOne()
-    private List<Product> products;
-    // TODO: quantity of products
     @Column
     private Double price;
 
     @OneToMany(mappedBy = "purchaseOrder")
-    private List<ProductOrder> detailOrder;
+    private List<ProductOrder> detailOrder = new ArrayList<>();
 }

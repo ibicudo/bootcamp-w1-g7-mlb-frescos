@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 import javax.persistence.*;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.key.ProductOrderKey;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "order_product")
@@ -16,8 +18,10 @@ import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.key.ProductOrderKey;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductOrder {
-    @EmbeddedId
-    private ProductOrderKey id;
+    @Id
+    @GeneratedValue
+    @Type(type = "uuid-char")
+    private UUID id;
 
     @ManyToOne
     @MapsId("purchaseOrderId")
@@ -30,5 +34,5 @@ public class ProductOrder {
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Product product;
 
-    private Integer quantity;
+    private int quantity;
 }
