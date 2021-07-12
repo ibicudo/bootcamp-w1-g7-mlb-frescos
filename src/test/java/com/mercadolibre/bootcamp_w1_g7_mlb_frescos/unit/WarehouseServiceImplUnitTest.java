@@ -43,7 +43,6 @@ public class WarehouseServiceImplUnitTest {
     private WarehouseServiceImpl warehouseService;
 
     private List<Section> sections = new ArrayList<>();
-    private InboundOrder inboundOrder;
     private Product product;
     private List<Batch> batches;
     private ProductWarehouseDTO productWarehouseDTO;
@@ -54,7 +53,6 @@ public class WarehouseServiceImplUnitTest {
     void setUp() {
         sections.add(TestUtilsGenerator.createSection("OSAF001", "FS", 500, new Warehouse("OSAF", "Fullfillment Osasco")));
         sections.add(TestUtilsGenerator.createSection("CAJF001", "FS", 100, new Warehouse("CAJF", "Fullfillment Cajamar")));
-        inboundOrder = TestUtilsGenerator.createInboundOrder();
         product = TestUtilsGenerator.createProduct();
         batches = TestUtilsGenerator.createBatchStockList();
         productWarehouseDTO = TestUtilsGenerator.createProductWarehouseDTO();

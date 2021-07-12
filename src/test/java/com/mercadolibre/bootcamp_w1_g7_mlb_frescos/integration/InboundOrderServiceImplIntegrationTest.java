@@ -1,6 +1,5 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.integration;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.dtos.UpdateInboundOrderDTO;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Account;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Role;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.model.Section;
@@ -89,7 +88,6 @@ public class InboundOrderServiceImplIntegrationTest extends IntegrationTest {
     @Test
     void updateInboundOrderWithOneBatch() throws Exception {
         inboundOrderRepository.save(TestUtilsGenerator.createOneBatchInboundOrderToPersist());
-        UpdateInboundOrderDTO updateInboundOrderDTO = TestUtilsGenerator.createUpdateInboundOrderDTO();
 
         String request = TestUtilsGenerator.updateRequestOneBatch();
         this.mockMvc.perform(

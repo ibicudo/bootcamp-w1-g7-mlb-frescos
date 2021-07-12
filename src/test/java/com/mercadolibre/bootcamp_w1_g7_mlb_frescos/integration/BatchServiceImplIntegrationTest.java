@@ -1,6 +1,5 @@
 package com.mercadolibre.bootcamp_w1_g7_mlb_frescos.integration;
 
-import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.AccountRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.repository.InboundOrderRepository;
 import com.mercadolibre.bootcamp_w1_g7_mlb_frescos.util.TestUtilsGenerator;
 import org.junit.jupiter.api.BeforeAll;

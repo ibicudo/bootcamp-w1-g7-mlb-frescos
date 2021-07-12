@@ -49,7 +49,6 @@ public class BatchServiceImplUnitTest {
     private Warehouse warehouse;
     LocalDate date = LocalDate.now();
     private Account account = new Account();
-    private ExpiringProductsDTO expiringProductsDTO= new ExpiringProductsDTO();
 
     @BeforeEach
     public void setUp (){
@@ -99,7 +98,7 @@ public class BatchServiceImplUnitTest {
 
         //act assert
         assertThrows(BadRequestException.class, () -> {
-            ExpiringProductsDTO response = batchService.getBatchesWithExpiringProducts(30, account);
+            batchService.getBatchesWithExpiringProducts(30, account);
         });
 
     }
@@ -115,7 +114,7 @@ public class BatchServiceImplUnitTest {
 
         //act assert
         assertThrows(BadRequestException.class, () -> {
-            ExpiringProductsDTO response = batchService.getBatchesWithExpiringProducts(30, account);
+            batchService.getBatchesWithExpiringProducts(30, account);
         });
 
     }
