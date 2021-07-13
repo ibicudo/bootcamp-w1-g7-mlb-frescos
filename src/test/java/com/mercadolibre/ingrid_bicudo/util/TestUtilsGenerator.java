@@ -739,6 +739,15 @@ public class TestUtilsGenerator {
         return request;
     }
 
+    public static String updateSection(){
+        String request = "{\"code\": \"OSAF001\", \"category\": \"FS\",\"capacity\": 100,  \"warehouse\":{\n" +
+                "        \"code\" : \"OSAF\",\n" +
+                "        \"name\" : \"Fullfillment Osasco\"\n" +
+                "    }  }";
+
+        return request;
+    }
+
     public static String createToken() {
         return "Bearer " + JWTUtil.getJWT(createPersistedAccountSupervisor());
     }

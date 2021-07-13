@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class SectionServiceImplTest {
 
     @Mock
-    private ProductRepository productRepository;
+    private WarehouseRepository warehouseRepository;
 
     @Mock
     private SupervisorRepository supervisorRepository;
@@ -35,11 +35,6 @@ public class SectionServiceImplTest {
     @Mock
     private SectionRepository sectionRepository;
 
-    @Mock
-    private InboundOrderRepository inboundOrderRepository;
-
-    @Mock
-    private BatchRepository batchRepository;
 
 
     private ModelMapper modelMapper;
@@ -65,9 +60,8 @@ public class SectionServiceImplTest {
         section.setCapacity(100);
         section.setWarehouse(warehouse);
         modelMapper = TestUtilsGenerator.createModelMapper();
-//        section = TestUtilsGenerator.createSection("OSAF001", "FS", 10, new Warehouse("OSAF", "Fullfillment Osasco"));
         supervisor = TestUtilsGenerator.createSupervisor();
-        sectionService = new SectionServiceImpl(supervisorRepository, sectionRepository, modelMapper);
+        sectionService = new SectionServiceImpl(supervisorRepository, sectionRepository, warehouseRepository, modelMapper);
     }
 
     @Test
@@ -75,6 +69,7 @@ public class SectionServiceImplTest {
         //arrange
         when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(Optional.of(supervisor));
         when(sectionRepository.findById(section.getCode())).thenReturn(Optional.of(section));
+        when(warehouseRepository.findById(section.getWarehouse().getCode())).thenReturn(Optional.of(warehouse));
         when(sectionRepository.save(any(Section.class))).thenReturn(section);
 
         //act
@@ -90,6 +85,23 @@ public class SectionServiceImplTest {
         //arrange
         when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(Optional.of(supervisor));
         when(sectionRepository.findById(section.getCode())).thenReturn(Optional.empty());
+        when(warehouseRepository.findById(section.getWarehouse().getCode())).thenReturn(Optional.of(warehouse));
+        when(sectionRepository.save(any(Section.class))).thenReturn(section);
+
+
+        //assert
+        assertThrows(NotFoundException.class, () -> {
+            Section response = sectionService.updateCapacitySection(sectionUpdateDTO, accountSupervisor);
+        });;
+
+    }
+
+    @Test
+    void testUpdateSectionIfDoesNotExistWarehouse (){
+        //arrange
+        when(supervisorRepository.findById(accountSupervisor.getId())).thenReturn(Optional.of(supervisor));
+        when(sectionRepository.findById(section.getCode())).thenReturn(Optional.empty());
+        when(warehouseRepository.findById(section.getWarehouse().getCode())).thenReturn(Optional.empty());
         when(sectionRepository.save(any(Section.class))).thenReturn(section);
 
 
